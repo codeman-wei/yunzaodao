@@ -1,6 +1,6 @@
 # 安卓端
 # dependencies npm包文件
-/yunzaodao-安卓端/node_modules
+/yunzaodao-android/node_modules
 
 # production 打包文件
-/yunzaodao-安卓端/platforms
+/yunzaodao-android/platforms
