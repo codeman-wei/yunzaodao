@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 * @author wdc
 * @date 2020-03-20
 */
-@Api(tags = "课程管理管理")
+@Api(tags = "课程管理")
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {

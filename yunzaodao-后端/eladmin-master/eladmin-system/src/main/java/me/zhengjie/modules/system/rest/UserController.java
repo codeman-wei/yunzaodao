@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @date 2018-11-23
  */
 @Api(tags = "系统：用户管理")
-@RestController
+@RestController     //注解相当于@ResponseBody ＋ @Controller合在一起的作用
 @RequestMapping("/api/users")
 public class UserController {
 

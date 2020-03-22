@@ -32,7 +32,7 @@ public class Course implements Serializable {
     @NotBlank
     private String courseCode;
 
-    /** 上课地点，星期与时间用；间隔 */
+    /** 上课地点*/
     @Column(name = "course_place")
     private String coursePlace;
 
