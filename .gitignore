@@ -1,6 +1,13 @@
 # 安卓端
-# dependencies npm包文件
-/yunzaodao-android/node_modules
-
-# production 打包文件
+/yunzaodao-android/.idea
+/yunzaodao-android/.ionic
+/yunzaodao-android/.sass-cache
+/yunzaodao-android/.sourcemaps
+/yunzaodao-android/.versions
+/yunzaodao-android/.vscode
+/yunzaodao-android/coverage
+/yunzaodao-android/dist
 /yunzaodao-android/platforms
+/yunzaodao-android/node_modules
+/yunzaodao-android/plugins
+/yunzaodao-android/www
