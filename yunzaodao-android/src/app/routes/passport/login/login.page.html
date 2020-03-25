@@ -1,9 +1,51 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="login">
+  <div>
+    <form (ngSubmit)="onLogin()" class="center-e" validating>
+      <div>
+        登录
+      </div>
+      <ion-item class="margintop fillet-boder">
+        <ion-label>账号</ion-label>
+        <ion-input
+          name="userName"
+          type="text"
+          placeholder="手机号"
+          required
+          [(ngModel)]="login.userName"
+          #userName="ngModel"
+        >
+        </ion-input>
+      </ion-item>
 
+      <ion-item class="margintop fillet-boder">
+        <ion-label>密码</ion-label>
+        <ion-input
+          name="password"
+          type="password"
+          placeholder="您的登录密码"
+          required
+          [(ngModel)]="login.password"
+          #password="ngModel"
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        color="primary"
+        class="margintop fillet-boder"
+        >登录
+      </ion-button>
+      <div style="text-align: center;">
+        <a (click)="onSingup()"class="margintop" style="font-size: smaller;">注册新账号</a>
+      </div>
+    </form>
+  </div>
 </ion-content>

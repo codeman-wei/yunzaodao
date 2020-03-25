@@ -1,9 +1,192 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>register</ion-title>
+    <ion-title></ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="passport/login" *ngIf="slideIndex==0"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="register">
+  <div>
+    <ion-slides #registerSlides>
+      <ion-slide>
+        <form (ngSubmit)="onregisterPhone(phoneForm)" #phoneForm="ngForm" class="center-e" validating>
+          <div class="margintop left" style="font-size:large;">
+            注册
+          </div>
+          <br />
 
+          <div class="left">
+            <ion-icon name="phone-portrait-outline"></ion-icon>
+            手机号
+          </div>
+          <ion-item>
+            <ion-input
+                name="username"
+                required
+                type="number"
+                [(ngModel)]="register.username"
+                pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"
+                #username="ngModel"
+              >
+            </ion-input>
+          </ion-item>
+          <ion-button
+            type="submit"
+            expand="block"
+            color="primary"
+            class="margintop fillet-boder"
+            >注册
+          </ion-button>
+        </form>
+      </ion-slide>
+
+      <ion-slide>
+        <form
+          (ngSubmit)="onRegisterCode(codeForm)"
+          #codeForm="ngForm"
+          class="center-e"
+          validating
+        >
+          <div class="margintop left" style="font-size:large;">
+            验证手机号码
+          </div>
+          <br />
+
+          <ion-input
+            name="code"
+            slot="start"
+            placeholder="请输入验证码"
+            required
+            [(ngModel)]="register.code"
+            #code="ngModel"
+            class="margintop fillet-boder"
+            style="width: 60%; height: 38px;float: left;"
+          ></ion-input>
+          <ion-button
+            color="primary"
+            slot="end"
+            class="margintop"
+            [disabled]="!verifyCode.disable"
+            style="width: 35%;"
+            (click)="getCode()"
+            >{{ verifyCode.verifyCodeTips }}
+          </ion-button>
+          <ion-button
+            type="submit"
+            expand="full"
+            color="primary"
+            class="margintop fillet-boder"
+            >下一步
+          </ion-button>
+          <ion-button
+            expand="full"
+            color="primary"
+            class="margintop fillet-boder"
+            (click)="onPrevious()"
+            >上一步
+          </ion-button>
+        </form>
+      </ion-slide>
+
+      <ion-slide>
+        <form
+          (ngSubmit)="onRegisterPassword(passwordForm)"
+          #passwordForm="ngForm"
+          class="center-e"
+          validating
+        >
+          <div class="margintop left" style="font-size:large;">
+            请设置登陆密码
+          </div>
+          <br />
+          <ion-item>
+            <ion-input
+              name="password"
+              placeholder="请输入密码"
+              type="password"
+              required
+              pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$"
+              minlength="6"
+              maxlength="16"
+              [(ngModel)]="register.password"
+              #password="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <div class="left" style="font-size:12px;">
+            长度6至16位，至少包含数字、英文、符号其中两种字符
+          </div>
+          <ion-button
+            type="submit"
+            expand="full"
+            color="primary"
+            class="margintop fillet-boder"
+            >确定
+          </ion-button>
+        </form>
+      </ion-slide>
+
+      <ion-slide>
+        <div class="center-e">
+          <div class="margintop left" style="font-size:large;">
+            请选择您的身份
+          </div>
+          <br />
+          <ion-button
+            expand="full"
+            fill="outline"
+            color="primary"
+            class="margintop fillet-boder"
+            style="height: 100px;"
+            (click)="imStudent()"
+            >我是学生
+            <ion-icon name="happy-outline"></ion-icon>
+          </ion-button>
+          <ion-button
+            expand="full"
+            fill="outline"
+            color="primary"
+            class="margintop fillet-boder"
+            style="height: 100px;"
+            (click)="imTeacher()"
+            >我是老师
+            <ion-icon name="school-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <form
+          (ngSubmit)="onRegisterInfo(infoForm)"
+          #infoForm="ngForm"
+          class="center-e"
+          validating
+        >
+          <div class="margintop left" style="font-size:large;">
+            请完善基本信息
+          </div>
+          <br />
+          <ion-item>
+            <ion-input
+              name="name"
+              placeholder="请输入您的姓名"
+              required
+              [(ngModel)]="register.name"
+              #name="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <ion-button
+            type="submit"
+            expand="full"
+            color="primary"
+            class="margintop fillet-boder"
+            >确定
+          </ion-button>
+        </form>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>
