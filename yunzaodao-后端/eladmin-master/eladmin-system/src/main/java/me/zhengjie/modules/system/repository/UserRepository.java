@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Zheng Jie
  * @date 2018-11-22
  */
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+    public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
      * 根据用户名查询

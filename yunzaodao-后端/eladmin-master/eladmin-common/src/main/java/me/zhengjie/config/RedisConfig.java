@@ -76,6 +76,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 自定义缓存key生成策略，默认将使用该策略
+     * 自定义key生成策略之前，要先继承CachingConfigurerSupport类
      */
     @Bean
     @Override

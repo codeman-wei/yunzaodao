@@ -60,6 +60,7 @@ public class Course implements Serializable {
     @Column(name = "sign_count")
     private Integer signCount;
 
+
     /** 课程开始时间 */
     @Column(name = "start_time")
     private String startTime;
