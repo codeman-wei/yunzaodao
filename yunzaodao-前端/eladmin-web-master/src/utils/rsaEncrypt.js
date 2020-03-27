@@ -1,5 +1,6 @@
 import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 
+// 教程：https://www.jianshu.com/p/589ba04c449c
 // 密钥对生成 http://web.chacuo.net/netrsakeypair
 
 const publicKey = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD\n' +

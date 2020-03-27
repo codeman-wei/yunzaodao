@@ -21,6 +21,11 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: '/500',
+    component: () => import('@/views/features/500'),
+    hidden: true
+  },
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,

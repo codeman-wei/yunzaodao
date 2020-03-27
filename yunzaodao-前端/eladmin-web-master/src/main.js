@@ -14,6 +14,7 @@ import dict from './components/Dict'
 
 // 权限指令
 import permission from './components/Permission'
+
 import './assets/styles/element-variables.scss'
 // global css
 import './assets/styles/index.scss'
@@ -31,7 +32,9 @@ import './router/index' // permission control
 
 Vue.use(VueHighlightJS)
 Vue.use(mavonEditor)
+// 其实是定义了一个全局的指令——pemission
 Vue.use(permission)
+// 其实是一个全局混入，create钩子函数获取该页面的字典数据
 Vue.use(dict)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size

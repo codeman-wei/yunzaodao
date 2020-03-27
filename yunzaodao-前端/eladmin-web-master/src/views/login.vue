@@ -2,7 +2,7 @@
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
       <h3 class="title">
-        EL-ADMIN 后台管理系统
+        云早到 后台管理系统
       </h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
@@ -128,6 +128,7 @@ export default {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
+            // 登陆失败，重新获取验证码图片
             this.loading = false
             this.getCode()
           })

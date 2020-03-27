@@ -41,5 +41,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificat
      * @param type 类型
      * @return /
      */
+    //LinkedHashSet 遍历序和插入序是一致的
     LinkedHashSet<Menu> findByRoles_IdInAndTypeNotOrderBySortAsc(Set<Long> roleIds, int type);
 }

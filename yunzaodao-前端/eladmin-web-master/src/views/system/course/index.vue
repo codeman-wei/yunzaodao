@@ -42,8 +42,11 @@
             <el-input v-model="form.teacherName" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="归属学院">
-            未设置字典，请手动设置 Select
+            <el-input v-model="form.belongCollege" style="width: 370px;" />
           </el-form-item>
+          <!-- <el-form-item label="归属学院">
+            未设置字典，请手动设置 Select
+          </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>

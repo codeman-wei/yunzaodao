@@ -185,6 +185,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Map<String,Object> buildTree(List<MenuDto> menuDtos) {
         List<MenuDto> trees = new ArrayList<>();
+        /*保存叶子菜单id*/
         Set<Long> ids = new HashSet<>();
         for (MenuDto menuDTO : menuDtos) {
             if (menuDTO.getPid() == 0) {
@@ -201,6 +202,7 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         Map<String,Object> map = new HashMap<>(2);
+        /*出现没有0级菜单的情况*/
         if(trees.size() == 0){
             trees = menuDtos.stream().filter(s -> !ids.contains(s.getId())).collect(Collectors.toList());
         }

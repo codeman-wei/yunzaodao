@@ -5,13 +5,14 @@ export default class Dict {
   constructor(dict) {
     this.dict = dict
   }
-
+  // 异步
   async init(names, completeCallback) {
     if (names === undefined || name === null) {
       throw new Error('need Dict names')
     }
     const ps = []
     names.forEach(n => {
+      // Vue.set( target, key, value )
       Vue.set(this.dict.dict, n, {})
       Vue.set(this.dict.label, n, {})
       Vue.set(this.dict, n, [])

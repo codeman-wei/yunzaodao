@@ -8,7 +8,7 @@
             v-model="deptName"
             clearable
             size="small"
-            placeholder="输入部门名称搜索"
+            placeholder="输入专业名称搜索"
             prefix-icon="el-icon-search"
             class="filter-item"
             @input="getDeptDatas"
@@ -83,17 +83,17 @@
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="form.email" />
             </el-form-item>
-            <el-form-item label="部门" prop="dept.id">
+            <el-form-item label="学院" prop="dept.id">
               <treeselect
                 v-model="form.dept.id"
                 :options="depts"
                 style="width: 178px"
-                placeholder="选择部门"
+                placeholder="选择学院"
                 @select="selectFun"
               />
             </el-form-item>
-            <el-form-item label="岗位" prop="job.id">
-              <el-select v-model="form.job.id" style="width: 178px" placeholder="请先选择部门">
+            <el-form-item label="专业" prop="job.id">
+              <el-select v-model="form.job.id" style="width: 178px" placeholder="请先选择专业">
                 <el-option
                   v-for="(item, index) in jobs"
                   :key="item.name + index"
@@ -149,22 +149,7 @@
           <el-table-column v-if="columns.visible('sex')" prop="sex" label="性别" />
           <el-table-column v-if="columns.visible('phone')" :show-overflow-tooltip="true" prop="phone" width="100" label="电话" />
           <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" width="125" prop="email" label="邮箱" />
-          <el-table-column v-if="columns.visible('dept')" :show-overflow-tooltip="true" width="110" prop="dept" label="部门 / 岗位">
-            <template slot-scope="scope">
-              <div>{{ scope.row.dept.name }} / {{ scope.row.job.name }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column v-if="columns.visible('enabled')" label="状态" align="center" prop="enabled">
-            <template slot-scope="scope">
-              <el-switch
-                v-model="scope.row.enabled"
-                :disabled="user.id === scope.row.id"
-                active-color="#409EFF"
-                inactive-color="#F56C6C"
-                @change="changeEnabled(scope.row, scope.row.enabled)"
-              />
-            </template>
-          </el-table-column>
+          <el-table-column v-if="columns.visible('dept')" :show-overflow-tooltip="true" width="110" prop="dept.name" label="学院" />
           <el-table-column v-if="columns.visible('createTime')" :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -332,13 +317,13 @@ export default {
     [CRUD.HOOK.afterValidateCU](crud) {
       if (!crud.form.dept.id) {
         this.$message({
-          message: '部门不能为空',
+          message: '学院不能为空',
           type: 'warning'
         })
         return false
       } else if (!crud.form.job.id) {
         this.$message({
-          message: '岗位不能为空',
+          message: '专业不能为空',
           type: 'warning'
         })
         return false

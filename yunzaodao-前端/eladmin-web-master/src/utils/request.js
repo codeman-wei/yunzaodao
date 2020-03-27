@@ -68,6 +68,8 @@ service.interceptors.response.use(
             location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })
+      } else if (code === 500) {
+        router.push({ path: '/500' })
       } else if (code === 403) {
         router.push({ path: '/401' })
       } else {

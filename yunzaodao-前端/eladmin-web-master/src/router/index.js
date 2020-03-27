@@ -12,6 +12,7 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  // 设置窗口标题
   if (to.meta.title) {
     document.title = to.meta.title + ' - ' + Config.title
   }
@@ -22,6 +23,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
+      // 下面这种情况经常是因为，cookie中保存有登陆token，浏览器关闭后重新访问
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => { // 拉取user_info
           // 动态路由，拉取菜单
