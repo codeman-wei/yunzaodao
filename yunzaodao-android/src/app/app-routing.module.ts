@@ -44,6 +44,14 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./routes/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./routes/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+  },
+  {
+    path: 'user-info',
+    loadChildren: () => import('./routes/user-info/user-info.module').then( m => m.UserInfoPageModule)
   }
 ];
 

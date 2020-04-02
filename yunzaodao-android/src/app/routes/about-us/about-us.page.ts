@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from 'src/app/shared/services/common.service'
 
 @Component({
   selector: 'app-about-us',
@@ -8,16 +7,8 @@ import { CommonService } from 'src/app/shared/services/common.service'
 })
 export class AboutUsPage implements OnInit {
 
-  constructor(private httpService:CommonService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.getDataTest()
-  }
-
-  getDataTest(){
-    const api = '/query'
-    this.httpService.ajaxGet(api).then((Response)=>{
-      console.log(Response)
-    })
   }
 }

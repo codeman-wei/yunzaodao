@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { PassportService } from 'src/app/services/passport.service';
+import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,12 @@ import { PassportService } from 'src/app/services/passport.service';
 export class LoginPage implements OnInit {
 
   login = {
-    userName: '',
-    password: '',
+    userName: '15695917757',
+    password: 'admin',
     submited: false
   }
 
-  constructor(private router: Router,private toastCtrl: ToastController,private passportService: PassportService) { }
+  constructor(private router: Router,private toastCtrl: ToastController,private passportService: PassportService,private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
   }
@@ -55,7 +56,12 @@ export class LoginPage implements OnInit {
       })
       this.passportService.login(json).then((res:any)=>{
         if(res.code == 200){
-          // window.location.replace('class')
+          let userInfo: any = this.localStorageService.get(USER_KEY, {})
+          userInfo['phone'] = this.login.userName
+          userInfo['name'] = res.data.name
+          userInfo['isLogin'] = true
+          this.localStorageService.set(USER_KEY, userInfo)
+          window.location.replace('home')
           console.log("登录成功")
         }else if (res.code == 400){
           toast.present()

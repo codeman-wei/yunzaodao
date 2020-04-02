@@ -1,9 +1,73 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>mine</ion-title>
+    <ion-title style="text-align: center;">我的</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item
+      detail
+      lines="none"
+      routerLink="/user-info"
+      class="bottom_border"
+    >
+        <ion-thumbnail>
+          <ion-img [src]="'https://c-ssl.duitang.com/uploads/item/201509/30/20150930140213_ZCFSr.jpeg'"></ion-img>
+        </ion-thumbnail>
+        <ion-text class="ion-padding">{{userInfo.name}}</ion-text>
+    </ion-item>
 
+    <ion-item
+      detail
+      lines="none"
+      routerLink="/change-password"
+      class="bottom_border"
+    >
+      <ion-label>修改密码</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <br />
+
+  <ion-list>
+    <ion-item
+      detail
+      lines="none"
+      routerLink="/user-agreement"
+      class="hori_border"
+    >
+      <ion-label>用户协议</ion-label>
+    </ion-item>
+    <ion-item
+      detail
+      lines="none"
+      routerLink="/privacy-policy"
+      class="bottom_border"
+    >
+      <ion-label>隐私政策</ion-label>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>检查更新</ion-label>
+    </ion-item>
+    <ion-item
+      detail
+      lines="none"
+      routerLink="/about-us"
+      class="bottom_border"
+      >
+      <ion-label>关于我们</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <br />
+
+  <ion-list>
+    <ion-item lines="none" (click)="onLogout()" class="hori_border">
+      <ion-label style="text-align: center;color: #FF0000;">退出当前帐号</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
