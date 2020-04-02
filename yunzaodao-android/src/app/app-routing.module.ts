@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./routes/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./routes/home/home.module').then( m => m.HomePageModule)
   }
 ];
 
