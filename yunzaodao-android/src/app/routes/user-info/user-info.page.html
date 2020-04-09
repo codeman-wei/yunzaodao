@@ -1,9 +1,106 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>user-info</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/mine"></ion-back-button>
+    </ion-buttons>
+    <ion-title>用户信息</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+        <ion-thumbnail>
+          <ion-img [src]="'http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg'"></ion-img>
+        </ion-thumbnail>
+        <ion-text class="ion-padding">{{name}}<br />{{userInfo.phone}}</ion-text>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>姓名</ion-label>
+      <ion-input required class="input_text" slot="end" [(ngModel)]="userInfo.name"></ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>出生年份</ion-label>
+      <ion-datetime class="input_text" display-format="YYYY年" picker-format="YYYY" placeholder="未设置" cancelText="取消" doneText="确定" [(ngModel)]="userInfo.birthYear"></ion-datetime>
+    </ion-item>
+  </ion-list>
 
+  <br />
+
+  <ion-radio-group [(ngModel)]="userInfo.sex">
+    <ion-item class="top_border">
+      <ion-label>男</ion-label>
+      <ion-radio slot="end" value="男"></ion-radio>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>女</ion-label>
+      <ion-radio slot="end" value="女"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+  <br />
+
+  <ion-item lines="none" class="hori_border">
+    <ion-label>学校</ion-label>
+    <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="userInfo.school"></ion-input>
+  </ion-item>
+  <ion-item
+    lines="none"
+    class="bottom_border"
+  >
+    <ion-label>学院</ion-label>
+    <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="userInfo.college"></ion-input>
+  </ion-item>
+  
+  <br />
+
+  <ion-radio-group [(ngModel)]="userInfo.status">
+    <ion-item class="top_border">
+      <ion-label>老师</ion-label>
+      <ion-radio slot="end" value="老师"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>学生</ion-label>
+      <ion-radio slot="end" value="学生"></ion-radio>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>助教</ion-label>
+      <ion-radio slot="end" value="助教"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+  <br />
+
+  <ion-item
+    lines="none"
+    class="hori_border"
+  >
+    <ion-label>工号/学号</ion-label>
+    <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="userInfo.number"></ion-input>
+  </ion-item>
+
+  <br />
+
+  <ion-button
+    expand="block"
+    color="primary"
+    class="fillet-boder"
+    (click) = "save()"
+    >保存
+  </ion-button>
 </ion-content>

@@ -59,7 +59,8 @@ export class LoginPage implements OnInit {
           let userInfo: any = this.localStorageService.get(USER_KEY, {})
           userInfo['phone'] = this.login.userName
           userInfo['name'] = res.data.name
-          userInfo['isLogin'] = true
+          userInfo['status'] = res.data.status
+          userInfo['isLogined'] = true
           this.localStorageService.set(USER_KEY, userInfo)
           window.location.replace('home')
           console.log("登录成功")

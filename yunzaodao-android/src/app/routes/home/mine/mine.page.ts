@@ -11,12 +11,14 @@ import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-sto
 export class MinePage implements OnInit {
 
   userInfo = {
-    name: "欢欢"
+    name: ""
   }
 
   constructor(private router: Router,private alertCtrl: AlertController,private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
+    const userInfo = this.localStorageService.get(USER_KEY, '')
+    this.userInfo.name = userInfo.name
   }
 
   async onLogout() {
