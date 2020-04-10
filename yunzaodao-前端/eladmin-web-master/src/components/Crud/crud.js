@@ -29,9 +29,9 @@ function CRUD(options) {
     defaultForm: () => {},
     // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createTime,asc']
     sort: ['id,desc'],
-    // 等待时间
+    // 等待时间sort
     time: 50,
-    // CRUD Method
+    // CRUD api Method
     crudMethod: {
       add: (form) => {},
       delete: (id) => {},
@@ -50,8 +50,9 @@ function CRUD(options) {
     // 在主页准备
     queryOnPresenterCreated: true,
     // 调试开关
-    debug: false
+    debug: true
   }
+  // 将options里面的值赋给defaulOption
   options = mergeOptions(defaultOptions, options)
   const data = {
     ...options,
@@ -354,7 +355,7 @@ function CRUD(options) {
         crud.page.page -= 1
       }
     },
-    // 选择改变
+    // 选择改变,val为checkbox被勾选的数据内容，是一个对象数组
     selectionChangeHandler(val) {
       crud.selections = val
     },
@@ -477,6 +478,7 @@ function CRUD(options) {
       Vue.set(crud.props, name, value)
     }
   }
+  // 浅拷贝
   const crud = Object.assign({}, data)
   // 可观测化
   Vue.observable(crud)
@@ -484,6 +486,7 @@ function CRUD(options) {
   Object.assign(crud, methods)
   // 记录初始默认的查询参数，后续重置查询时使用
   Object.assign(crud, {
+    // 转换成json对象
     defaultQuery: JSON.parse(JSON.stringify(data.query)),
     // 预留4位存储：组件 主页、头部、分页、表单，调试查看也方便找
     vms: Array(4),
@@ -513,6 +516,7 @@ function CRUD(options) {
       this.vms.splice(this.vms.findIndex(e => e && e.vm === vm), 1)
     }
   })
+  // console.log(crud)
   // 冻结处理，需要扩展数据的话，使用crud.updateProp(name, value)，以crud.props.name形式访问，这个是响应式的，可以做数据绑定
   Object.freeze(crud)
   return crud
@@ -525,6 +529,7 @@ function callVmHook(crud, hook) {
   }
   let ret = true
   const nargs = [crud]
+  // arguments：主页面自定义的Hook的参数（arguments什么时候得到的？）
   for (let i = 2; i < arguments.length; ++i) {
     nargs.push(arguments[i])
   }
@@ -603,6 +608,7 @@ function presenter(crud) {
         }
       })
       this.columns = obColumns(columns)
+      // console.log(columns)
       this.crud.updateProp('tableColumns', columns)
     }
   }

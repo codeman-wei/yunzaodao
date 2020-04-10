@@ -144,11 +144,11 @@
         <!--表格渲染-->
         <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
           <el-table-column :selectable="checkboxT" type="selection" width="55" />
-          <el-table-column v-if="columns.visible('username')" :show-overflow-tooltip="true" prop="username" label="用户名" />
-          <el-table-column v-if="columns.visible('nickName')" :show-overflow-tooltip="true" prop="nickName" label="昵称" />
-          <el-table-column v-if="columns.visible('sex')" prop="sex" label="性别" />
-          <el-table-column v-if="columns.visible('phone')" :show-overflow-tooltip="true" prop="phone" width="100" label="电话" />
-          <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" width="125" prop="email" label="邮箱" />
+          <el-table-column v-if="columns.visible('username')" :show-overflow-tooltip="true" prop="username" label="用户名" align="center" />
+          <el-table-column v-if="columns.visible('nickName')" :show-overflow-tooltip="true" prop="nickName" label="昵称" align="center" />
+          <el-table-column v-if="columns.visible('sex')" prop="sex" label="性别" align="center" />
+          <el-table-column v-if="columns.visible('phone')" :show-overflow-tooltip="true" prop="phone" width="100" label="电话" align="center" />
+          <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" width="125" prop="email" label="邮箱" align="center" />
           <el-table-column v-if="columns.visible('dept')" :show-overflow-tooltip="true" width="110" prop="dept.name" label="学院" />
           <el-table-column v-if="columns.visible('createTime')" :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期">
             <template slot-scope="scope">
@@ -305,6 +305,7 @@ export default {
       this.getJobs(this.form.dept.id)
       userRoles = []
       const roles = []
+      // 将表单里的角色信息改成id数组
       form.roles.forEach(function(role, index) {
         roles.push(role.id)
         // 初始化编辑时候的角色
@@ -334,6 +335,7 @@ export default {
         })
         return false
       }
+      // 注意这，像role，dept这样后台用的是jpa的映射，在添加时数据格式要{id:''}
       crud.form.roles = userRoles
       return true
     },

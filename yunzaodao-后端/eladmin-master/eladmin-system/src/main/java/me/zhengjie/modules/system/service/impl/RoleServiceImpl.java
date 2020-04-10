@@ -161,6 +161,7 @@ public class RoleServiceImpl implements RoleService {
                         .filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
                         .map(Menu::getPermission).collect(Collectors.toSet())
         );
+        /*注意前面都是用Set来排除重复的权限,最后的permission里面包含了角色和角色的具体菜单权限，如：[admin, user:list, menu:list, user:add .....]*/
         return permissions.stream().map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

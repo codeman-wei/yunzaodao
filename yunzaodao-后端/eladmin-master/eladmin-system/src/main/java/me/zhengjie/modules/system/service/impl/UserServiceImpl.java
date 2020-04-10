@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
+
         Page<User> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(userMapper::toDto));
     }

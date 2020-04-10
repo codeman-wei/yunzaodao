@@ -13,11 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * 数据权限配置
- * @author Zheng Jie
- * @date 2019-4-1
- */
+
 @Component
 public class DataScope {
 
@@ -77,7 +73,7 @@ public class DataScope {
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()){
                         List<Dept> depts = deptService.findByPid(dept.getId());
-                        if(deptList.size() != 0){
+                        if(depts.size() != 0){
                             list.addAll(getDeptChildren(depts));
                         }
                         list.add(dept.getId());

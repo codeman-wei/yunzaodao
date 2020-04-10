@@ -13,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-22
+ * UserDetailsService向核心组件们提供数据层的用户信息，而用户信息在这里被封装成了UserDetail
+ * UserDetailsService是DaoAuthenticationProvider的一个组件
+ * 返回的数据类型是UserDetails的扩展类JWTService，封装了用户名、密码和授权信息等信息
  */
 @Service("userDetailsService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)

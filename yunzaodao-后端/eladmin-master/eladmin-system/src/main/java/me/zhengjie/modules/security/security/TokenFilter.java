@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * @author /
  */
-@Slf4j
+@Slf4j   // private  final Logger logger = LoggerFactory.getLogger
 public class TokenFilter extends GenericFilterBean {
 
    private final TokenProvider tokenProvider;
@@ -38,6 +38,7 @@ public class TokenFilter extends GenericFilterBean {
       // 验证 token 是否存在
       OnlineUser onlineUser = null;
       try {
+         // 动态获取Bean
          SecurityProperties properties = SpringContextHolder.getBean(SecurityProperties.class);
          OnlineUserService onlineUserService = SpringContextHolder.getBean(OnlineUserService.class);
          onlineUser = onlineUserService.getOne(properties.getOnlineKey() + token);
@@ -54,6 +55,7 @@ public class TokenFilter extends GenericFilterBean {
       filterChain.doFilter(servletRequest, servletResponse);
    }
 
+   //   从请求头中取出token，并返回
    private String resolveToken(HttpServletRequest request) {
       SecurityProperties properties = SpringContextHolder.getBean(SecurityProperties.class);
       String bearerToken = request.getHeader(properties.getHeader());

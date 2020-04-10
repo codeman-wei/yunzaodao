@@ -71,7 +71,7 @@ service.interceptors.response.use(
       } else if (code === 500) {
         router.push({ path: '/500' })
       } else if (code === 403) {
-        router.push({ path: '/401' })
+        router.push({ path: '/403' })
       } else {
         const errorMsg = error.response.data.message
         if (errorMsg !== undefined) {

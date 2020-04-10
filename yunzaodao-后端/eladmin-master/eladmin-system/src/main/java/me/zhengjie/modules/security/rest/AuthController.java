@@ -73,6 +73,7 @@ public class AuthController {
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request){
         // 密码解密
         RSA rsa = new RSA(privateKey, null);
+        /*rsa.decrypt返回的实际上是byte[]*/
         String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
@@ -84,12 +85,14 @@ public class AuthController {
         if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
             throw new BadRequestException("验证码错误");
         }
+        /*注意这里的authentication是待认证，其principal为账号，credentials为密码*/
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // 生成令牌
+        /*令牌中只包含了用户名（subject），权限字符串（claim：authorities）这些用户信息*/
         String token = tokenProvider.createToken(authentication);
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
         // 保存在线信息

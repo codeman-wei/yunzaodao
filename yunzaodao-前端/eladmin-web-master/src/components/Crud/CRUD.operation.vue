@@ -76,6 +76,7 @@
           size="mini"
           icon="el-icon-s-grid"
         >
+          <!-- 是一种图标 -->
           <i
             class="fa fa-caret-down"
             aria-hidden="true"
@@ -132,6 +133,7 @@ export default {
       })
     },
     handleCheckAllChange(val) {
+      console.log(val)
       if (val === false) {
         this.allColumnsSelected = true
         return

@@ -16,8 +16,8 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/401',
-    component: () => import('@/views/features/401'),
+    path: '/403',
+    component: () => import('@/views/features/403'),
     hidden: true
   },
   {

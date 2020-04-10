@@ -26,6 +26,7 @@ public class QueryHelp {
             List<Field> fields = getAllFields(query.getClass(), new ArrayList<>());
             for (Field field : fields) {
                 boolean accessible = field.isAccessible();
+//                反射时可以访问私有变量
                 field.setAccessible(true);
                 Query q = field.getAnnotation(Query.class);
                 if (q != null) {
@@ -34,6 +35,7 @@ public class QueryHelp {
                     String blurry = q.blurry();
                     String attributeName = isBlank(propName) ? field.getName() : propName;
                     Class<?> fieldType = field.getType();
+                    /*field.get获取指定对象中此字段的值*/
                     Object val = field.get(query);
                     if (ObjectUtil.isNull(val) || "".equals(val)) {
                         continue;
@@ -47,6 +49,7 @@ public class QueryHelp {
                             orPredicate.add(cb.like(root.get(s)
                                     .as(String.class), "%" + val.toString() + "%"));
                         }
+                        /*为什么要先转成下面这种形式*/
                         Predicate[] p = new Predicate[orPredicate.size()];
                         list.add(cb.or(orPredicate.toArray(p)));
                         continue;
@@ -155,6 +158,7 @@ public class QueryHelp {
     private static List<Field> getAllFields(Class clazz, List<Field> fields) {
         if (clazz != null) {
             fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            /*获得父类的变量*/
             getAllFields(clazz.getSuperclass(), fields);
         }
         return fields;

@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Zheng Jie
  */
 @Component
-public class JwtAccessDeniedHandler implements AccessDeniedHandler {
+      public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
    @Override
    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {

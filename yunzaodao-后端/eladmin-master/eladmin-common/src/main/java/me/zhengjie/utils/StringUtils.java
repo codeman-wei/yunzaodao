@@ -114,6 +114,13 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 获取ip地址
      */
     public static String getIp(HttpServletRequest request) {
+        /*
+        参考：https://www.cnblogs.com/wang1001/p/9605761.html
+        apache+WebLogic整合系统中，apache会对request对象进行再包装，附加一些WLS要用的头信息。这种情况下，
+        直接用request.getRemoteAddr()是无法取到真正的客户IP的。apache会增加下列头信息：
+            X-Forwarded-For=
+　　        WL-Proxy-Client-IP=
+        */
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

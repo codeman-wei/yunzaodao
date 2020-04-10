@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * @author Zheng Jie
- * @Date 2019年10月26日21:56:27
- */
+
 @Service
 @Slf4j
 public class OnlineUserService {
@@ -139,6 +136,7 @@ public class OnlineUserService {
      * @param userName 用户名
      */
     public void checkLoginOnUser(String userName, String igoreToken){
+        /* getAll(userName)获得所有用户名为userName的在线用户，如果userName为空，则获取全部在线用户*/
         List<OnlineUser> onlineUsers = getAll(userName);
         if(onlineUsers ==null || onlineUsers.isEmpty()){
             return;

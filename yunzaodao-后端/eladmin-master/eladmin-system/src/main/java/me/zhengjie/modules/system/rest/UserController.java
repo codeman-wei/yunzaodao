@@ -73,6 +73,7 @@ public class UserController {
     @ApiOperation("查询用户")
     @GetMapping
     @PreAuthorize("@el.check('user:list')")
+    /*api/users?page=0&size=10&sort=id%2Cdesc&deptId=7&blurry=wei&enabled=true*/
     public ResponseEntity<Object> getUsers(UserQueryCriteria criteria, Pageable pageable){
         Set<Long> deptSet = new HashSet<>();
         Set<Long> result = new HashSet<>();
@@ -108,6 +109,7 @@ public class UserController {
     @PostMapping
     @PreAuthorize("@el.check('user:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody User resources){
+        System.out.println(resources);
         checkLevel(resources);
         // 默认密码 123456
         resources.setPassword(passwordEncoder.encode("123456"));
