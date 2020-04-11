@@ -48,10 +48,6 @@ const routes: Routes = [
   {
     path: 'change-password',
     loadChildren: () => import('./routes/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
-  },
-  {
-    path: 'user-info',
-    loadChildren: () => import('./routes/user-info/user-info.module').then( m => m.UserInfoPageModule)
   }
 ];
 

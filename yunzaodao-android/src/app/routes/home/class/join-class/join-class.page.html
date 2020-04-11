@@ -1,0 +1,17 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/class"></ion-back-button>
+    </ion-buttons>
+    <ion-title>加入班课</ion-title>
+    <ion-button fill="clear" slot="end" (click)="findClass()">下一步</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="ion-padding">
+    <ion-item>
+      <ion-input required placeholder="请输入班课号" [(ngModel)]="classNumber"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
