@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/3/28 11:05:56                           */
+/* Created on:     2020/4/11 10:43:44                           */
 /*==============================================================*/
 
 
@@ -12,11 +12,15 @@ drop table if exists dictionary_detail;
 
 drop table if exists dictionary_type;
 
+drop table if exists login;
+
 drop table if exists menu;
 
 drop table if exists role;
 
 drop table if exists sign_on;
+
+drop table if exists sign_on_info;
 
 drop table if exists user;
 
@@ -44,6 +48,7 @@ create table course
    id                   bigint not null,
    s_id                 bigint not null,
    t_id                 bigint not null,
+   qr_code              varchar(20) not null,
    course_id            varchar(10) not null,
    course_name          varchar(20) not null,
    school               varchar(20) not null,
@@ -83,6 +88,24 @@ create table dictionary_type
    detail_id            bigint not null,
    dictionary_name      varchar(20) not null,
    detail               varchar(50) not null,
+   creater              int not null,
+   creation_date        datetime not null,
+   modification_date    datetime not null,
+   modifier             int not null,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: login                                                 */
+/*==============================================================*/
+create table login
+(
+   id                   bigint not null,
+   u_id                 bigint not null,
+   account              varchar(20) not null,
+   token                varchar(20) not null,
+   qr_code              varchar(20),
+   type                 int not null,
    creater              int not null,
    creation_date        datetime not null,
    modification_date    datetime not null,
@@ -136,9 +159,27 @@ create table sign_on
 (
    id                   bigint not null,
    c_id                 bigint,
-   start_date           datetime not null,
-   end_date             datetime not null,
+   start_date           datetime,
+   end_date             datetime,
+   is_open              tinyint not null,
    experience           int not null,
+   creater              int not null,
+   creation_date        datetime not null,
+   modification_date    datetime not null,
+   modifier             int not null,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: sign_on_info                                          */
+/*==============================================================*/
+create table sign_on_info
+(
+   id                   bigint not null,
+   sign_id              bigint not null,
+   u_id                 bigint not null,
+   distance             int,
+   sign_time            datetime,
    creater              int not null,
    creation_date        datetime not null,
    modification_date    datetime not null,
@@ -152,8 +193,6 @@ create table sign_on
 create table user
 (
    id                   bigint not null,
-   user                 varchar(20) not null,
-   pass_word            varchar(20) not null,
    user_name            varchar(10) not null,
    sex                  bit not null,
    u_id                 varchar(20) not null,
@@ -164,7 +203,7 @@ create table user
    role_id              bigint,
    creater              int not null,
    creation_date        datetime not null,
-   modification_date1   datetime not null,
+   modification_date    datetime not null,
    modifier             int not null,
    primary key (id)
 );
@@ -178,6 +217,9 @@ alter table course add constraint FK_Reference_4 foreign key (t_id)
 alter table dictionary_type add constraint FK_Reference_2 foreign key (detail_id)
       references dictionary_detail (id) on delete restrict on update restrict;
 
+alter table login add constraint FK_Reference_8 foreign key (u_id)
+      references user (id) on delete restrict on update restrict;
+
 alter table role add constraint FK_Reference_6 foreign key (b_id)
       references button (id) on delete restrict on update restrict;
 
@@ -186,6 +228,9 @@ alter table role add constraint FK_Reference_7 foreign key (m_id)
 
 alter table sign_on add constraint FK_Reference_1 foreign key (c_id)
       references course (id) on delete restrict on update restrict;
+
+alter table sign_on_info add constraint FK_Reference_9 foreign key (sign_id)
+      references sign_on (id) on delete restrict on update restrict;
 
 alter table user add constraint FK_Reference_5 foreign key (role_id)
       references role (id) on delete restrict on update restrict;
