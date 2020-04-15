@@ -5,7 +5,8 @@ import Cookies from 'js-cookie'
 import 'normalize.css/normalize.css'
 
 import Element from 'element-ui'
-//
+
+// markdown编辑器
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 

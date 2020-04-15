@@ -26,6 +26,7 @@
         <appender-ref ref="console" />
     </logger>
 
+    <!--  log4jdbc使用5种logger:jdbc.sqlonly,jdbc.sqltiming,jdbc.audit,jdbc.resultset,jdbc.connection  -->
     <!--  如想看到表格数据，将OFF改为INFO  -->
     <logger name="jdbc.resultsettable" level="OFF" additivity="false">
         <appender-ref ref="console" />

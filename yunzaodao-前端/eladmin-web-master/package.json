@@ -2,7 +2,6 @@
   "name": "eladmin-web",
   "version": "2.4.0",
   "description": "EL-ADMIN 前端源码",
-  "author": "Zheng Jie",
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -27,10 +26,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/elunez/eladmin-web.git"
+    "url": "https://github.com/codeman-wei/yunzaodao"
   },
   "bugs": {
-    "url": "https://github.com/elunez/eladmin/issues"
+    "url": "https://github.com/codeman-wei/yunzaodao/issues"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.1.0",

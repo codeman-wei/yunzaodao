@@ -201,7 +201,7 @@ export default {
   name: 'User',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
-  // 数据字典
+  // 数据字典,内部通过this.$option.dicts获得
   dicts: ['user_status'],
   data() {
     // 自定义验证

@@ -154,6 +154,7 @@
             <version>${mapstruct.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
@@ -164,6 +165,8 @@
             <artifactId>easy-captcha</artifactId>
             <version>1.6.2</version>
         </dependency>
+
+        <!-- 解析请求客户端的浏览器信息 -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
