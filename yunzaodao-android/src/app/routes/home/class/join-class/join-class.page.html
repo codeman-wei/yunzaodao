@@ -4,14 +4,61 @@
       <ion-back-button defaultHref="/home/class"></ion-back-button>
     </ion-buttons>
     <ion-title>加入班课</ion-title>
-    <ion-button fill="clear" slot="end" (click)="findClass()">下一步</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list class="ion-padding">
-    <ion-item>
-      <ion-input required placeholder="请输入班课号" [(ngModel)]="classNumber"></ion-input>
-    </ion-item>
-  </ion-list>
+  <ion-slides #joinClassSlides>
+    <ion-slide>
+      <ion-list style="width: 80%;">
+        <ion-item>
+          <ion-input required placeholder="请输入班课号" [(ngModel)]="classNumber"></ion-input>
+        </ion-item>
+        <br />
+        <ion-button style="width: 100%;" (click)="findClass()">下一步</ion-button>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+      <div style="width: 100%;">
+        <ion-list>
+          <ion-thumbnail style="width: 100px; height: 100px;margin: auto;">
+            <ion-img [src]="'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2333787549,3902944237&fm=26&gp=0.jpg'"></ion-img>
+          </ion-thumbnail>
+          <br />
+          <ion-text>{{classInfo.name}}</ion-text>
+          <br />
+          <ion-text style="font-size: smaller;">{{classInfo.class}}</ion-text>
+        </ion-list>
+  
+        <br />
+  
+        <ion-list style="width: 100%;">
+          <ion-item
+            lines="none"
+            class="hori_border"
+          >
+            <ion-label>老师</ion-label>
+            <ion-text>{{classInfo.teacher}}</ion-text>
+          </ion-item>
+          <ion-item
+            lines="none"
+            class="bottom_border"
+          >
+            <ion-label>学期</ion-label>
+            <ion-text>{{classInfo.semester}}</ion-text>
+          </ion-item>
+        </ion-list>
+
+        <br />
+        <ion-button
+          expand="block"
+          style="width: 80%; margin: auto;"
+          (click)="join()"
+        >
+          加入
+        </ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
