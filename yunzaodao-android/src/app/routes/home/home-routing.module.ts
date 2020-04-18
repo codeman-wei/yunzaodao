@@ -59,6 +59,15 @@ const routes: Routes = [
         loadChildren: () => import('./mine/user-info/user-info.module').then( m => m.UserInfoPageModule)
       }
     ]
+  },
+  {
+    path: 'class/detail',
+    children: [
+      {
+        path:'',
+        loadChildren: () => import('./class/detail/detail.module').then( m => m.DetailPageModule)
+      }
+    ]
   }
 ];
 

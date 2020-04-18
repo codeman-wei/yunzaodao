@@ -31,5 +31,20 @@
 </ion-header>
 
 <ion-content>
-
+  <div *ngIf="classList.length == 0" style="text-align: center;">
+    <h2 *ngIf="slideFlag">您还没有加入的班课</h2>
+    <h2 *ngIf="!slideFlag">您还没有创建的班课</h2>
+  </div>
+  <ion-list>
+    <ion-item detail *ngFor="let item of classList;let key=index" (click)="detailInfo(item.id)">
+      <ion-thumbnail slot="start">
+        <ion-img></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{item.name}}</h2>
+        <h3>{{item.teacher}}</h3>
+        <p>{{item.semester}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

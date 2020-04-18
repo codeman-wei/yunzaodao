@@ -27,3 +27,4 @@ export class LocalStorageService {
 }
 export const APP_KEY: string = 'App';
 export const USER_KEY: string = 'User';
+export const GLOBAL_VARIABLE_KEY = 'Global_Variable';
