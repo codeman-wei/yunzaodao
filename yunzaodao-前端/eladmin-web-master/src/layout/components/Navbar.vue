@@ -1,11 +1,13 @@
 <template>
   <div class="navbar">
+    <!-- 菜单栏右上角开关菜单的按钮 -->
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <!-- 菜单搜索工具 -->
         <search id="header-search" class="right-menu-item" />
 
         <el-tooltip content="源码地址" effect="dark" placement="bottom">
@@ -70,8 +72,8 @@ export default {
   },
   data() {
     return {
-      Avatar: Avatar,
-      dialogVisible: false
+      Avatar: Avatar
+      // dialogVisible: false
     }
   },
   computed: {

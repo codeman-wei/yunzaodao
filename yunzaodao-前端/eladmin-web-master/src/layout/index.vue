@@ -1,6 +1,8 @@
 <template>
   <div :class="classObj" class="app-wrapper">
+    <!-- 手机模式下，菜单打开状态周围变暗 -->
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <!-- 左边菜单栏 -->
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">

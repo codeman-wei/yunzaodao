@@ -10,10 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * @author Zheng Jie
- * @date 2019年9月7日 16:16:59
- */
+
 @Entity
 @Getter
 @Setter

@@ -76,6 +76,7 @@ const user = {
   }
 }
 
+// 登出操作后删除vuex中的用户信息
 export const logOut = (commit) => {
   commit('SET_TOKEN', '')
   commit('SET_ROLES', [])

@@ -45,6 +45,7 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: () => import('@/views/home'),
         name: 'Dashboard',
+        // affix=true的路由在tagView中固定存在
         meta: { title: '首页', icon: 'index', affix: true, noCache: true }
       }
     ]

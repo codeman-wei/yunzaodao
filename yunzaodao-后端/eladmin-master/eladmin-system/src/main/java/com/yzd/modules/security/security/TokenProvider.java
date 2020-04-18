@@ -40,7 +40,7 @@ public class TokenProvider implements InitializingBean {
       byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
-
+   // 生成token，用户名放入sub，权限数组放入claim
    public String createToken(Authentication authentication) {
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
@@ -54,7 +54,7 @@ public class TokenProvider implements InitializingBean {
          .setExpiration(validity)
          .compact();
    }
-
+   // 从token中获得用户名和权限信息用来生成UserDetail作为Authentication的principal
    Authentication getAuthentication(String token) {
       Claims claims = Jwts.parser()
          .setSigningKey(key)
@@ -70,7 +70,7 @@ public class TokenProvider implements InitializingBean {
 
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
-
+   // 验证token是否有效
    boolean validateToken(String authToken) {
       try {
          Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
@@ -90,7 +90,7 @@ public class TokenProvider implements InitializingBean {
       }
       return false;
    }
-
+   // 从请求头中获取token
    public String getToken(HttpServletRequest request){
       final String requestHeader = request.getHeader(properties.getHeader());
       if (requestHeader != null && requestHeader.startsWith(properties.getTokenStartWith())) {
