@@ -9,6 +9,7 @@ import { PopoverComponent } from 'src/app/routes/home/class/component/popover/po
 })
 export class ClassPage implements OnInit {
 
+  slideFlag = false
 
   constructor(public popoverController: PopoverController) { }
 
@@ -22,5 +23,9 @@ export class ClassPage implements OnInit {
       translucent: true
     });
     return await popover.present();
+  }
+
+  async myCreate(){
+    this.slideFlag = !this.slideFlag
   }
 }

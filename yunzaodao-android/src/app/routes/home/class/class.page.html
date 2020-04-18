@@ -1,5 +1,31 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row style="width: fit-content;">
+        <ion-col>
+          <ion-row>
+            <div (click)="myCreate()" style="font-size: smaller;padding: 12px 12px 0 12px;">
+              <ion-text *ngIf="slideFlag">我创建的</ion-text>
+              <ion-text *ngIf="!slideFlag" color="secondary">我创建的</ion-text>
+            </div>
+          </ion-row>
+          <ion-row>
+            <hr *ngIf="!slideFlag" class="line">
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <div (click)="myJoin()" style="font-size: smaller;padding: 12px 12px 0 12px;">
+              <ion-text *ngIf="!slideFlag">我加入的</ion-text>
+              <ion-text *ngIf="slideFlag" color="secondary">我加入的</ion-text>
+            </div>
+          </ion-row>
+          <ion-row>
+            <hr *ngIf="slideFlag" class="line">
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-button fill="clear" (click)="more($event)" slot="end"><ion-icon name="add-outline"></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
