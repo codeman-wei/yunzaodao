@@ -1,13 +1,3 @@
-.card{
-    width: 80%;
-    margin: 0 auto;
-    border: 1px solid gray;
-}
-.info{
-    width: 80%;
-    margin: 0 auto;
-}
-
 .hori_border{
     border-top: 1px solid gainsboro;
     border-bottom: 1px solid gainsboro;
@@ -17,4 +7,8 @@
 }
 .bottom_border{
     border-bottom: 1px solid gainsboro;
+}
+.input_text{
+    text-align: right;
+    color: gray;
 }

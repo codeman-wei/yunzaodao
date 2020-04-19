@@ -1,0 +1,67 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/class/detail/details"></ion-back-button>
+    </ion-buttons>
+    <ion-title>编辑班课基本信息</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-thumbnail style="width: 100px; height: 100px;margin: auto;">
+      <ion-img [src]="'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2333787549,3902944237&fm=26&gp=0.jpg'"></ion-img>
+    </ion-thumbnail>
+    <!-- <br /> -->
+    <!-- <ion-text>班课封面</ion-text> -->
+  </ion-list>
+
+  <br />
+
+  <ion-list class="ion-padding">
+    <ion-item
+      lines="none"
+      class="hori_border"
+    >
+      <ion-label>课程</ion-label>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.name"></ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>班级</ion-label>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.class"></ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>学期</ion-label>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.semester"></ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>学校</ion-label>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.school"></ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      class="bottom_border"
+    >
+      <ion-label>院系</ion-label>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.college"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <br />
+  <ion-button
+    expand="block"
+    style="width: 80%; margin: auto;"
+    (click)="change()"
+  >
+    保存
+  </ion-button>
+</ion-content>

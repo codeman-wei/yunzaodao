@@ -1,12 +1,64 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home/class"></ion-back-button>
     </ion-buttons>
-    <ion-title>details</ion-title>
+    <ion-title>{{classInfo.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item *ngIf="isTeacher" class="card" lines="none" detail [disabled]="classInfo.isClosed" (click)="doChange()">
+      <ion-thumbnail slot="start">
+        <ion-img></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{classInfo.class}}</h2>
+        <h2>{{classInfo.name}}</h2>
+        <p>{{classInfo.semester}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="!isTeacher" class="card" lines="none">
+      <ion-thumbnail slot="start">
+        <ion-img></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{classInfo.class}}</h2>
+        <h2>{{classInfo.name}}</h2>
+        <h3>{{classInfo.teacher}}</h3>
+        <p>{{classInfo.semester}}</p>
+      </ion-label>
+    </ion-item>
 
+    <ion-item *ngIf="isTeacher" class="info" lines="none" [disabled]="classInfo.isClosed">
+      <ion-label>班课号</ion-label>
+      <ion-text>{{classInfo.number}}</ion-text>
+    </ion-item>
+    <ion-item *ngIf="isTeacher" class="info" lines="none">
+      <ion-label>允许加入</ion-label>
+      <ion-checkbox (ionChange)="checkboxChange()" [disabled]="classInfo.isClosed" [(ngModel)]="classInfo.isJoinable"></ion-checkbox>
+    </ion-item>
+    <!-- <br />
+    <ion-item class="info hori_border" lines="none" [disabled]="classInfo.isClosed">
+      <ion-label>学校</ion-label>
+      <ion-text>{{classInfo.school}}</ion-text>
+    </ion-item>
+    <ion-item class="info bottom_border" lines="none" [disabled]="classInfo.isClosed">
+      <ion-label>院系</ion-label>
+      <ion-text>{{classInfo.college}}</ion-text>
+    </ion-item> -->
+  </ion-list>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+
+  <ion-button *ngIf="isTeacher" expand="block" color="danger" class="info" fill="outline" [disabled]="classInfo.isClosed" (click)="closeClass()">结束班课</ion-button>
+  <br />
+  <ion-button *ngIf="isTeacher" expand="block" color="danger" class="info" fill="outline" [disabled]="!classInfo.isClosed || classInfo.isDeleted" (click)="deleteClass()">删除班课</ion-button>
+  <ion-text *ngIf="isTeacher" style="padding-left: 10%;font-size: smaller;">只有已结束的班课可以被删除</ion-text>
+  <ion-button *ngIf="!isTeacher" expand="block" color="danger" class="info" fill="outline" (click)="exitClass()">退出班课</ion-button>
 </ion-content>

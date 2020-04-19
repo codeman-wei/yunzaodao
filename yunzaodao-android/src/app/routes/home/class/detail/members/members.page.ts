@@ -11,7 +11,7 @@ export class MembersPage implements OnInit {
   constructor(private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
-    console.log(this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').classId)
+    // console.log(this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').classId)
   }
 
 }

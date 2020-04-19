@@ -33,6 +33,10 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'details/info',
+    loadChildren: () => import('./details/info/info.module').then( m => m.InfoPageModule)
+  }
 ];
 
 @NgModule({
