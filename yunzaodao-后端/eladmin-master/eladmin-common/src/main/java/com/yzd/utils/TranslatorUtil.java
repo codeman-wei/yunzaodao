@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * @author Zheng Jie
  * 翻译工具类
  */
 public class TranslatorUtil {

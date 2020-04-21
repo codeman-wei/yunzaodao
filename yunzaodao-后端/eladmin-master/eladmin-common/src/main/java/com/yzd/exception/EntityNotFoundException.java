@@ -2,10 +2,7 @@ package com.yzd.exception;
 
 import org.springframework.util.StringUtils;
 
-/**
- * @author Zheng Jie
- * @date 2018-11-23
- */
+
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(Class clazz, String field, String val) {

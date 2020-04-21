@@ -9,10 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @author Zheng Jie
- * @date 2019-01-14
- */
 @RestController
 @RequestMapping("/api/genConfig")
 @Api(tags = "系统：代码生成器配置管理")

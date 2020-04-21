@@ -10,6 +10,7 @@ import Vue from 'vue'
  * @example
  */
 function CRUD(options) {
+  // wdc:defaultOptions这些属性最后都要放到data中，之所以单独取出来操作，是方便通过options参数做初始化修改
   const defaultOptions = {
     // 标题
     title: '',
@@ -50,7 +51,7 @@ function CRUD(options) {
     // 在主页准备
     queryOnPresenterCreated: true,
     // 调试开关
-    debug: true
+    debug: false
   }
   // 将options里面的值赋给defaulOption
   options = mergeOptions(defaultOptions, options)
@@ -516,7 +517,6 @@ function CRUD(options) {
       this.vms.splice(this.vms.findIndex(e => e && e.vm === vm), 1)
     }
   })
-  // console.log(crud)
   // 冻结处理，需要扩展数据的话，使用crud.updateProp(name, value)，以crud.props.name形式访问，这个是响应式的，可以做数据绑定
   Object.freeze(crud)
   return crud
@@ -529,7 +529,8 @@ function callVmHook(crud, hook) {
   }
   let ret = true
   const nargs = [crud]
-  // arguments：主页面自定义的Hook的参数（arguments什么时候得到的？）
+  // wdc:arguments里面为什么能获得hook的参数
+  // arguments：主页面自定义的Hook的参数
   for (let i = 2; i < arguments.length; ++i) {
     nargs.push(arguments[i])
   }
@@ -571,6 +572,7 @@ function presenter(crud) {
     inject: ['crud'],
     beforeCreate() {
       // 由于initInjections在initProvide之前执行，如果该组件自己就需要crud，需要在initInjections前准备好crud
+      // wdc:因为presenter的组件可以被理解为当前功能的父组件，我自己provide，并且自己inject,自己可以用了，子孙组件也可以通过inject使用
       this._provided = {
         crud,
         'crud.query': crud.query,
@@ -581,7 +583,7 @@ function presenter(crud) {
     data() {
       return {
         searchToggle: true,
-        columns: obColumns()
+        columns: obColumns() // {property:{label:,visible:},}
       }
     },
     methods: {
@@ -608,7 +610,6 @@ function presenter(crud) {
         }
       })
       this.columns = obColumns(columns)
-      // console.log(columns)
       this.crud.updateProp('tableColumns', columns)
     }
   }

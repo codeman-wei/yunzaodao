@@ -2,7 +2,6 @@ package com.yzd.utils;
 
 /**
  * 常用静态常量
- * @author Zheng Jie
  * @date 2018-12-26
  */
 public class ElAdminConstant {
