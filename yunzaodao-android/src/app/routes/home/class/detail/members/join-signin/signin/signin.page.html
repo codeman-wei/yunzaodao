@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/class/detail/members/join-signin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>密码签到</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      请输入签到密码
+    </ion-list-header>
+    <ion-item>
+      <ion-input required placeholder="请输入" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div style="text-align: center;">
+    <ion-button color="primary" class="button fillet-boder" [disabled]="!password" (click)="start()">签到</ion-button>
+  </div>
+</ion-content>
