@@ -50,7 +50,7 @@
         </el-radio>
       </el-form-item>
       <el-form-item
-        label="所属部门"
+        label="所属学院"
         prop="dept.id"
         :rules="rules.dept"
       >

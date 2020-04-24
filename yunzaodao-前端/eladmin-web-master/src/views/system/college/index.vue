@@ -30,9 +30,9 @@
           <el-input v-model="form.name" style="width: 370px;" />
         </el-form-item>
         <el-form-item v-if="form.pid !== 0" label="状态" prop="enabled">
-          <el-radio v-for="item in dict.dept_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
+          <el-radio v-for="item in dict.college_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
         </el-form-item>
-        <el-form-item v-if="form.pid !== 0" style="margin-bottom: 0;" label="上级部门" prop="pid">
+        <el-form-item v-if="form.pid !== 0" style="margin-bottom: 0;" label="所属学校" prop="pid">
           <treeselect v-model="form.pid" :options="depts" style="width: 370px;" placeholder="选择上级类目" />
         </el-form-item>
       </el-form>
@@ -92,7 +92,7 @@ export default {
   components: { Treeselect, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
   // 设置数据字典
-  dicts: ['dept_status'],
+  dicts: ['college_status'],
   data() {
     return {
       depts: [],
@@ -134,13 +134,13 @@ export default {
     },
     // 改变状态
     changeEnabled(data, val) {
-      this.$confirm('此操作将 "' + this.dict.label.dept_status[val] + '" ' + data.name + '部门, 是否继续？', '提示', {
+      this.$confirm('此操作将 "' + this.dict.label.college_status[val] + '" ' + data.name + '部门, 是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         crudDept.edit(data).then(res => {
-          this.crud.notify(this.dict.label.dept_status[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
+          this.crud.notify(this.dict.label.college_status[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
         }).catch(err => {
           data.enabled = !data.enabled
           console.log(err.response.data.message)

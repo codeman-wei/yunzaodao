@@ -3,6 +3,7 @@
     <el-row :gutter="15">
       <el-col style="margin-bottom: 10px">
         <el-card class="box-card" shadow="never">
+          <!-- 头部按钮栏 -->
           <div slot="header" class="clearfix">
             <span class="role-span">字段配置：{{ tableName }}</span>
             <el-button
@@ -32,6 +33,7 @@
               >同步</el-button>
             </el-tooltip>
           </div>
+          <!-- 字段设置form -->
           <el-form size="small" label-width="90px">
             <el-table v-loading="loading" :data="data" :max-height="tableHeight" size="small" style="width: 100%;margin-bottom: 15px">
               <el-table-column prop="columnName" label="字段名称" />
@@ -173,7 +175,7 @@
             </el-form-item>
             <el-form-item label="前端路径" prop="path">
               <el-input v-model="form.path" style="width: 40%" />
-              <span style="color: #C0C0C0;margin-left: 10px;">输入views文件夹下的目录，不存在即创建</span>
+              <span style="color: #C0C0C0;margin-left: 10px;">输入views文件夹下的目录的绝对路径，不存在即创建</span>
             </el-form-item>
             <!--            <el-form-item label="接口目录">-->
             <!--              <el-input v-model="form.apiPath" style="width: 40%" />-->

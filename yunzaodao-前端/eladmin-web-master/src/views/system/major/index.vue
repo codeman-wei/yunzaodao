@@ -9,12 +9,12 @@
     <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column v-if="columns.visible('name')" prop="name" label="名称" />
-      <el-table-column v-if="columns.visible('dept')" prop="dept" label="所属部门">
+      <el-table-column v-if="columns.visible('dept')" prop="dept" label="所属学院" min-width="140px" align="center">
         <template slot-scope="scope">
           <div>{{ scope.row.deptSuperiorName ? scope.row.deptSuperiorName + ' / ' : '' }}{{ scope.row.dept.name }}</div>
         </template>
       </el-table-column>
-      <el-table-column v-if="columns.visible('sort')" prop="sort" label="排序">
+      <el-table-column v-if="columns.visible('sort')" prop="sort" label="排序" width="50px" align="center">
         <template slot-scope="scope">
           {{ scope.row.sort }}
         </template>
@@ -53,7 +53,7 @@
     <!--分页组件-->
     <pagination />
     <!--表单渲染-->
-    <eForm :job-status="dict.job_status" />
+    <eForm :job-status="dict.major_status" />
   </div>
 </template>
 
@@ -79,7 +79,7 @@ export default {
   components: { eHeader, eForm, crudOperation, pagination, udOperation },
   mixins: [presenter(crud)],
   // 数据字典
-  dicts: ['job_status'],
+  dicts: ['major_status'],
   data() {
     return {
       permission: {
@@ -92,13 +92,13 @@ export default {
   methods: {
     // 改变状态
     changeEnabled(data, val) {
-      this.$confirm('此操作将 "' + this.dict.label.job_status[val] + '" ' + data.name + '岗位, 是否继续？', '提示', {
+      this.$confirm('此操作将 "' + this.dict.label.major_status[val] + '" ' + data.name + '岗位, 是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         crud.crudMethod.edit(data).then(() => {
-          crud.notify(this.dict.label.job_status[val] + '成功', 'success')
+          crud.notify(this.dict.label.major_status[val] + '成功', 'success')
         }).catch(err => {
           data.enabled = !data.enabled
           console.log(err.data.message)
