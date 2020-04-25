@@ -111,7 +111,6 @@ public class UserController {
     @PostMapping
     @PreAuthorize("@el.check('user:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody User resources){
-        System.out.println(resources);
         checkLevel(resources);
         // 默认密码 123456
         resources.setPassword(passwordEncoder.encode("123456"));

@@ -32,10 +32,10 @@ public class CourseDto implements Serializable {
     private String teacherName;
 
     /** 归属学院 */
-    private String belongCollege;
+    private DeptSmallDto college;
 
-    /** 课程创建者uid */
-    private Integer createUid;
+    /** 课程创建者名字 */
+    private String userName;
 
     /** 签到发起次数 */
     private Integer signCount;

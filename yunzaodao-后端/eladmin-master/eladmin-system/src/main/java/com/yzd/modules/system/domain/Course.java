@@ -49,12 +49,14 @@ public class Course implements Serializable {
     private String teacherName;
 
     /** 归属学院 */
-    @Column(name = "belong_college")
-    private String belongCollege;
+    @OneToOne
+    @JoinColumn(name = "college_id")
+    private Dept college;
 
     /** 课程创建者uid */
-    @Column(name = "create_uid")
-    private Integer createUid;
+    @OneToOne
+    @JoinColumn(name = "create_uid")
+    private User createUser;
 
     /** 签到发起次数 */
     @Column(name = "sign_count")

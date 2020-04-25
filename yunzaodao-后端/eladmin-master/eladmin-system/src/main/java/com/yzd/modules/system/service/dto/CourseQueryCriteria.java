@@ -10,19 +10,20 @@ import com.yzd.annotation.Query;
 */
 @Data
 public class CourseQueryCriteria{
+    @Query(blurry = "courseName,courseCode")
+    private String blurry;
 
-    /** 模糊 */
-    @Query(type = Query.Type.INNER_LIKE)
-    private String courseName;
+//    /** 模糊 */
+//    @Query(type = Query.Type.INNER_LIKE)
+//    private String courseName;
+//
+//    /** 模糊 */
+//    @Query(type = Query.Type.INNER_LIKE)
+//    private String courseCode;
 
-    /** 模糊 */
-    @Query(type = Query.Type.INNER_LIKE)
-    private String courseCode;
-
-    /** 精确 */
-    @Query
-    private String belongCollege;
-    /** BETWEEN */
-    @Query(type = Query.Type.BETWEEN)
-    private List<String> createTime;
+//    /** 精确 */
+//    @Query
+//    private String belongCollege;
+//    @Query(type = Query.Type.BETWEEN)
+//    private List<String> createTime;
 }

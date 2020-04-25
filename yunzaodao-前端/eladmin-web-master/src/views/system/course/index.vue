@@ -4,10 +4,10 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <el-input v-model="query.value" clearable placeholder="输入搜索内容" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <el-select v-model="query.type" clearable placeholder="类型" class="filter-item" style="width: 130px">
+        <el-input v-model="query.blurry" clearable placeholder="输入课程名或者课程号搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <!-- <el-select v-model="query.type" clearable placeholder="类型" class="filter-item" style="width: 130px">
           <el-option v-for="item in queryTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-        </el-select>
+        </el-select> -->
         <!-- <el-date-picker
           v-model="query.courseTime"
           :default-time="['00:00:00','23:59:59']"
@@ -36,17 +36,21 @@
             <el-input v-model="form.coursePlace" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="上课时间">
-            <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" />
+            <!-- <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" /> -->
+            <el-input v-model="form.courseTime" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="授课教师">
             <el-input v-model="form.teacherName" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="归属学院">
-            <el-input v-model="form.belongCollege" style="width: 370px;" />
+          <el-form-item label="归属学院" style="width: 370px;">
+            <treeselect
+              v-model="form.college.id"
+              :options="colleges"
+              style="width: 370px"
+              placeholder="选择学院"
+            />
+            <!-- <el-input v-model="form.belongCollege" style="width: 370px;" /> -->
           </el-form-item>
-          <!-- <el-form-item label="归属学院">
-            未设置字典，请手动设置 Select
-          </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -62,7 +66,7 @@
         <el-table-column v-if="columns.visible('courseTime')" prop="courseTime" label="上课时间" />
         <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" />
         <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" />
-        <el-table-column v-if="columns.visible('belongCollege')" prop="belongCollege" label="归属学院" />
+        <el-table-column v-if="columns.visible('college')" prop="college.name" label="归属学院" />
         <el-table-column v-permission="['admin','course:edit','course:del']" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -81,20 +85,24 @@
 <script>
 import crudCourse from '@/api/course'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import { getDepts } from '@/api/system/dept'
 import rrOperation from '@crud/RR.operation'
+import Treeselect from '@riophae/vue-treeselect'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, coursePlace: null, courseTime: null, studentCount: null, teacherName: null, belongCollege: null, createUid: null, signCount: null, startTime: null, endTime: null }
+const defaultForm = { id: null, courseName: null, courseCode: null, coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null }
 export default {
   name: 'Course',
-  components: { pagination, crudOperation, rrOperation, udOperation },
+  components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
   data() {
     return {
+      deptName: '', colleges: [],
       permission: {
         add: ['admin', 'course:add'],
         edit: ['admin', 'course:edit'],
@@ -115,6 +123,11 @@ export default {
       ]
     }
   },
+  created() {
+    this.$nextTick(() => {
+      this.getD
+    })
+  },
   methods: {
     // 获取数据前设置好接口地址
     [CRUD.HOOK.beforeRefresh]() {
@@ -123,6 +136,15 @@ export default {
         this.crud.params[query.type] = query.value
       }
       return true
+    },
+    // 新增与编辑前做的操作
+    [CRUD.HOOK.afterToCU](crud, form) {
+      this.getDepts()
+    },
+    getDepts() {
+      getDepts({ enabled: true }).then(res => {
+        this.colleges = res.content
+      })
     }
   }
 }

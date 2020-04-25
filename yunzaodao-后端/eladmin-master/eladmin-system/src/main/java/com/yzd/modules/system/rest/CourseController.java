@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 * @author wdc
 * @date 2020-03-20
 */
-@Api(tags = "课程管理")
+@Api(tags = "课程信息")
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
@@ -38,35 +38,36 @@ public class CourseController {
     }
 
     @GetMapping
-    @Log("查询课程管理")
-    @ApiOperation("查询课程管理")
+    @Log("查询课程信息")
+    @ApiOperation("查询课程信息")
     @PreAuthorize("@el.check('course:list')")
     public ResponseEntity<Object> getCourses(CourseQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(courseService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
     @PostMapping
-    @Log("新增课程管理")
-    @ApiOperation("新增课程管理")
+    @Log("新增课程信息")
+    @ApiOperation("新增课程信息")
     @PreAuthorize("@el.check('course:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Course resources){
         return new ResponseEntity<>(courseService.create(resources),HttpStatus.CREATED);
     }
 
     @PutMapping
-    @Log("修改课程管理")
-    @ApiOperation("修改课程管理")
+    @Log("修改课程信息")
+    @ApiOperation("修改课程信息")
     @PreAuthorize("@el.check('course:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody Course resources){
         courseService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除课程管理")
-    @ApiOperation("删除课程管理")
+    @Log("删除课程信息")
+    @ApiOperation("删除课程信息")
     @PreAuthorize("@el.check('course:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAll(@RequestBody Integer[] ids) {
+//        System.out.println(ids);
         courseService.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }

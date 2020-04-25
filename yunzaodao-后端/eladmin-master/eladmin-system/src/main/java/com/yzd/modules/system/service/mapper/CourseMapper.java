@@ -4,6 +4,7 @@ import com.yzd.modules.system.domain.Course;
 import com.yzd.modules.system.service.dto.CourseDto;
 import com.yzd.base.BaseMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 /**
@@ -12,5 +13,7 @@ import org.mapstruct.ReportingPolicy;
 */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CourseMapper extends BaseMapper<CourseDto, Course> {
-
+    @Override
+    @Mapping(source = "course.createUser.nickName",target = "userName")
+    CourseDto toDto(Course course);
 }
