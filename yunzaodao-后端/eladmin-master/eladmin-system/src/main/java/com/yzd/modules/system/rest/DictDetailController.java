@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+
 @RestController
 @Api(tags = "系统：字典详情管理")
 @RequestMapping("/api/dictDetail")

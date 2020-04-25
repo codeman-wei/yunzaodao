@@ -1,12 +1,11 @@
 package com.yzd.modules.security.service;
 
 import com.yzd.exception.BadRequestException;
+import com.yzd.modules.security.security.vo.JwtUser;
 import com.yzd.modules.system.service.RoleService;
 import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.system.service.dto.DeptSmallDto;
-import com.yzd.modules.system.service.dto.MajorSmallDto;
 import com.yzd.modules.system.service.dto.UserDto;
-import com.yzd.modules.security.security.vo.JwtUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
