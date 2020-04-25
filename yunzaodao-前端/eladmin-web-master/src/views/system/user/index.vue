@@ -87,12 +87,11 @@
               <treeselect
                 v-model="form.dept.id"
                 :options="depts"
-                style="width: 178px"
+                style="width: 370px"
                 placeholder="选择学院"
-                @select="selectFun"
               />
             </el-form-item>
-            <el-form-item label="专业" prop="job.id">
+            <!-- <el-form-item label="专业" prop="job.id">
               <el-select v-model="form.job.id" style="width: 178px" placeholder="请先选择专业">
                 <el-option
                   v-for="(item, index) in jobs"
@@ -101,7 +100,7 @@
                   :value="item.id"
                 />
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="性别">
               <el-radio-group v-model="form.sex" style="width: 178px">
                 <el-radio label="男">男</el-radio>
@@ -120,7 +119,7 @@
             <el-form-item style="margin-bottom: 0;" label="角色" prop="roles">
               <el-select
                 v-model="form.roles"
-                style="width: 437px"
+                style="width: 370px"
                 multiple
                 placeholder="请选择"
                 @remove-tag="deleteTag"
@@ -155,19 +154,9 @@
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            v-permission="['admin','user:edit','user:del']"
-            label="操作"
-            width="125"
-            align="center"
-            fixed="right"
-          >
+          <el-table-column v-permission="['admin','user:edit','user:del']" label="操作" width="125" align="center" fixed="right">
             <template slot-scope="scope">
-              <udOperation
-                :data="scope.row"
-                :permission="permission"
-                :disabled-dle="scope.row.id === user.id"
-              />
+              <udOperation :data="scope.row" :permission="permission" :disabled-dle="scope.row.id === user.id" />
             </template>
           </el-table-column>
         </el-table>
@@ -183,7 +172,7 @@ import crudUser from '@/api/system/user'
 import { isvalidPhone } from '@/utils/validate'
 import { getDepts } from '@/api/system/dept'
 import { getAll, getLevel } from '@/api/system/role'
-import { getAllJob } from '@/api/system/job'
+// import { getAllJob } from '@/api/system/job'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
@@ -196,7 +185,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 let userRoles = []
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '用户', url: 'api/users', crudMethod: { ...crudUser }})
-const defaultForm = { id: null, username: null, nickName: null, sex: '男', email: null, enabled: 'false', roles: [], job: { id: null }, dept: { id: null }, phone: null }
+const defaultForm = { id: null, username: null, nickName: null, sex: '男', email: null, enabled: 'false', roles: [], dept: { id: null }, phone: null }
 export default {
   name: 'User',
   components: { Treeselect, crudOperation, rrOperation, udOperation, pagination },
@@ -216,7 +205,7 @@ export default {
     }
     return {
       height: document.documentElement.clientHeight - 180 + 'px;',
-      deptName: '', depts: [], deptDatas: [], jobs: [], level: 3, roles: [],
+      deptName: '', depts: [], deptDatas: [], level: 3, roles: [],
       defaultProps: { children: 'children', label: 'name' },
       permission: {
         add: ['admin', 'user:add'],
@@ -302,7 +291,7 @@ export default {
     },
     // 打开编辑弹窗前做的操作
     [CRUD.HOOK.beforeToEdit](crud, form) {
-      this.getJobs(this.form.dept.id)
+      // this.getJobs(this.form.dept.id)
       userRoles = []
       const roles = []
       // 将表单里的角色信息改成id数组
@@ -319,12 +308,6 @@ export default {
       if (!crud.form.dept.id) {
         this.$message({
           message: '学院不能为空',
-          type: 'warning'
-        })
-        return false
-      } else if (!crud.form.job.id) {
-        this.$message({
-          message: '专业不能为空',
           type: 'warning'
         })
         return false
@@ -386,16 +369,16 @@ export default {
       }).catch(() => { })
     },
     // 获取弹窗内岗位数据
-    getJobs(id) {
-      getAllJob(id).then(res => {
-        this.jobs = res.content
-      }).catch(() => { })
-    },
+    // getJobs(id) {
+    //   getAllJob(id).then(res => {
+    //     this.jobs = res.content
+    //   }).catch(() => { })
+    // },
     // 点击部门搜索对应的岗位
-    selectFun(node, instanceId) {
-      this.getJobs(node.id)
-      this.form.job.id = null
-    },
+    // selectFun(node, instanceId) {
+    //   this.getJobs(node.id)
+    //   this.form.job.id = null
+    // },
     // 获取权限级别
     getRoleLevel() {
       getLevel().then(res => {

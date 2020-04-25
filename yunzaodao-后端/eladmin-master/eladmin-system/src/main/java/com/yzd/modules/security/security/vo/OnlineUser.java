@@ -18,7 +18,7 @@ public class OnlineUser {
 
     private String nickName;
 
-    private String job;
+//    private String job;
 
     private String browser;
 
@@ -29,6 +29,5 @@ public class OnlineUser {
     private String key;
 
     private Date loginTime;
-
 
 }

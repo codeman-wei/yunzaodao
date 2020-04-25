@@ -66,9 +66,9 @@ public class User implements Serializable {
     @JoinTable(name = "users_roles", joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
     private Set<Role> roles;
 
-    @OneToOne
-    @JoinColumn(name = "job_id")
-    private Major major;
+//    @OneToOne
+//    @JoinColumn(name = "job_id")
+//    private Major major;
 
     @OneToOne
     @JoinColumn(name = "dept_id")

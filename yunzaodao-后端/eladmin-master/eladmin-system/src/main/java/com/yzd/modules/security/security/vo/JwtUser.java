@@ -37,7 +37,7 @@ public class JwtUser implements UserDetails {
 
     private final String dept;
 
-    private final String job;
+//    private final String job;
 
     @JsonIgnore
     private final Collection<GrantedAuthority> authorities;

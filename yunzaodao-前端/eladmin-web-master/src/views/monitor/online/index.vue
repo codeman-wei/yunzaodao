@@ -25,7 +25,6 @@
       <el-table-column type="selection" width="55" />
       <el-table-column v-if="columns.visible('userName')" prop="userName" label="用户名" />
       <el-table-column v-if="columns.visible('nickName')" prop="nickName" label="用户昵称" />
-      <el-table-column v-if="columns.visible('job')" prop="job" label="岗位" />
       <el-table-column v-if="columns.visible('ip')" prop="ip" label="登录IP" />
       <el-table-column v-if="columns.visible('address')" :show-overflow-tooltip="true" prop="address" label="登录地点" />
       <el-table-column v-if="columns.visible('browser')" prop="browser" label="浏览器" />
