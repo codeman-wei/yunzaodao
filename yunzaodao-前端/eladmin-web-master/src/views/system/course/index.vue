@@ -42,6 +42,9 @@
           <el-form-item label="授课教师">
             <el-input v-model="form.teacherName" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="状态" prop="enabled">
+            <el-radio v-for="item in dict.course_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
+          </el-form-item>
           <el-form-item label="归属学院" style="width: 370px;">
             <treeselect
               v-model="form.college.id"
@@ -67,6 +70,16 @@
         <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" />
         <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" />
         <el-table-column v-if="columns.visible('college')" prop="college.name" label="归属学院" />
+        <el-table-column v-if="columns.visible('enabled')" label="状态" align="center" prop="enabled">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.enabled"
+              active-color="#409EFF"
+              inactive-color="#F56C6C"
+              @change="changeEnabled(scope.row, scope.row.enabled,)"
+            />
+          </template>
+        </el-table-column>
         <el-table-column v-permission="['admin','course:edit','course:del']" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -95,11 +108,12 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null }
+const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null }
 export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
+  dicts: ['course_status'],
   data() {
     return {
       deptName: '', colleges: [],
@@ -144,6 +158,23 @@ export default {
     getDepts() {
       getDepts({ enabled: true }).then(res => {
         this.colleges = res.content
+      })
+    },
+    // 改变状态
+    changeEnabled(data, val) {
+      this.$confirm('此操作将 "' + this.dict.label.course_status[val] + '" ' + data.courseName + '课程, 是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        crudCourse.edit(data).then(res => {
+          this.crud.notify(this.dict.label.course_status[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
+        }).catch(err => {
+          data.enabled = !data.enabled
+          console.log(err.response.data.message)
+        })
+      }).catch(() => {
+        data.enabled = !data.enabled
       })
     }
   }

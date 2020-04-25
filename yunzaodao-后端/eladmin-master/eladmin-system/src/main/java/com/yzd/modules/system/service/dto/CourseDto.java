@@ -1,6 +1,8 @@
 package com.yzd.modules.system.service.dto;
 
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -18,6 +20,12 @@ public class CourseDto implements Serializable {
 
     /** 课程编码 */
     private String courseCode;
+
+    @NotNull
+    private Boolean enabled;
+
+    @NotNull
+    private Boolean joinPermission;
 
     /** 上课地点，星期与时间用；间隔 */
     private String coursePlace;

@@ -32,6 +32,14 @@ public class Course implements Serializable {
     @NotBlank
     private String courseCode;
 
+
+    @NotNull
+    private Boolean enabled;
+
+    @NotNull
+    @Column(name = "join_permission")
+    private Boolean joinPermission;
+
     /** 上课地点*/
     @Column(name = "course_place")
     private String coursePlace;
