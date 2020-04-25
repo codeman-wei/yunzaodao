@@ -1,12 +1,34 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home/class"></ion-back-button>
     </ion-buttons>
-    <ion-title>members</ion-title>
+    <ion-title>{{classInfo.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="card" (click)=signIn() style="text-align: center;">
+    <img height="100px" width="100px" src="/assets/img/signin.png"/>
+    <br />
+    <ion-text>{{signIn_text}}</ion-text>
+  </div>
 
+  <ion-list style="width: 90%;margin: 0 auto;">
+    <ion-list-header>
+      <ion-label>成员总数</ion-label>
+      <ion-text>{{num}}人 </ion-text>
+    </ion-list-header>
+    <ion-item detail *ngFor="let item of memberList" (click)="memberDetail(item.number)">
+      <ion-text slot="start">{{item.id}}</ion-text>
+      <ion-thumbnail slot="start">
+        <ion-img></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{item.name}}</h2>
+        <h2>{{item.exp}}经验值</h2>
+        <p>{{item.number}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

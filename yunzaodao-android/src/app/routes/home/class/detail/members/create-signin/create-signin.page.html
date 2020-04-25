@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/class/detail/members"></ion-back-button>
+    </ion-buttons>
+    <ion-title>发起签到</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      选择签到的方式
+    </ion-list-header>
+    <ion-item lines="full">
+      <ion-grid>
+        <ion-row>
+          <ion-col [routerLink]="['/home/class/detail/members/create-signin/signin']" [queryParams]="{type:'common'}">
+            <ion-row>
+              <ion-icon color="primary" name="rocket" class="icon center"></ion-icon>
+            </ion-row>
+            <ion-row>
+              <ion-text class="center">一键签到</ion-text>
+            </ion-row>
+          </ion-col>
+          <!-- <ion-col [routerLink]="['/home/class/detail/members/create-signin/signin']" [queryParams]="{type:'pattern'}">
+            <ion-row>
+              <ion-icon color="primary" name="apps" class="icon center"></ion-icon>
+            </ion-row>
+            <ion-row>
+              <ion-text class="center">图案签到</ion-text>
+            </ion-row>
+          </ion-col> -->
+          <ion-col [routerLink]="['/home/class/detail/members/create-signin/signin']" [queryParams]="{type:'password'}">
+            <ion-row>
+              <ion-icon color="primary" name="checkmark-done" class="icon center"></ion-icon>
+            </ion-row>
+            <ion-row>
+              <ion-text class="center">密码签到</ion-text>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      历史签到记录
+    </ion-list-header>
+    <ion-item *ngFor="let item of historyList">
+      <ion-label>
+        <h2>{{item.day}} 签到</h2>
+        <p>{{item.time}}</p>
+      </ion-label>
+      <ion-text slot="end">{{item.numSignin}}人/{{item.numMember}}人</ion-text>
+    </ion-item>
+  </ion-list>
+</ion-content>
