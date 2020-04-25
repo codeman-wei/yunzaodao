@@ -68,7 +68,7 @@ public class User implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "job_id")
-    private Job job;
+    private Major major;
 
     @OneToOne
     @JoinColumn(name = "dept_id")

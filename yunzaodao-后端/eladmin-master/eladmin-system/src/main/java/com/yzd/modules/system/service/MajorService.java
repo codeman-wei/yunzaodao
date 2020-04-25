@@ -1,8 +1,8 @@
 package com.yzd.modules.system.service;
 
-import com.yzd.modules.system.domain.Job;
-import com.yzd.modules.system.service.dto.JobDto;
-import com.yzd.modules.system.service.dto.JobQueryCriteria;
+import com.yzd.modules.system.domain.Major;
+import com.yzd.modules.system.service.dto.MajorDto;
+import com.yzd.modules.system.service.dto.MajorQueryCriteria;
 import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,27 +15,27 @@ import java.util.Set;
 * @author Zheng Jie
 * @date 2019-03-29
 */
-public interface JobService {
+public interface MajorService {
 
     /**
      * 根据ID查询
      * @param id /
      * @return /
      */
-    JobDto findById(Long id);
+    MajorDto findById(Long id);
 
     /**
      * 创建
      * @param resources /
      * @return /
      */
-    JobDto create(Job resources);
+    MajorDto create(Major resources);
 
     /**
      * 编辑
      * @param resources /
      */
-    void update(Job resources);
+    void update(Major resources);
 
     /**
      * 删除
@@ -49,14 +49,14 @@ public interface JobService {
      * @param pageable 分页参数
      * @return /
      */
-    Map<String,Object> queryAll(JobQueryCriteria criteria, Pageable pageable);
+    Map<String,Object> queryAll(MajorQueryCriteria criteria, Pageable pageable);
 
     /**
      * 查询全部数据
      * @param criteria /
      * @return /
      */
-    List<JobDto> queryAll(JobQueryCriteria criteria);
+    List<MajorDto> queryAll(MajorQueryCriteria criteria);
 
     /**
      * 导出数据
@@ -64,5 +64,5 @@ public interface JobService {
      * @param response /
      * @throws IOException /
      */
-    void download(List<JobDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<MajorDto> queryAll, HttpServletResponse response) throws IOException;
 }

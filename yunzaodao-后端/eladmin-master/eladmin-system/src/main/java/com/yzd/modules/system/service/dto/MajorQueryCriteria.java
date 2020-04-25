@@ -14,7 +14,7 @@ import java.util.Set;
 */
 @Data
 @NoArgsConstructor
-public class JobQueryCriteria {
+public class MajorQueryCriteria {
 
     @Query(type = Query.Type.INNER_LIKE)
     private String name;

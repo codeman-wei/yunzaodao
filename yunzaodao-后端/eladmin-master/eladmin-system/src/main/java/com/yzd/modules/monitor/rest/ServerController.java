@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-/**
-* @author Zhang houying
-* @date 2019-11-03
-*/
+
 @Api(tags = "服务监控管理")
 @RestController
 @RequestMapping("/api/server")

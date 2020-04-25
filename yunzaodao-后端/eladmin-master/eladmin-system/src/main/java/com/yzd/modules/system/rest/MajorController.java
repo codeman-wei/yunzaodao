@@ -6,9 +6,9 @@ import com.yzd.exception.BadRequestException;
 import com.yzd.utils.ThrowableUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import com.yzd.modules.system.domain.Job;
-import com.yzd.modules.system.service.JobService;
-import com.yzd.modules.system.service.dto.JobQueryCriteria;
+import com.yzd.modules.system.domain.Major;
+import com.yzd.modules.system.service.MajorService;
+import com.yzd.modules.system.service.dto.MajorQueryCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +19,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
-* @author Zheng Jie
-* @date 2019-03-29
-*/
+
 @Api(tags = "系统：岗位管理")
 @RestController
 @RequestMapping("/api/job")
-public class JobController {
+public class MajorController {
 
-    private final JobService jobService;
+    private final MajorService majorService;
 
     private final DataScope dataScope;
 
     private static final String ENTITY_NAME = "job";
 
-    public JobController(JobService jobService, DataScope dataScope) {
-        this.jobService = jobService;
+    public MajorController(MajorService majorService, DataScope dataScope) {
+        this.majorService = majorService;
         this.dataScope = dataScope;
     }
 
@@ -43,37 +40,37 @@ public class JobController {
     @ApiOperation("导出岗位数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('job:list')")
-    public void download(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
-        jobService.download(jobService.queryAll(criteria), response);
+    public void download(HttpServletResponse response, MajorQueryCriteria criteria) throws IOException {
+        majorService.download(majorService.queryAll(criteria), response);
     }
 
     @Log("查询岗位")
     @ApiOperation("查询岗位")
     @GetMapping
     @PreAuthorize("@el.check('job:list','user:list')")
-    public ResponseEntity<Object> getJobs(JobQueryCriteria criteria, Pageable pageable){
+    public ResponseEntity<Object> getJobs(MajorQueryCriteria criteria, Pageable pageable){
         // 数据权限
         criteria.setDeptIds(dataScope.getDeptIds());
-        return new ResponseEntity<>(jobService.queryAll(criteria, pageable),HttpStatus.OK);
+        return new ResponseEntity<>(majorService.queryAll(criteria, pageable),HttpStatus.OK);
     }
 
     @Log("新增岗位")
     @ApiOperation("新增岗位")
     @PostMapping
     @PreAuthorize("@el.check('job:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody Job resources){
+    public ResponseEntity<Object> create(@Validated @RequestBody Major resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
-        return new ResponseEntity<>(jobService.create(resources),HttpStatus.CREATED);
+        return new ResponseEntity<>(majorService.create(resources),HttpStatus.CREATED);
     }
 
     @Log("修改岗位")
     @ApiOperation("修改岗位")
     @PutMapping
     @PreAuthorize("@el.check('job:edit')")
-    public ResponseEntity<Object> update(@Validated(Job.Update.class) @RequestBody Job resources){
-        jobService.update(resources);
+    public ResponseEntity<Object> update(@Validated(Major.Update.class) @RequestBody Major resources){
+        majorService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -83,7 +80,7 @@ public class JobController {
     @PreAuthorize("@el.check('job:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
         try {
-            jobService.delete(ids);
+            majorService.delete(ids);
         }catch (Throwable e){
             ThrowableUtil.throwForeignKeyException(e, "所选岗位存在用户关联，请取消关联后再试");
         }

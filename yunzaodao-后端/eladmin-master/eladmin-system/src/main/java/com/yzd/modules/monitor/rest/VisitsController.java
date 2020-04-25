@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Zheng Jie
- * @date 2018-12-13
- */
+import javax.servlet.http.HttpServletRequest;
+
+
 @RestController
 @RequestMapping("/api/visits")
 @Api(tags = "系统:访问记录管理")
@@ -28,8 +27,8 @@ public class VisitsController {
 
     @PostMapping
     @ApiOperation("创建访问记录")
-    public ResponseEntity<Object> create(){
-        visitsService.count(RequestHolder.getHttpServletRequest());
+    public ResponseEntity<Object> create(HttpServletRequest request){
+        visitsService.count(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

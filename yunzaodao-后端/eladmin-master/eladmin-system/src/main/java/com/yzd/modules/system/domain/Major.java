@@ -11,15 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
-* @author Zheng Jie
-* @date 2019-03-29
-*/
 @Entity
 @Getter
 @Setter
-@Table(name="job")
-public class Job implements Serializable {
+@Table(name="major")
+public class Major implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

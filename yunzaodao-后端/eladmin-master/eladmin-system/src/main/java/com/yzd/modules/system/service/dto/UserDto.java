@@ -38,7 +38,7 @@ public class UserDto implements Serializable {
     private Set<RoleSmallDto> roles;
 
     @ApiModelProperty(hidden = true)
-    private JobSmallDto job;
+    private MajorSmallDto job;
 
     private DeptSmallDto dept;
 

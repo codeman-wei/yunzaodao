@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
+import CountTo from 'vue-count-to' // 数字滚动插件
 import { get } from '@/api/monitor/visits'
 export default {
   components: {

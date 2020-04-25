@@ -20,10 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
-* @author Zhang houying
-* @date 2019-11-03
-*/
+
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ServerServiceImpl implements ServerService {

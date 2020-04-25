@@ -7,14 +7,11 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
-* @author Zheng Jie
-* @date 2019-03-29
-*/
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class JobDto implements Serializable {
+public class MajorDto implements Serializable {
 
     private Long id;
 
@@ -30,7 +27,7 @@ public class JobDto implements Serializable {
 
     private Timestamp createTime;
 
-    public JobDto(String name, Boolean enabled) {
+    public MajorDto(String name, Boolean enabled) {
         this.name = name;
         this.enabled = enabled;
     }

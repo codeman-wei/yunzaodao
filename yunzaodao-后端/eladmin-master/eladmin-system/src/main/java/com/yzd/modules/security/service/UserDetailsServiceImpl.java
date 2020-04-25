@@ -4,7 +4,7 @@ import com.yzd.exception.BadRequestException;
 import com.yzd.modules.system.service.RoleService;
 import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.system.service.dto.DeptSmallDto;
-import com.yzd.modules.system.service.dto.JobSmallDto;
+import com.yzd.modules.system.service.dto.MajorSmallDto;
 import com.yzd.modules.system.service.dto.UserDto;
 import com.yzd.modules.security.security.vo.JwtUser;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getEmail(),
                 user.getPhone(),
                 Optional.ofNullable(user.getDept()).map(DeptSmallDto::getName).orElse(null),
-                Optional.ofNullable(user.getJob()).map(JobSmallDto::getName).orElse(null),
+                Optional.ofNullable(user.getJob()).map(MajorSmallDto::getName).orElse(null),
                 roleService.mapToGrantedAuthorities(user),
                 user.getEnabled(),
                 user.getCreateTime(),
