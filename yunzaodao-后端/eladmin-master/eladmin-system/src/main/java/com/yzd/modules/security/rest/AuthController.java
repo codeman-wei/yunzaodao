@@ -4,6 +4,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.wf.captcha.ArithmeticCaptcha;
+import com.wf.captcha.GifCaptcha;
+import com.wf.captcha.SpecCaptcha;
+import com.wf.captcha.base.Captcha;
 import com.yzd.annotation.AnonymousAccess;
 import com.yzd.aop.log.Log;
 import com.yzd.exception.BadRequestException;
@@ -34,8 +37,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
  * 授权、根据token获取用户详细信息
  */
 @Slf4j
@@ -125,10 +126,13 @@ public class AuthController {
     @ApiOperation("获取验证码")
     @GetMapping(value = "/code")
     public ResponseEntity<Object> getCode(){
-        // 算术类型 https://gitee.com/whvse/EasyCaptcha
-        ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);
-        // 几位数运算，默认是两位
-        captcha.setLen(2);
+//        // 算术类型 https://gitee.com/whvse/EasyCaptcha
+//        ArithmeticCaptcha captcha = new ArithmeticCaptcha(111, 36);
+//        // 几位数运算，默认是两位
+//        captcha.setLen(2);
+        GifCaptcha captcha = new GifCaptcha(111, 36, 4);
+        captcha.setCharType(Captcha.TYPE_ONLY_NUMBER);
+
         // 获取运算的结果
         String result = captcha.text();
         String uuid = properties.getCodeKey() + IdUtil.simpleUUID();

@@ -8,7 +8,7 @@
             v-model="deptName"
             clearable
             size="small"
-            placeholder="输入专业名称搜索"
+            placeholder="输入院校名称搜索"
             prefix-icon="el-icon-search"
             class="filter-item"
             @input="getDeptDatas"
@@ -77,7 +77,7 @@
             <el-form-item label="电话" prop="phone">
               <el-input v-model.number="form.phone" />
             </el-form-item>
-            <el-form-item label="昵称" prop="nickName">
+            <el-form-item label="真实姓名" prop="nickName">
               <el-input v-model="form.nickName" />
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
@@ -91,16 +91,6 @@
                 placeholder="选择学院"
               />
             </el-form-item>
-            <!-- <el-form-item label="专业" prop="job.id">
-              <el-select v-model="form.job.id" style="width: 178px" placeholder="请先选择专业">
-                <el-option
-                  v-for="(item, index) in jobs"
-                  :key="item.name + index"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item> -->
             <el-form-item label="性别">
               <el-radio-group v-model="form.sex" style="width: 178px">
                 <el-radio label="男">男</el-radio>
@@ -144,7 +134,7 @@
         <el-table ref="table" v-loading="crud.loading" :data="crud.data" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
           <el-table-column :selectable="checkboxT" type="selection" width="55" />
           <el-table-column v-if="columns.visible('username')" :show-overflow-tooltip="true" prop="username" label="用户名" align="center" />
-          <el-table-column v-if="columns.visible('nickName')" :show-overflow-tooltip="true" prop="nickName" label="昵称" align="center" />
+          <el-table-column v-if="columns.visible('nickName')" :show-overflow-tooltip="true" prop="nickName" label="姓名" align="center" />
           <el-table-column v-if="columns.visible('sex')" prop="sex" label="性别" align="center" />
           <el-table-column v-if="columns.visible('phone')" :show-overflow-tooltip="true" prop="phone" width="100" label="电话" align="center" />
           <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" width="125" prop="email" label="邮箱" align="center" />

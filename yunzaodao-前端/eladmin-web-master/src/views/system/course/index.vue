@@ -42,6 +42,17 @@
           <el-form-item label="授课教师">
             <el-input v-model="form.teacherName" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="所属学期">
+            <!-- <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" /> -->
+            <el-select v-model="form.semester" placeholder="选择所属学期">
+              <el-option
+                v-for="item in dict.course_semester"
+                :key="item.id"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item label="状态" prop="enabled">
             <el-radio v-for="item in dict.course_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
           </el-form-item>
@@ -66,7 +77,8 @@
         <el-table-column v-if="columns.visible('courseName')" prop="courseName" label="课程名" />
         <el-table-column v-if="columns.visible('courseCode')" prop="courseCode" label="课程编码" />
         <el-table-column v-if="columns.visible('coursePlace')" prop="coursePlace" label="上课地点" />
-        <el-table-column v-if="columns.visible('courseTime')" prop="courseTime" label="上课时间" />
+        <!-- <el-table-column v-if="columns.visible('courseTime')" prop="courseTime" label="上课时间" /> -->
+        <el-table-column v-if="columns.visible('semester')" prop="semester" label="所属学期" />
         <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" />
         <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" />
         <el-table-column v-if="columns.visible('college')" prop="college.name" label="归属学院" />
@@ -108,12 +120,12 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null }
+const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null, semester: null }
 export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
-  dicts: ['course_status'],
+  dicts: ['course_status', 'course_semester'],
   data() {
     return {
       deptName: '', colleges: [],

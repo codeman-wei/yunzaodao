@@ -33,6 +33,8 @@ public class CourseDto implements Serializable {
     /** 上课时间 */
     private String courseTime;
 
+    private String semester;
+
     /** 选课人数 */
     private Integer studentCount;
 

@@ -7,10 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
-/**
-* @author wdc
-* @date 2020-03-20
-*/
+
 @Entity
 @Data
 @Table(name="course")
@@ -39,6 +36,9 @@ public class Course implements Serializable {
     @NotNull
     @Column(name = "join_permission")
     private Boolean joinPermission;
+
+    @Column
+    private String semester;
 
     /** 上课地点*/
     @Column(name = "course_place")
