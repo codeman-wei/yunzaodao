@@ -76,10 +76,18 @@ public class CourseServiceImpl implements CourseService {
     //@CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public CourseDto create(Course resources) {
+        /*获得创建人信息*/
         UserDto user = userService.findByName(SecurityUtils.getUsername());
         if(user != null) {
             resources.setCreateUser(userMapper.toEntity(user));
         }
+        /*随机生成课程码*/
+        String courseCode = StringUtils.randomNumStr(7);
+        List<String> codes = courseRepository.findCourseCodes();
+        while (codes.contains(courseCode)) {
+            courseCode = StringUtils.randomNumStr(7);
+        }
+        resources.setCourseCode(courseCode);
         return courseMapper.toDto(courseRepository.save(resources));
     }
 

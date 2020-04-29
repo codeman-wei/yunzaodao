@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
@@ -23,6 +24,20 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private static final char SEPARATOR = '_';
 
     private static final String UNKNOWN = "unknown";
+
+
+    /**
+     * 随机生成指定位数数字串,首位不为零
+     */
+    public static String randomNumStr(int n) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(n);
+        sb.append((char) ('1' + random.nextInt(9)));
+        for (int i = 1; i < n; i++) {
+            sb.append((char) ('0' + random.nextInt(10)));
+        }
+        return sb.toString();
+    }
 
     /**
      * 驼峰命名法工具

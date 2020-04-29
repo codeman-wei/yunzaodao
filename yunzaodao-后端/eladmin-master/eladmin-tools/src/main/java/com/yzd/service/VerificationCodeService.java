@@ -3,10 +3,7 @@ package com.yzd.service;
 import com.yzd.domain.VerificationCode;
 import com.yzd.domain.vo.EmailVo;
 
-/**
- * @author Zheng Jie
- * @date 2018-12-26
- */
+
 public interface VerificationCodeService {
 
     /**

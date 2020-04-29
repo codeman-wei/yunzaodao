@@ -23,7 +23,7 @@ public class Dict implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @NotNull(groups = Update.class)
+//    @NotNull(groups = Update.class)
     private Long id;
 
     @Column(name = "name",nullable = false,unique = true)

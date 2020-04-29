@@ -29,9 +29,6 @@
           <el-form-item label="课程名" prop="courseName">
             <el-input v-model="form.courseName" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="课程编码" prop="courseCode">
-            <el-input v-model="form.courseCode" style="width: 370px;" />
-          </el-form-item>
           <el-form-item label="上课地点">
             <el-input v-model="form.coursePlace" style="width: 370px;" />
           </el-form-item>
@@ -137,9 +134,6 @@ export default {
       rules: {
         courseName: [
           { required: true, message: '课程名不能为空', trigger: 'blur' }
-        ],
-        courseCode: [
-          { required: true, message: '课程编码不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [

@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @author Zheng Jie
- * @date 2018-12-26
- */
+
 @RestController
 @RequestMapping("/api/code")
 @Api(tags = "工具：验证码管理")

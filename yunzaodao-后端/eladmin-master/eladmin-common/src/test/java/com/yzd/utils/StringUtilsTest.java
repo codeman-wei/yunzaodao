@@ -40,4 +40,11 @@ public class StringUtilsTest {
     public void testGetIP() {
         Assert.assertEquals("127.0.0.1", StringUtils.getIp(new MockHttpServletRequest()));
     }
+
+    @Test
+    public void randomNumStr() {
+        String test = StringUtils.randomNumStr(7);
+
+        System.out.println(test);
+    }
 }

@@ -34,7 +34,7 @@
 			maigin-bottom: 10px;
 			font-size: 14px;
             color: #555;">
-            <p style="line-height: 12px;">Github：<a hover="color: #DA251D;" style="color: #999;" href="https://github.com/elunez/eladmin" target="_blank">https://github.com/elunez/eladmin</a></p>
+            <p style="line-height: 12px;">Github：<a hover="color: #DA251D;" style="color: #999;" href="https://github.com/codeman-wei/yunzaodao" target="_blank">https://github.com/codeman-wei/yunzaodao</a></p>
         </div>
         <div class="foot-hr hr" style="margin: 0 auto;
 			z-index: 111;
@@ -46,7 +46,7 @@
 			font-size: 12px;
 			padding: 20px 0px;
 			font-family: Microsoft YaHei;">
-                Copyright &copy;${.now?string("yyyy")} EL-ADMIN 后台管理系统 All Rights Reserved.
+                Copyright &copy;${.now?string("yyyy")} 云早到 后台管理系统 All Rights Reserved.
         </div>
 
     </div>

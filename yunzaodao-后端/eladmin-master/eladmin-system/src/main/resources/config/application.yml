@@ -2,6 +2,8 @@ server:
   port: 8000
 
 spring:
+  mail:
+    password: nperlbxtsprsbieh
   freemarker:
     check-template-location: false
   profiles:
@@ -60,3 +62,4 @@ rsa:
 # sm.ms 图床的 token
 smms:
   token: 1oOP3ykFDI0K6ifmtvU7c8Y1eTWZSlyl
+

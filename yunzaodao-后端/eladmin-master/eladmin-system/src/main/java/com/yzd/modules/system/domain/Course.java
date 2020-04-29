@@ -3,6 +3,8 @@ package com.yzd.modules.system.domain;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import org.springframework.web.servlet.DispatcherServlet;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -12,7 +14,6 @@ import java.io.Serializable;
 @Data
 @Table(name="course")
 public class Course implements Serializable {
-
     /** 课程id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,6 @@ public class Course implements Serializable {
 
     /** 课程编码 */
     @Column(name = "course_code",nullable = false)
-    @NotBlank
     private String courseCode;
 
 
