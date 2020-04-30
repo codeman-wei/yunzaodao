@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/4/11 10:43:44                           */
+/* Created on:     2020/4/30 21:18:22                           */
 /*==============================================================*/
 
 
@@ -46,9 +46,6 @@ create table button
 create table course
 (
    id                   bigint not null,
-   s_id                 bigint not null,
-   t_id                 bigint not null,
-   qr_code              varchar(20) not null,
    course_id            varchar(10) not null,
    course_name          varchar(20) not null,
    school               varchar(20) not null,
@@ -56,7 +53,7 @@ create table course
    class_time           date not null,
    teacher_name         varchar(20) not null,
    is_over              tinyint not null,
-   creater              int not null,
+   creater              bigint not null,
    creation_date        datetime not null,
    modification_date    datetime not null,
    modifier             int not null,
@@ -101,15 +98,13 @@ create table dictionary_type
 create table login
 (
    id                   bigint not null,
-   u_id                 bigint not null,
+   uid                  bigint not null,
    account              varchar(20) not null,
    token                varchar(20) not null,
    qr_code              varchar(20),
-   type                 int not null,
-   creater              int not null,
-   creation_date        datetime not null,
-   modification_date    datetime not null,
-   modifier             int not null,
+   type                 bigint not null,
+   update_time          datetime,
+   create_time          datetime,
    primary key (id)
 );
 
@@ -177,13 +172,9 @@ create table sign_on_info
 (
    id                   bigint not null,
    sign_id              bigint not null,
-   u_id                 bigint not null,
-   distance             int,
+   uid                  bigint not null,
+   distance             bigint not null,
    sign_time            datetime,
-   creater              int not null,
-   creation_date        datetime not null,
-   modification_date    datetime not null,
-   modifier             int not null,
    primary key (id)
 );
 
@@ -193,6 +184,8 @@ create table sign_on_info
 create table user
 (
    id                   bigint not null,
+   user                 varchar(20) not null,
+   pass_word            varchar(20) not null,
    user_name            varchar(10) not null,
    sex                  bit not null,
    u_id                 varchar(20) not null,
@@ -203,21 +196,15 @@ create table user
    role_id              bigint,
    creater              int not null,
    creation_date        datetime not null,
-   modification_date    datetime not null,
+   modification_date1   datetime not null,
    modifier             int not null,
    primary key (id)
 );
 
-alter table course add constraint FK_Reference_3 foreign key (s_id)
-      references user (id) on delete restrict on update restrict;
-
-alter table course add constraint FK_Reference_4 foreign key (t_id)
-      references user (id) on delete restrict on update restrict;
-
 alter table dictionary_type add constraint FK_Reference_2 foreign key (detail_id)
       references dictionary_detail (id) on delete restrict on update restrict;
 
-alter table login add constraint FK_Reference_8 foreign key (u_id)
+alter table login add constraint FK_Reference_8 foreign key (uid)
       references user (id) on delete restrict on update restrict;
 
 alter table role add constraint FK_Reference_6 foreign key (b_id)
