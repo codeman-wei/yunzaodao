@@ -29,15 +29,23 @@
           <el-form-item label="课程名" prop="courseName">
             <el-input v-model="form.courseName" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="上课地点">
+          <!-- <el-form-item label="上课地点">
             <el-input v-model="form.coursePlace" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="上课时间">
-            <!-- <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" /> -->
+          </el-form-item> -->
+          <!-- <el-form-item label="上课时间">
             <el-input v-model="form.courseTime" style="width: 370px;" />
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="授课教师">
             <el-input v-model="form.teacherName" style="width: 370px;" />
+          </el-form-item>
+          <el-form-item label="归属学院" style="width: 370px;">
+            <treeselect
+              v-model="form.college.id"
+              :options="colleges"
+              style="width: 370px"
+              placeholder="选择学院"
+            />
+            <!-- <el-input v-model="form.belongCollege" style="width: 370px;" /> -->
           </el-form-item>
           <el-form-item label="所属学期">
             <!-- <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" /> -->
@@ -53,15 +61,6 @@
           <el-form-item label="状态" prop="enabled">
             <el-radio v-for="item in dict.course_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
           </el-form-item>
-          <el-form-item label="归属学院" style="width: 370px;">
-            <treeselect
-              v-model="form.college.id"
-              :options="colleges"
-              style="width: 370px"
-              placeholder="选择学院"
-            />
-            <!-- <el-input v-model="form.belongCollege" style="width: 370px;" /> -->
-          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -71,14 +70,14 @@
       <!--表格渲染-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
-        <el-table-column v-if="columns.visible('courseName')" prop="courseName" label="课程名" />
-        <el-table-column v-if="columns.visible('courseCode')" prop="courseCode" label="课程编码" />
-        <el-table-column v-if="columns.visible('coursePlace')" prop="coursePlace" label="上课地点" />
+        <el-table-column v-if="columns.visible('courseName')" prop="courseName" label="课程名" align="center" />
+        <el-table-column v-if="columns.visible('courseCode')" prop="courseCode" label="课程编码" align="center" />
+        <!-- <el-table-column v-if="columns.visible('coursePlace')" prop="coursePlace" label="上课地点" /> -->
         <!-- <el-table-column v-if="columns.visible('courseTime')" prop="courseTime" label="上课时间" /> -->
-        <el-table-column v-if="columns.visible('semester')" prop="semester" label="所属学期" />
-        <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" />
-        <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" />
-        <el-table-column v-if="columns.visible('college')" prop="college.name" label="归属学院" />
+        <el-table-column v-if="columns.visible('semester')" prop="semester" label="所属学期" align="center" />
+        <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" align="center" />
+        <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" align="center" />
+        <el-table-column v-if="columns.visible('college')" prop="college.name" min-width="140px" label="归属学院" align="center" />
         <el-table-column v-if="columns.visible('enabled')" label="状态" align="center" prop="enabled">
           <template slot-scope="scope">
             <el-switch
@@ -117,7 +116,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', coursePlace: null, courseTime: null, studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, startTime: null, endTime: null, semester: null }
+const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, semester: null }
 export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },

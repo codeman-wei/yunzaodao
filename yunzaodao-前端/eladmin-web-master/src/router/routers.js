@@ -10,6 +10,11 @@ export const constantRouterMap = [
     component: () => import('@/views/login'),
     hidden: true
   },
+  { path: '/forget',
+    meta: { title: '忘记密码', noCache: true },
+    component: () => import('@/views/forget'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/features/404'),

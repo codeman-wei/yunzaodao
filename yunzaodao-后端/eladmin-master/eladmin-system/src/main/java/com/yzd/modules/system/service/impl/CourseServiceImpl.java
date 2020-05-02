@@ -116,15 +116,11 @@ public class CourseServiceImpl implements CourseService {
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("课程名", course.getCourseName());
             map.put("课程编码", course.getCourseCode());
-            map.put("上课地点，星期与时间用；间隔", course.getCoursePlace());
-            map.put("上课时间", course.getCourseTime());
             map.put("选课人数", course.getStudentCount());
             map.put("授课教师姓名", course.getTeacherName());
             map.put("归属学院", course.getCollege().getName());
             map.put("课程创建者", course.getUserName());
             map.put("签到发起次数", course.getSignCount());
-            map.put("课程开始时间", course.getStartTime());
-            map.put("课程截止时间", course.getEndTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

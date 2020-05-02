@@ -3,6 +3,7 @@ package com.yzd.modules.system.service;
 import com.yzd.modules.system.domain.User;
 import com.yzd.modules.system.service.dto.UserDto;
 import com.yzd.modules.system.service.dto.UserQueryCriteria;
+import com.yzd.utils.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,8 @@ public interface UserService {
      * @return /
      */
     UserDto findByName(String userName);
+
+    void checkExist(String userName);
 
     /**
      * 修改密码

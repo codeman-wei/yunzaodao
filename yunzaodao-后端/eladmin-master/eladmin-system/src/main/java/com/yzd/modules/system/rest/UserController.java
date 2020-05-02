@@ -2,10 +2,14 @@ package com.yzd.modules.system.rest;
 
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import com.yzd.annotation.AnonymousAccess;
 import com.yzd.aop.log.Log;
 import com.yzd.config.DataScope;
 import com.yzd.domain.VerificationCode;
+import com.yzd.domain.vo.EmailVo;
 import com.yzd.exception.BadRequestException;
+import com.yzd.modules.system.domain.vo.ResetPassVo;
+import com.yzd.service.EmailService;
 import com.yzd.service.VerificationCodeService;
 import com.yzd.utils.ElAdminConstant;
 import com.yzd.utils.PageUtil;
@@ -53,14 +57,16 @@ public class UserController {
     private final DeptService deptService;
     private final RoleService roleService;
     private final VerificationCodeService verificationCodeService;
+    private final EmailService emailService;
 
-    public UserController(PasswordEncoder passwordEncoder, UserService userService, DataScope dataScope, DeptService deptService, RoleService roleService, VerificationCodeService verificationCodeService) {
+    public UserController(PasswordEncoder passwordEncoder, UserService userService, DataScope dataScope, DeptService deptService, RoleService roleService, VerificationCodeService verificationCodeService, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.dataScope = dataScope;
         this.deptService = deptService;
         this.roleService = roleService;
         this.verificationCodeService = verificationCodeService;
+        this.emailService = emailService;
     }
 
     @Log("导出用户数据")
@@ -156,6 +162,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * 主要用于已登录用户的修改密码操作
+     * @param passVo
+     * @return
+     */
     @ApiOperation("修改密码")
     @PostMapping(value = "/updatePass")
     public ResponseEntity<Object> updatePass(@RequestBody UserPassVo passVo){
@@ -171,6 +182,36 @@ public class UserController {
             throw new BadRequestException("新密码不能与旧密码相同");
         }
         userService.updatePass(user.getUsername(),passwordEncoder.encode(newPass));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 主要用于忘记密码的重置操作
+     * @param passVo
+     * @return
+     */
+    @ApiOperation("忘记密码，重置")
+    @PostMapping(value = "/resetPass")
+    @AnonymousAccess
+    public ResponseEntity<Object> resetPass(@RequestBody ResetPassVo passVo){
+        // 密码解密
+        RSA rsa = new RSA(privateKey, null);
+        String newPass = new String(rsa.decrypt(passVo.getPassword(), KeyType.PrivateKey));
+        UserDto user = userService.findByName(passVo.getEmail());
+        userService.updatePass(user.getUsername(),passwordEncoder.encode(newPass));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/emailCode")
+    @ApiOperation("重置密码，发送验证码")
+    @AnonymousAccess
+    public ResponseEntity<Object> resetPass(@RequestBody VerificationCode code) throws Exception{
+        // 验证用户是否存在
+        userService.checkExist(code.getValue());
+        code.setScenes(ElAdminConstant.RESET_PASS);
+        EmailVo emailVo = verificationCodeService.sendEmail(code);
+        emailVo.setSubject("云早到后台管理系统重置密码验证");
+        emailService.send(emailVo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

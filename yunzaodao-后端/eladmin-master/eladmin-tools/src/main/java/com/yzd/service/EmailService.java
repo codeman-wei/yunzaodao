@@ -32,4 +32,7 @@ public interface EmailService {
      */
     @Async
     void send(EmailVo emailVo, EmailConfig emailConfig) throws Exception;
+
+    @Async
+    void send(EmailVo emailVo);
 }

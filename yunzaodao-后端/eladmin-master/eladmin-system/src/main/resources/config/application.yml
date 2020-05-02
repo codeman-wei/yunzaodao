@@ -2,8 +2,6 @@ server:
   port: 8000
 
 spring:
-  mail:
-    password: nperlbxtsprsbieh
   freemarker:
     check-template-location: false
   profiles:
@@ -62,4 +60,11 @@ rsa:
 # sm.ms 图床的 token
 smms:
   token: 1oOP3ykFDI0K6ifmtvU7c8Y1eTWZSlyl
+
+email:
+  host: smtp.163.com
+  pass: LDPJQOEWOELONVIE
+  port: 465
+  fromUser: 15980266329@163.com
+  user: 云早到后台管理系统
 

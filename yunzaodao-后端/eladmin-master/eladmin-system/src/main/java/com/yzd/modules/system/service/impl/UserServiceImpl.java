@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author Zheng Jie
- * @date 2018-11-23
- */
+
 @Service
 @CacheConfig(cacheNames = "user")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -158,6 +155,19 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(User.class, "name", userName);
         } else {
             return userMapper.toDto(user);
+        }
+    }
+
+    @Override
+    public void checkExist(String userName) {
+        User user;
+        if(ValidationUtil.isEmail(userName)){
+            user = userRepository.findByEmail(userName);
+        } else {
+            user = userRepository.findByUsername(userName);
+        }
+        if (user == null) {
+            throw new RuntimeException("该用户不存在");
         }
     }
 

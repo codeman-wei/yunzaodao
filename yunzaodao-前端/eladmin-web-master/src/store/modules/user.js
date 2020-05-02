@@ -44,6 +44,16 @@ const user = {
       })
     },
 
+    // // 忘记密码,重置
+    // ResetPass({commit}, info) {
+    //   // const email = info.getEmail
+    //   return new Promise((resolve, reject) => {
+    //     resetPass(info).then(res => {
+
+    //     })
+    //   })
+    // },
+
     // 获取用户信息
     GetInfo({ commit }) {
       return new Promise((resolve, reject) => {

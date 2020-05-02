@@ -7,10 +7,24 @@ export function resetEmail(data) {
     data
   })
 }
-
 export function updatePass(pass) {
   return request({
     url: 'api/users/updatePass/' + pass,
     method: 'get'
+  })
+}
+export function resetPass(data) {
+  return request({
+    url: 'api/users/emailCode',
+    method: 'post',
+    data
+  })
+}
+
+export function validate(data) {
+  return request({
+    url: 'api/code/validated',
+    method: 'post',
+    data
   })
 }

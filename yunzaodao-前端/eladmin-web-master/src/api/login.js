@@ -33,3 +33,12 @@ export function logout() {
     method: 'delete'
   })
 }
+
+// 忘记密码操作
+export function changePass(data) {
+  return request({
+    url: 'api/users/resetPass',
+    method: 'post',
+    data
+  })
+}

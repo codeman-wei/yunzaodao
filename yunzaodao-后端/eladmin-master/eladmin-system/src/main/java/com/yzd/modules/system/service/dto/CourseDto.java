@@ -27,12 +27,6 @@ public class CourseDto implements Serializable {
     @NotNull
     private Boolean joinPermission;
 
-    /** 上课地点，星期与时间用；间隔 */
-    private String coursePlace;
-
-    /** 上课时间 */
-    private String courseTime;
-
     private String semester;
 
     /** 选课人数 */
@@ -50,9 +44,4 @@ public class CourseDto implements Serializable {
     /** 签到发起次数 */
     private Integer signCount;
 
-    /** 课程开始时间 */
-    private String startTime;
-
-    /** 课程截止时间 */
-    private String endTime;
 }

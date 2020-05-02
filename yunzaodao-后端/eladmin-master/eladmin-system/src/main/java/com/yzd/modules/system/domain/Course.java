@@ -40,13 +40,6 @@ public class Course implements Serializable {
     @Column
     private String semester;
 
-    /** 上课地点*/
-    @Column(name = "course_place")
-    private String coursePlace;
-
-    /** 上课时间 */
-    @Column(name = "course_time")
-    private String courseTime;
 
     /** 选课人数 */
     @Column(name = "student_count")
@@ -70,14 +63,6 @@ public class Course implements Serializable {
     @Column(name = "sign_count")
     private Integer signCount;
 
-
-    /** 课程开始时间 */
-    @Column(name = "start_time")
-    private String startTime;
-
-    /** 课程截止时间 */
-    @Column(name = "end_time")
-    private String endTime;
 
     public void copy(Course source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));

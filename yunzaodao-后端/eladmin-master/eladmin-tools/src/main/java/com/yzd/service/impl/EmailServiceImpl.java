@@ -2,13 +2,16 @@ package com.yzd.service.impl;
 
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
+import com.yzd.config.EmailConfigProperties;
 import com.yzd.domain.EmailConfig;
 import com.yzd.domain.vo.EmailVo;
 import com.yzd.exception.BadRequestException;
 import com.yzd.service.EmailService;
 import com.yzd.utils.EncryptUtils;
 import com.yzd.repository.EmailRepository;
+import com.yzd.utils.SpringContextHolder;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
-/**
- * @author Zheng Jie
- * @date 2018-12-26
- */
+
 @Service
 @CacheConfig(cacheNames = "email")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @CachePut(key = "'1'")
+//    @CachePut(key = "'1'")
     @Transactional(rollbackFor = Exception.class)
     public EmailConfig update(EmailConfig emailConfig, EmailConfig old) {
         try {
@@ -47,12 +47,16 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @Cacheable(key = "'1'")
     public EmailConfig find() {
         Optional<EmailConfig> emailConfig = emailRepository.findById(1L);
         return emailConfig.orElseGet(EmailConfig::new);
     }
 
+    /**
+     * 邮箱配置参数是从数据库获取的
+     * @param emailVo 邮件发送的内容
+     * @param emailConfig 邮件配置
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void send(EmailVo emailVo, EmailConfig emailConfig){
@@ -71,6 +75,38 @@ public class EmailServiceImpl implements EmailService {
             throw new BadRequestException(e.getMessage());
         }
         account.setFrom(emailConfig.getUser()+"<"+emailConfig.getFromUser()+">");
+        // ssl方式发送
+        account.setSslEnable(true);
+        String content = emailVo.getContent();
+        // 发送
+        try {
+            int size = emailVo.getTos().size();
+            Mail.create(account)
+                    .setTos(emailVo.getTos().toArray(new String[size]))
+                    .setTitle(emailVo.getSubject())
+                    .setContent(content)
+                    .setHtml(true)
+                    //关闭session
+                    .setUseGlobalSession(false)
+                    .send();
+        }catch (Exception e){
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    /**
+     * 从.yml中直接获取邮箱配置，而不用数据库获取的方法
+     * */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void send(EmailVo emailVo){
+        EmailConfigProperties properties = SpringContextHolder.getBean(EmailConfigProperties.class);
+        MailAccount account = new MailAccount();
+        account.setHost(properties.getHost());
+        account.setPort(Integer.parseInt(properties.getPort()));
+        account.setAuth(true);
+        account.setPass(properties.getPass());
+        account.setFrom(properties.getUser()+"<"+properties.getFromUser()+">");
         // ssl方式发送
         account.setSslEnable(true);
         String content = emailVo.getContent();

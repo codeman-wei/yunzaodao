@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 发送邮件
- * @author 郑杰
- * @date 2018/09/28 6:55:53
  */
 @RestController
 @RequestMapping("api/email")
@@ -44,7 +42,8 @@ public class EmailController {
     @PostMapping
     @ApiOperation("发送邮件")
     public ResponseEntity<Object> send(@Validated @RequestBody EmailVo emailVo) throws Exception {
-        emailService.send(emailVo,emailService.find());
+//        emailService.send(emailVo,emailService.find());
+        emailService.send(emailVo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
