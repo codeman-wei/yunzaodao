@@ -24,31 +24,26 @@
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
-        <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="570px">
+        <el-form ref="form" :model="form" :inline="true" :rules="rules" size="small" label-width="68px">
           <el-form-item label="课程名" prop="courseName">
             <el-input v-model="form.courseName" style="width: 370px;" />
           </el-form-item>
-          <!-- <el-form-item label="上课地点">
-            <el-input v-model="form.coursePlace" style="width: 370px;" />
-          </el-form-item> -->
-          <!-- <el-form-item label="上课时间">
-            <el-input v-model="form.courseTime" style="width: 370px;" />
-          </el-form-item> -->
-          <el-form-item label="授课教师">
-            <el-input v-model="form.teacherName" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="归属学院" style="width: 370px;">
+          <el-form-item label="学院">
             <treeselect
               v-model="form.college.id"
               :options="colleges"
               style="width: 370px"
               placeholder="选择学院"
             />
-            <!-- <el-input v-model="form.belongCollege" style="width: 370px;" /> -->
           </el-form-item>
-          <el-form-item label="所属学期">
-            <!-- <el-date-picker v-model="form.courseTime" type="datetime" style="width: 370px;" /> -->
+          <el-form-item label="教师">
+            <el-input v-model="form.teacherName" style="width:187px" />
+          </el-form-item>
+          <el-form-item label="开放" prop="joinPermission">
+            <el-radio v-for="item in dict.course_permission" :key="item.id" v-model="form.joinPermission" :label="item.value">{{ item.label }}</el-radio>
+          </el-form-item>
+          <el-form-item label=" 学期">
             <el-select v-model="form.semester" placeholder="选择所属学期">
               <el-option
                 v-for="item in dict.course_semester"
@@ -69,15 +64,36 @@
       </el-dialog>
       <!--表格渲染-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
-        <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" width="46" />
+        <el-table-column type="expand" width="25">
+          <template slot-scope="props">
+            <el-timeline>
+              <el-timeline-item timestamp="2018/4/12 20:46" placement="top">
+                <el-card>
+                  <h4>{{ props.row.courseName }}</h4>
+                  <p>提交于 2018/4/12 20:46</p>
+                </el-card>
+              </el-timeline-item>
+              <el-timeline-item timestamp="2020/4/3" placement="top">
+                <el-card>
+                  <h4>更新 Github 模板</h4>
+                  <p>王小虎 提交于 2018/4/3 20:46</p>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </template>
+        </el-table-column>
         <el-table-column v-if="columns.visible('courseName')" prop="courseName" label="课程名" align="center" />
         <el-table-column v-if="columns.visible('courseCode')" prop="courseCode" label="课程编码" align="center" />
-        <!-- <el-table-column v-if="columns.visible('coursePlace')" prop="coursePlace" label="上课地点" /> -->
-        <!-- <el-table-column v-if="columns.visible('courseTime')" prop="courseTime" label="上课时间" /> -->
         <el-table-column v-if="columns.visible('semester')" prop="semester" label="所属学期" align="center" />
-        <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" align="center" />
+        <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="getMembers(scope.row.id)">{{ scope.row.studentCount }}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column v-if="columns.visible('teacherName')" prop="teacherName" label="授课教师" align="center" />
         <el-table-column v-if="columns.visible('college')" prop="college.name" min-width="140px" label="归属学院" align="center" />
+        <el-table-column v-if="columns.visible('signCount')" prop="signCount" label="累计签到" align="center" />
         <el-table-column v-if="columns.visible('enabled')" label="状态" align="center" prop="enabled">
           <template slot-scope="scope">
             <el-switch
@@ -87,7 +103,27 @@
               @change="changeEnabled(scope.row, scope.row.enabled,)"
             />
           </template>
+          <!-- <template slot-scope="scope">
+            <span v-if="scope.row.enabled">启用</span>
+            <span v-else>禁用</span>
+          </template> -->
         </el-table-column>
+        <el-table-column v-if="columns.visible('joinPermission')" prop="joinPermission" label="允许加入" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.joinPermission">是</span>
+            <span v-else>否</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column v-if="columns.visible('joinPermission')" label="可加入" align="center" prop="joinPermission">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.joinPermission"
+              active-color="#13ce66"
+              inactive-color="#F56C6C"
+              @change="changeJoinPermission(scope.row, scope.row.joinPermission,)"
+            />
+          </template>
+        </el-table-column> -->
         <el-table-column v-permission="['admin','course:edit','course:del']" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -99,6 +135,17 @@
       </el-table>
       <!--分页组件-->
       <pagination />
+      <el-dialog title="选课学生信息" :visible.sync="studentDialog" append-to-body width="80%">
+        <el-table :data="studentData">
+          <el-table-column prop="name" label="姓名" align="center" />
+          <el-table-column prop="studentNumber" label="学号" align="center" />
+          <el-table-column prop="sex" label="性别" align="center" />
+          <el-table-column :show-overflow-tooltip="true" width="180" prop="college.name" label="学院" align="center" />
+          <el-table-column prop="email" label="邮箱" min-width="130px" align="center" />
+          <el-table-column prop="phone" label="手机号码" min-width="130px" align="center" />
+          <el-table-column prop="experience" label="课程经验" min-width="130px" align="center" />
+        </el-table>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -106,7 +153,8 @@
 <script>
 import crudCourse from '@/api/course'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
-import { getDepts } from '@/api/system/dept'
+import { getDeptsAll } from '@/api/system/dept'
+import { getStudents } from '@/api/course'
 import rrOperation from '@crud/RR.operation'
 import Treeselect from '@riophae/vue-treeselect'
 import crudOperation from '@crud/CRUD.operation'
@@ -116,15 +164,15 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', studentCount: null, teacherName: null, college: { id: null }, createUid: null, signCount: null, semester: null }
+const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', studentCount: '0', teacherName: null, college: { id: null }, userName: null, signCount: '0', semester: null }
 export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
-  dicts: ['course_status', 'course_semester'],
+  dicts: ['course_status', 'course_semester', 'course_permission'],
   data() {
     return {
-      deptName: '', colleges: [],
+      deptName: '', colleges: [], studentDialog: false, studentData: null,
       permission: {
         add: ['admin', 'course:add'],
         edit: ['admin', 'course:edit'],
@@ -144,7 +192,7 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.getD
+      // this.getD
     })
   },
   methods: {
@@ -158,10 +206,13 @@ export default {
     },
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
+      // 将true或者false值转化成字符串，单选才能显示
+      form.enabled = `${form.enabled}`
+      form.joinPermission = `${form.joinPermission}`
       this.getDepts()
     },
     getDepts() {
-      getDepts({ enabled: true }).then(res => {
+      getDeptsAll({ enabled: true }).then(res => {
         this.colleges = res.content
       })
     },
@@ -180,6 +231,32 @@ export default {
         })
       }).catch(() => {
         data.enabled = !data.enabled
+      })
+    },
+    // 改变状态
+    changeJoinPermission(data, val) {
+      this.$confirm('此操作将 "' + this.dict.label.course_permission[val] + '" ' + data.courseName + '课程, 是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        crudCourse.edit(data).then(res => {
+          this.crud.notify(this.dict.label.course_permission[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
+        }).catch(err => {
+          data.joinPermission = !data.joinPermission
+          console.log(err.response.data.message)
+        })
+      }).catch(() => {
+        data.joinPermission = !data.joinPermission
+      })
+    },
+    // 获得选该课程的学生信息
+    getMembers(id) {
+      getStudents(id).then(res => {
+        this.studentData = res
+        this.studentDialog = true
+      }).catch(err => {
+        console.log(err.response.data.message)
       })
     }
   }

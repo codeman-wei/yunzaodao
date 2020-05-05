@@ -8,6 +8,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Set;
 
 
 @Entity
@@ -18,7 +19,7 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     /** 课程名 */
     @Column(name = "course_name",nullable = false)
@@ -63,6 +64,9 @@ public class Course implements Serializable {
     @Column(name = "sign_count")
     private Integer signCount;
 
+    @ManyToMany
+    @JoinTable(name = "course_student", joinColumns = {@JoinColumn(name = "course_id",referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")})
+    private Set<Student> students;
 
     public void copy(Course source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));

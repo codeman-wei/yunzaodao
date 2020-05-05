@@ -77,7 +77,7 @@
             <el-form-item label="电话" prop="phone">
               <el-input v-model.number="form.phone" />
             </el-form-item>
-            <el-form-item label="真实姓名" prop="nickName">
+            <el-form-item label="姓名" prop="nickName">
               <el-input v-model="form.nickName" />
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
@@ -162,7 +162,6 @@ import crudUser from '@/api/system/user'
 import { isvalidPhone } from '@/utils/validate'
 import { getDepts } from '@/api/system/dept'
 import { getAll, getLevel } from '@/api/system/role'
-// import { getAllJob } from '@/api/system/job'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'

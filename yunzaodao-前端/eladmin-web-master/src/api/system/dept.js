@@ -8,6 +8,14 @@ export function getDepts(params) {
   })
 }
 
+export function getDeptsAll(params) {
+  return request({
+    url: 'api/dept/all',
+    method: 'get',
+    params
+  })
+}
+
 export function add(data) {
   return request({
     url: 'api/dept',

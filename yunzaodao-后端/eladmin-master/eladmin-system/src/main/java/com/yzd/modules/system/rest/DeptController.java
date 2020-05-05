@@ -49,10 +49,18 @@ public class DeptController {
     @Log("查询部门")
     @ApiOperation("查询部门")
     @GetMapping
-    @PreAuthorize("@el.check('user:list','dept:list')")
+    @PreAuthorize("@el.check('course:list','student:list','user:list','dept:list')")
     public ResponseEntity<Object> getDepts(DeptQueryCriteria criteria){
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
+        List<DeptDto> deptDtos = deptService.queryAll(criteria);
+        return new ResponseEntity<>(deptService.buildTree(deptDtos),HttpStatus.OK);
+    }
+
+    /*查询所有部门，不做数据权限*/
+    @GetMapping(value = "/all")
+    @PreAuthorize("@el.check('course:list','student:list','user:list','dept:list')")
+    public ResponseEntity<Object> getAllDepts(DeptQueryCriteria criteria){
         List<DeptDto> deptDtos = deptService.queryAll(criteria);
         return new ResponseEntity<>(deptService.buildTree(deptDtos),HttpStatus.OK);
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class CourseDto implements Serializable {
 
     /** 课程id */
-    private Integer id;
+    private Long id;
 
     /** 课程名 */
     private String courseName;

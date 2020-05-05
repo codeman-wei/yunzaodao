@@ -51,7 +51,7 @@ code:
 
 #登录图形验证码有效时间/分钟
 loginCode:
-  expiration: 2
+  expiration: 5
 
 #密码加密传输，前端公钥加密，后端私钥解密
 rsa:

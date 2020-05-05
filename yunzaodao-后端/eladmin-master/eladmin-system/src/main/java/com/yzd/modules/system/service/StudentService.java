@@ -1,8 +1,10 @@
 package com.yzd.modules.system.service;
 
-import com.yzd.modules.system.domain.Course;
-import com.yzd.modules.system.service.dto.CourseDto;
-import com.yzd.modules.system.service.dto.CourseQueryCriteria;
+import com.yzd.modules.system.domain.PrimaryKey;
+import com.yzd.modules.system.domain.Student;
+import com.yzd.modules.system.service.dto.StudentDto;
+import com.yzd.modules.system.service.dto.StudentQueryCriteria;
+import com.yzd.modules.system.service.dto.UserDto;
 import org.springframework.data.domain.Pageable;
 import java.util.Map;
 import java.util.List;
@@ -11,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
 * @author wdc
-* @date 2020-03-20
+* @date 2020-05-03
 */
-public interface CourseService {
+public interface StudentService {
 
     /**
     * 查询数据分页
@@ -21,36 +23,34 @@ public interface CourseService {
     * @param pageable 分页参数
     * @return Map<String,Object>
     */
-    Map<String,Object> queryAll(CourseQueryCriteria criteria, Pageable pageable);
+    Map<String,Object> queryAll(StudentQueryCriteria criteria, Pageable pageable);
 
     /**
     * 查询所有数据不分页
     * @param criteria 条件参数
-    * @return List<CourseDto>
+    * @return List<StudentDto>
     */
-    List<CourseDto> queryAll(CourseQueryCriteria criteria);
+    List<StudentDto> queryAll(StudentQueryCriteria criteria);
 
     /**
      * 根据ID查询
      * @param id ID
-     * @return CourseDto
+     * @return StudentDto
      */
-    CourseDto findById(Long id);
+    StudentDto findById(Long id);
 
     /**
     * 创建
     * @param resources /
-    * @return CourseDto
+    * @return StudentDto
     */
-    CourseDto create(Course resources);
-
-    Course findCourseById(Long id);
+    StudentDto create(Student resources);
 
     /**
     * 编辑
     * @param resources /
     */
-    void update(Course resources);
+    void update(Student resources);
 
     /**
     * 多选删除
@@ -58,11 +58,14 @@ public interface CourseService {
     */
     void deleteAll(Long[] ids);
 
+    StudentDto findByName(String name);
+
+
     /**
     * 导出数据
     * @param all 待导出的数据
     * @param response /
     * @throws IOException /
     */
-    void download(List<CourseDto> all, HttpServletResponse response) throws IOException;
+    void download(List<StudentDto> all, HttpServletResponse response) throws IOException;
 }

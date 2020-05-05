@@ -1,6 +1,6 @@
 package ${package}.service.mapper;
 
-import BaseMapper;
+import com.yzd.base.BaseMapper;
 import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import org.mapstruct.Mapper;

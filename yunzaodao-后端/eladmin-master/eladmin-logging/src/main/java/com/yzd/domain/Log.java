@@ -7,10 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * @author Zheng Jie
- * @date 2018-11-24
- */
+
 @Entity
 @Data
 @Table(name = "log")

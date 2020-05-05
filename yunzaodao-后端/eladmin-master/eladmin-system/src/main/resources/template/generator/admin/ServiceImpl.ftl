@@ -5,13 +5,15 @@ import ${package}.domain.${className};
     <#list columns as column>
         <#if column.columnKey = 'UNI'>
             <#if column_index = 1>
-import EntityExistException;
+import com.yzd.exception.EntityExistException;
             </#if>
         </#if>
     </#list>
 </#if>
-import ValidationUtil;
-import FileUtil;
+import com.yzd.utils.FileUtil;
+import com.yzd.utils.PageUtil;
+import com.yzd.utils.QueryHelp;
+import com.yzd.utils.ValidationUtil;
 import ${package}.repository.${className}Repository;
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}Dto;
@@ -33,8 +35,6 @@ import cn.hutool.core.util.IdUtil;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import PageUtil;
-import QueryHelp;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;

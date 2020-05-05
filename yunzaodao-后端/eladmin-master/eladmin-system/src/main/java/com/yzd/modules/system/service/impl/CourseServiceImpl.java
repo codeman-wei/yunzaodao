@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 // 默认不使用缓存
-//import org.springframework.cache.annotation.CacheConfig;
-//import org.springframework.cache.annotation.CacheEvict;
-//import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -32,7 +32,7 @@ import java.util.LinkedHashMap;
 * @date 2020-03-20
 */
 @Service
-//@CacheConfig(cacheNames = "course")
+@CacheConfig(cacheNames = "course")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class CourseServiceImpl implements CourseService {
 
@@ -52,28 +52,28 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    //@Cacheable
+    @Cacheable
     public Map<String,Object> queryAll(CourseQueryCriteria criteria, Pageable pageable){
         Page<Course> page = courseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(courseMapper::toDto));
     }
 
     @Override
-    //@Cacheable
+    @Cacheable
     public List<CourseDto> queryAll(CourseQueryCriteria criteria){
         return courseMapper.toDto(courseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
 
     @Override
-    //@Cacheable(key = "#p0")
-    public CourseDto findById(Integer id) {
+    @Cacheable(key = "#p0")
+    public CourseDto findById(Long id) {
         Course course = courseRepository.findById(id).orElseGet(Course::new);
         ValidationUtil.isNull(course.getId(),"Course","id",id);
         return courseMapper.toDto(course);
     }
 
     @Override
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public CourseDto create(Course resources) {
         /*获得创建人信息*/
@@ -92,7 +92,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void update(Course resources) {
         Course course = courseRepository.findById(resources.getId()).orElseGet(Course::new);
@@ -102,11 +102,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    //@CacheEvict(allEntries = true)
-    public void deleteAll(Integer[] ids) {
-        for (Integer id : ids) {
+    @CacheEvict(allEntries = true)
+    public void deleteAll(Long[] ids) {
+        for (Long id : ids) {
             courseRepository.deleteById(id);
         }
+    }
+
+    @Override
+    @Cacheable(key = "'loadCourseById:'+#p0")
+    public Course findCourseById(Long id) {
+        Course course = courseRepository.findById(id).orElseGet(Course::new);
+        return course;
     }
 
     @Override
