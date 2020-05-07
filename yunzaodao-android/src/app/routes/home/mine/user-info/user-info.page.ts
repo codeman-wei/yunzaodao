@@ -13,22 +13,25 @@ export class UserInfoPage implements OnInit {
   name: ''
 
   userInfo = {
-    name: '',
-    phone: '',
-    birthYear: '',
-    sex: '',
-    status: '',
-    school: '',
-    college: '',
-    number: ''
+    'name': '',
+    'phone': '',
+    'birthYear': '',
+    'sex': '',
+    'status': '',
+    'school': '',
+    'college': '',
+    'number': ''
   }
 
   constructor(private httpService:CommonService, private toastCtrl: ToastController, private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
     const userInfo = this.localStorageService.get(USER_KEY, '')
-    this.userInfo = userInfo
-    this.name = userInfo.name
+    this.userInfo.phone = userInfo.phone
+    const api='/userInfo?phone=' + this.userInfo.phone
+    this.httpService.ajaxGet(api).then(async (res:any)=>{
+      this.userInfo=res.data
+    })
   }
 
   async save() {
