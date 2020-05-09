@@ -206,6 +206,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean checkRegister(String phone) {
+        return null;
+    }
+
+    @Override
     public void download(List<UserDto> queryAll, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (UserDto userDTO : queryAll) {

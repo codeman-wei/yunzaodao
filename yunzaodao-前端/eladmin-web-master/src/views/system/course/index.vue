@@ -8,7 +8,7 @@
         <!-- <el-select v-model="query.type" clearable placeholder="类型" class="filter-item" style="width: 130px">
           <el-option v-for="item in queryTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
         </el-select> -->
-        <!-- <el-date-picker
+        <el-date-picker
           v-model="query.courseTime"
           :default-time="['00:00:00','23:59:59']"
           type="daterange"
@@ -18,7 +18,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
-        /> -->
+        />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -67,18 +67,10 @@
         <el-table-column type="selection" width="46" />
         <el-table-column type="expand" width="25">
           <template slot-scope="props">
-            <el-timeline>
-              <el-timeline-item timestamp="2018/4/12 20:46" placement="top">
-                <el-card>
-                  <h4>{{ props.row.courseName }}</h4>
-                  <p>提交于 2018/4/12 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2020/4/3" placement="top">
-                <el-card>
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
+            <span v-if="props.row.signHistory === null || props.row.signHistory.length === 0" style="color: #aaa">暂无签到记录</span>
+            <el-timeline v-else>
+              <el-timeline-item v-for="sign in props.row.signHistory" :key="sign.id" :timestamp="parseTime(sign.createTime, '{y}-{m}-{d} 星期{a} {h}:{i}:{s}')" placement="top">
+                签到率：{{ signRate(sign.attendance, sign.absence) }}%
               </el-timeline-item>
             </el-timeline>
           </template>
@@ -188,6 +180,18 @@ export default {
         { key: 'courseCode', display_name: '课程编码' },
         { key: 'belongCollege', display_name: '归属学院' }
       ]
+    }
+  },
+  computed: {
+    signRate(att, abs) {
+      return function(att, abs) {
+        if (att > 0) {
+          const cal = att / (att + abs)
+          return parseInt(cal * 100)
+        } else {
+          return 0
+        }
+      }
     }
   },
   created() {

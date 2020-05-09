@@ -10,8 +10,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 异步任务线程池装配类
- * @author https://juejin.im/entry/5abb8f6951882555677e9da2
- * @date 2019年10月31日15:06:18
  */
 @Slf4j
 @Configuration

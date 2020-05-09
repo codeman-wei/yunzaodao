@@ -100,4 +100,11 @@ public interface UserService {
      * @param resources /
      */
     void updateCenter(User resources);
+
+    /**
+     * 检查手机号是否已经注册
+     * @param phone
+     * @return
+     */
+    Boolean checkRegister(String phone);
 }

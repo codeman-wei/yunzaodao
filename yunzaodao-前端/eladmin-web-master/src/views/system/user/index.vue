@@ -137,9 +137,9 @@
           <el-table-column v-if="columns.visible('nickName')" :show-overflow-tooltip="true" prop="nickName" label="姓名" align="center" />
           <el-table-column v-if="columns.visible('sex')" prop="sex" label="性别" align="center" />
           <el-table-column v-if="columns.visible('phone')" :show-overflow-tooltip="true" prop="phone" width="100" label="电话" align="center" />
-          <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" width="125" prop="email" label="邮箱" align="center" />
-          <el-table-column v-if="columns.visible('dept')" :show-overflow-tooltip="true" width="110" prop="dept.name" label="学院" />
-          <el-table-column v-if="columns.visible('createTime')" :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期">
+          <el-table-column v-if="columns.visible('email')" :show-overflow-tooltip="true" prop="email" label="邮箱" align="center" min-width="125" />
+          <el-table-column v-if="columns.visible('dept')" :show-overflow-tooltip="true" prop="dept.name" label="学院" min-width="120" align="center" />
+          <el-table-column v-if="columns.visible('createTime')" :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期" align="center">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>

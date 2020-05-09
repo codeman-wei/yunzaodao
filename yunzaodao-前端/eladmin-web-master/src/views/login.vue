@@ -21,11 +21,6 @@
             <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
               <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
             </el-input>
-            <!-- <el-button size="media" style="float:right" type="text">
-              <router-link :to="'/sys-tools/generator/config/'">
-                忘记密码
-              </router-link>
-            </el-button> -->
           </el-form-item>
           <el-form-item prop="code">
             <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">

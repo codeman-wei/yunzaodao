@@ -1,5 +1,6 @@
 <template>
   <div>
+    <slot name="left" />
     <el-button v-permission="permission.edit" :loading="crud.status.cu === 2" :disabled="disabledEdit" size="mini" type="primary" icon="el-icon-edit" @click="crud.toEdit(data)" />
     <el-popover v-model="pop" v-permission="permission.del" placement="top" width="180" trigger="manual" @show="onPopoverShow" @hide="onPopoverHide">
       <p>{{ msg }}</p>
@@ -9,6 +10,7 @@
       </div>
       <el-button slot="reference" :disabled="disabledDle" type="danger" icon="el-icon-delete" size="mini" @click="toDelete" />
     </el-popover>
+    <slot name="right" />
   </div>
 </template>
 <script>

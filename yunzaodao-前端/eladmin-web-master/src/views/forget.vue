@@ -27,10 +27,10 @@
         </el-form-item>
         <el-form v-else-if="active==2" ref="submitForm" :model="verificationForm" :rules="submitRules" style="width:100%;padding-left: 65px">
           <el-form-item prop="password" style="width:80%;">
-            <el-input v-model="verificationForm.password" type="text" auto-complete="off" placeholder="输入新密码" />
+            <el-input v-model="verificationForm.password" type="password" auto-complete="off" placeholder="输入新密码" />
           </el-form-item>
           <el-form-item prop="comfirm" style="width:80%;margin-top: ">
-            <el-input v-model="verificationForm.comfirm" type="text" auto-complete="off" placeholder="确认密码" />
+            <el-input v-model="verificationForm.comfirm" type="password" auto-complete="off" placeholder="确认密码" />
           </el-form-item>
           <el-form-item style="width:80%;">
             <el-button :loading="submiting" size="medium" type="primary" style="width:100%;" @click.native.prevent="submit">
@@ -40,14 +40,6 @@
           </el-form-item>
         </el-form>
       </el-form>
-      <!-- <el-form  :model="verificationForm" label-position="left">
-        <el-form-item>
-          <el-input v-model="verificationForm.code" type="text" auto-complete="off" style="width: 63%" placeholder="输入验证码" />
-          <el-button type="primary" :disabled="isDisabled" style="margin-left: 12px">
-            提交
-          </el-button>
-        </el-form-item>
-      </el-form> -->
     </div>
     <!--  底部  -->
     <div v-if="$store.state.settings.showFooter" id="el-login-footer">
@@ -77,7 +69,7 @@ export default {
       }
     }
     return {
-      active: 0, isDisabled: true, submiting: false, sendLoading: false,
+      active: 2, isDisabled: true, submiting: false, sendLoading: false,
       codeData: { type: 'email', value: '' },
       verificationForm: {
         email: '',
@@ -115,36 +107,24 @@ export default {
         validate(verification).then(res => {
           this.active = 2
         })
-        // if (this.verificationForm.code === '1111') {
-        //   this.active = 2
-        // } else {
-        //   this.$message({
-        //     message: '验证码错误',
-        //     type: 'error'
-        //   })
-        // }
       }
     },
     submit() {
       this.$refs.submitForm.validate(valid => {
         if (valid) {
           this.submiting = true
+          this.active = 0
           const info = {
             email: this.verificationForm.email,
             password: encrypt(this.verificationForm.password)
           }
           changePass(info).then(res => {
             this.submiting = false
-            this.active = 0
-            // this.$alert('密码修改成功，前往登陆', {
-            //   confirmButtonText: '确定',
-            //   callback: action => {
-            //     this.$router.push('/login')
-            //   }
-            // })
+            this.active = 3
             this.$confirm('密码修改成功，请前往登陆', '成功提示', {
               confirmButtonText: '确定',
-              type: 'success'
+              type: 'success',
+              showCancelButton: false
             }).then(() => {
               this.$router.push('/login')
             })
