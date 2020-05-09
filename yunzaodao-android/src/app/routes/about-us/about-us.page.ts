@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'src/app/shared/services/http.service';
 
 @Component({
   selector: 'app-about-us',
@@ -7,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutUsPage implements OnInit {
 
-  constructor() { }
+  constructor(private httpService: HttpService) { }
 
   ngOnInit() {
+    const api = '/passport/login'
+    const json = {
+      'username':'15695917757',
+      'password':'admin'
+    }
+    this.httpService.request('post', api, json).subscribe(res =>{
+      console.log(res)
+    })
   }
 }
