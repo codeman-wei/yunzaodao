@@ -251,4 +251,30 @@ public class UserController {
             throw new BadRequestException("角色权限不足");
         }
     }
+
+    /******************************************************************
+     *                            安卓端相关
+     *****************************************************************/
+
+    /**
+     * 按手机号检查是否已注册
+     * @param phone
+     * @return
+     */
+    @ApiOperation("安卓端检查是否已注册")
+    @GetMapping(value = "/check")
+    @AnonymousAccess
+    public ResponseEntity<Object> checkRegister(String phone) {
+        if (userService.checkRegister(phone)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+//    @ApiOperation("安卓端教师注册账号")
+//    @PostMapping(value = "/register")
+//    public ResponseEntity<Object> register() {
+//
+//    }
 }

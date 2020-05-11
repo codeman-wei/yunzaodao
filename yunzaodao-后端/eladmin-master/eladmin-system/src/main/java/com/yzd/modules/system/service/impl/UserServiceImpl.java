@@ -2,6 +2,8 @@ package com.yzd.modules.system.service.impl;
 
 import com.yzd.exception.EntityExistException;
 import com.yzd.exception.EntityNotFoundException;
+import com.yzd.modules.study.domain.Student;
+import com.yzd.modules.study.repository.StudentRepository;
 import com.yzd.modules.system.domain.User;
 import com.yzd.modules.system.domain.UserAvatar;
 import com.yzd.modules.system.service.UserService;
@@ -38,15 +40,17 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RedisUtils redisUtils;
     private final UserAvatarRepository userAvatarRepository;
+    private final StudentRepository studentRepository;
 
     @Value("${file.avatar}")
     private String avatar;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository, StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.redisUtils = redisUtils;
         this.userAvatarRepository = userAvatarRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -207,7 +211,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean checkRegister(String phone) {
-        return null;
+        if (userRepository.findByPhone(phone) != null || studentRepository.findByPhone(phone) != null) {
+            return false;
+        }
+        return true;
     }
 
     @Override

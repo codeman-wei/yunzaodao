@@ -24,6 +24,14 @@ import java.util.Date;
      */
     User findByEmail(String email);
 
+
+    /**
+     * 根据电话查找
+     * @param phone 电话
+     * @return /
+     */
+    User findByPhone(String phone);
+
     /**
      * 修改密码
      * @param username 用户名

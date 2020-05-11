@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/**
- * @author Zheng Jie
- */
+
 @RestController
 @RequestMapping("/auth/online")
 @Api(tags = "系统：在线用户管理")

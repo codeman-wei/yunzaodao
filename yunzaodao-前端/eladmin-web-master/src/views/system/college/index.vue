@@ -4,7 +4,7 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <el-input v-model="query.name" clearable size="small" placeholder="输入部门名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input v-model="query.name" clearable size="small" placeholder="输入名称搜索" style="width: 200px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <el-date-picker
           v-model="query.createTime"
           :default-time="['00:00:00','23:59:59']"
@@ -29,11 +29,11 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" style="width: 370px;" />
         </el-form-item>
-        <el-form-item v-if="form.pid !== 0" label="状态" prop="enabled">
+        <el-form-item label="状态" prop="enabled">
           <el-radio v-for="item in dict.college_status" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
         </el-form-item>
-        <el-form-item v-if="form.pid !== 0" style="margin-bottom: 0;" label="所属学校" prop="pid">
-          <treeselect v-model="form.pid" :options="depts" style="width: 370px;" placeholder="选择上级类目" />
+        <el-form-item v-if="crud.status.add === 1 || form.pid !== 0" style="margin-bottom: 0;" label="上级目录" prop="pid">
+          <treeselect v-model="form.pid" :disable-branch-nodes="true" :options="depts" style="width: 370px;" placeholder="选择上级类目" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -43,13 +43,12 @@
     </el-dialog>
     <!--表格渲染-->
     <el-table ref="table" v-loading="crud.loading" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" default-expand-all :data="crud.data" row-key="id" @select="crud.selectChange" @select-all="crud.selectAllChange" @selection-change="crud.selectionChangeHandler">
-      <el-table-column :selectable="checkboxT" type="selection" width="55" />
+      <el-table-column type="selection" width="55" />
       <el-table-column v-if="columns.visible('name')" label="名称" prop="name" />
       <el-table-column v-if="columns.visible('enabled')" label="状态" align="center" prop="enabled">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.enabled"
-            :disabled="scope.row.id === 1"
             active-color="#409EFF"
             inactive-color="#F56C6C"
             @change="changeEnabled(scope.row, scope.row.enabled,)"
@@ -66,7 +65,6 @@
           <udOperation
             :data="scope.row"
             :permission="permission"
-            :disabled-dle="scope.row.id === 1"
             msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
           />
         </template>
@@ -86,7 +84,7 @@ import udOperation from '@crud/UD.operation'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '学院', url: 'api/dept', crudMethod: { ...crudDept }})
-const defaultForm = { id: null, name: null, pid: 1, enabled: 'true' }
+const defaultForm = { id: null, name: null, pid: null, enabled: 'true' }
 export default {
   name: 'Dept',
   components: { Treeselect, crudOperation, rrOperation, udOperation },
@@ -95,7 +93,8 @@ export default {
   dicts: ['college_status'],
   data() {
     return {
-      depts: [],
+      // depts: [{ id: 0, label: '顶级目录', children: [] }],
+      depts: [{ id: 0, label: '顶级目录' }],
       rules: {
         name: [
           { required: true, message: '请输入名称', trigger: 'blur' }
@@ -116,14 +115,21 @@ export default {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
       form.enabled = `${form.enabled}`
+      if (crud.status.add === 1) {
+        this.depts = [{ id: 0, label: '创建新学校' }]
+      } else {
+        this.depts = []
+      }
       // 获取所有部门
       crudDept.getDepts({ enabled: true }).then(res => {
-        this.depts = res.content
+        // this.depts = [{ id: 0, label: '创建新学校' }]
+        // this.depts[0].children = res.content
+        this.depts.push(...res.content)
       })
     },
     // 提交前的验证
     [CRUD.HOOK.afterValidateCU]() {
-      if (!this.form.pid && this.form.id !== 1) {
+      if (this.form.pid === null) {
         this.$message({
           message: '上级部门不能为空',
           type: 'warning'

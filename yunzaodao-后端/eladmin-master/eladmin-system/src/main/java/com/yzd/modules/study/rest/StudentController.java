@@ -3,6 +3,7 @@ package com.yzd.modules.study.rest;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.yzd.annotation.AnonymousAccess;
 import com.yzd.aop.log.Log;
 import com.yzd.config.DataScope;
 import com.yzd.modules.study.domain.Student;
@@ -54,14 +55,6 @@ public class StudentController {
     public void download(HttpServletResponse response, StudentQueryCriteria criteria) throws IOException {
         studentService.download(studentService.queryAll(criteria), response);
     }
-
-//    @GetMapping(value = "/test")
-//    @AnonymousAccess
-//    public void test(Long courseId) {
-//        System.out.println(courseId);
-//        studentService.test(courseId);
-//    }
-
 
     @GetMapping
     @Log("查询学生")
@@ -120,5 +113,15 @@ public class StudentController {
     public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
         studentService.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation("安卓端学生注册账号")
+    @PostMapping(value = "/register")
+    @AnonymousAccess
+    public ResponseEntity<Object> register(@Validated @RequestBody Student resource) {
+        resource.setPassword(passwordEncoder.encode(resource.getPassword()));
+        resource.setEnabled(true);
+//        studentService.create(resource);
+        return new ResponseEntity<>(studentService.create(resource), HttpStatus.CREATED);
     }
 }

@@ -23,4 +23,11 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
      * @return /
      */
     Student findByEmail(String email);
+
+    /**
+     * 按手机号查找
+     * @param phone
+     * @return
+     */
+    Student findByPhone(String phone);
 }
