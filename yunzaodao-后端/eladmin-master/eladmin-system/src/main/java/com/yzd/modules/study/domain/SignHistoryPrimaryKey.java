@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrimaryKey implements Serializable {
+public class SignHistoryPrimaryKey implements Serializable {
     @Column(name = "course_id")
     private Long courseId;
     @Column(name = "student_id")
@@ -26,7 +26,7 @@ public class PrimaryKey implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PrimaryKey other = (PrimaryKey) obj;
+        final SignHistoryPrimaryKey other = (SignHistoryPrimaryKey) obj;
         if (courseId == null) {
             if (other.courseId != null)
                 return false;

@@ -18,6 +18,7 @@
           :data="deptDatas"
           :props="defaultProps"
           :expand-on-click-node="false"
+          accept=".jpg,.jpeg,.png,.JPG,.JPEG,.PNG"
           default-expand-all
           @node-click="handleNodeClick"
         />
@@ -142,6 +143,13 @@
             <template slot-scope="scope">
               <span v-if="scope.row.dept.pid === 0">父</span>
               <span v-else>{{ scope.row.dept.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column v-if="columns.visible('roles')" :show-overflow-tooltip="true" label="角色" min-width="120" align="center">
+            <template slot-scope="scope">
+              <el-tag v-for="role in scope.row.roles" :key="role.id" type="primary">
+                {{ role.name }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column v-if="columns.visible('createTime')" :show-overflow-tooltip="true" prop="createTime" width="140" label="创建日期" align="center">

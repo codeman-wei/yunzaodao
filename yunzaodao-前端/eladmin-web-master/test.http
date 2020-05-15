@@ -1,5 +1,5 @@
 
-@token = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJkZXB0OmVkaXQsdXNlcjpsaXN0LHN0b3JhZ2U6YWRkLHN0dWRlbnQ6ZGVsLGRlcHQ6YWRkLHN0b3JhZ2U6ZWRpdCxtZW51OmRlbCxyb2xlczpkZWwsYWRtaW4sc2lnbjpkZWwsc3RvcmFnZTpsaXN0LGRlcGxveUhpc3Rvcnk6bGlzdCx1c2VyOmRlbCxkaWN0OmFkZCxkZXB0Omxpc3QsdGltaW5nOmFkZCxkaWN0OmRlbCxkaWN0Omxpc3QsYXBwOmxpc3QsZGF0YWJhc2U6bGlzdCx0aW1pbmc6bGlzdCxkZXBsb3k6bGlzdCxjb3Vyc2U6bGlzdCxyb2xlczphZGQsdXNlcjphZGQscGljdHVyZXM6bGlzdCxzdHVkZW50Omxpc3Qsc3R1ZGVudDphZGQsbWVudTplZGl0LHRpbWluZzplZGl0LG1lbnU6bGlzdCxzdG9yYWdlOmRlbCxyb2xlczpsaXN0LHBpY3R1cmVzOmRlbCxzaWduOmxpc3QsbWVudTphZGQscGljdHVyZXM6YWRkLHVzZXI6ZWRpdCxyb2xlczplZGl0LHN0dWRlbnQ6ZWRpdCx0aW1pbmc6ZGVsLGRpY3Q6ZWRpdCxzZXJ2ZXJEZXBsb3k6bGlzdCxkZXB0OmRlbCIsImV4cCI6MTU4ODkyMTI4M30.vcC6nNKiq9XzoWUU6SKYIsR8w9p9-qSub8Ou2fl7I-wcP6E8UbXBDgC9tsitVICdeWJ7gm_q2lTpJ9NtQRtOuw
+@token = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJkZXB0OmVkaXQsdXNlcjpsaXN0LHN0b3JhZ2U6YWRkLGRlcHQ6YWRkLHN0b3JhZ2U6ZWRpdCxtZW51OmRlbCxyb2xlczpkZWwsYWRtaW4sc3RvcmFnZTpsaXN0LHVzZXI6ZGVsLGRpY3Q6YWRkLGRlcHQ6bGlzdCx0aW1pbmc6YWRkLGRpY3Q6ZGVsLGRpY3Q6bGlzdCx0aW1pbmc6bGlzdCxyb2xlczphZGQsdXNlcjphZGQscGljdHVyZXM6bGlzdCxzdHVkZW50Omxpc3QsbWVudTplZGl0LHRpbWluZzplZGl0LG1lbnU6bGlzdCxzdG9yYWdlOmRlbCxyb2xlczpsaXN0LHBpY3R1cmVzOmRlbCxzaWduOmxpc3QsY291cnNlOmxzaXQsbWVudTphZGQscGljdHVyZXM6YWRkLHVzZXI6ZWRpdCxyb2xlczplZGl0LHRpbWluZzpkZWwsZGljdDplZGl0LGRlcHQ6ZGVsIiwiZXhwIjoxNTg5NDI4MDczfQ.ftALWXenBsvOjNRi4tMbaKc5qbUkYi4GC8M_yKgrCWuohGg20tflsYleNgI5dCdrBCk0wVVmYlKI-k7tgCz5Jg
 
 POST http://localhost:8000/auth/login HTTP/1.1
 content-type: application/json
@@ -19,6 +19,41 @@ content-type: application/json
   "type": "email",
   "scenes": "重置密码",
   "value": "460678244@qq.com"
+}
+
+###
+
+Get http://localhost:8000/api/userSysVal?userId=1
+Authorization:{{token}}
+
+###
+
+
+POST http://localhost:8000/api/userSysVal
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "sysVal": { "id": 2 },
+  "userId": 1,
+  "value": 102
+}
+
+
+###
+
+POST http://localhost:8000/api/student/register
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "college": { "id": 8 },
+  "email": "910079546@qq.com",
+  "password": "123456",
+  "name": "熊乾程",
+  "phone": "15688165559",
+  "sex": "男",
+  "studentNumber": "190327084"
 }
 
 ###

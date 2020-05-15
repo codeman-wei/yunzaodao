@@ -97,8 +97,8 @@
 </template>
 
 <script>
-import crudSignHistory from '@/api/signHistory'
-import { getSignData, updateSign } from '@/api/signHistory'
+import crudSignHistory from '@/api/study/signHistory'
+import { getSignData, updateSign } from '@/api/study/signHistory'
 import CRUD, { presenter, header, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'

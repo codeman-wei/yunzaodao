@@ -100,6 +100,7 @@
                 <treeselect
                   v-model="form.college.id"
                   :options="colleges"
+                  :disable-branch-nodes="true"
                   style="width: 386px"
                   placeholder="选择学院"
                 />
@@ -142,7 +143,7 @@
 </template>
 
 <script>
-import crudStudent from '@/api/student'
+import crudStudent from '@/api/study/student'
 import { getDepts } from '@/api/system/dept'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'

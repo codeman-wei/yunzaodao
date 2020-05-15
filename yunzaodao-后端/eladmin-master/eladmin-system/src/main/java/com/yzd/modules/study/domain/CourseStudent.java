@@ -1,6 +1,5 @@
 package com.yzd.modules.study.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ import javax.persistence.*;
 @Table(name="course_student")
 public class CourseStudent {
     @EmbeddedId
-    private PrimaryKey id;
+    private SignHistoryPrimaryKey id;
 
     Integer experience;
 }

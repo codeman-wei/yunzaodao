@@ -1,10 +1,9 @@
 package com.yzd.modules.study.rest;
 
-import com.yzd.annotation.AnonymousAccess;
 import com.yzd.exception.BadRequestException;
 import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.CourseStudent;
-import com.yzd.modules.study.domain.PrimaryKey;
+import com.yzd.modules.study.domain.SignHistoryPrimaryKey;
 import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.service.dto.CourseQueryCriteria;
@@ -96,7 +95,7 @@ public class CourseController {
         Set<StudentDto> studentDtos = new HashSet<>();
         if(students != null && students.size() != 0) {
             for(Student student: students) {
-                PrimaryKey pk = new PrimaryKey(id, student.getId());
+                SignHistoryPrimaryKey pk = new SignHistoryPrimaryKey(id, student.getId());
                 CourseStudent cs = courseStudentRepository.findById(pk).orElseGet(CourseStudent::new);
                 if(cs != null) {
                     Integer experience = cs.getExperience();

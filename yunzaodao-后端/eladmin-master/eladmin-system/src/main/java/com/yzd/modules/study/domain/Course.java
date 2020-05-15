@@ -23,7 +23,7 @@ import java.util.Set;
 public class Course implements Serializable {
     /** 课程id */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private Long id;
 

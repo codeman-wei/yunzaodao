@@ -41,7 +41,7 @@
             <el-input v-model="form.teacherName" style="width:187px" />
           </el-form-item>
           <el-form-item label="开放" prop="joinPermission">
-            <el-radio v-for="item in dict.course_permission" :key="item.id" v-model="form.joinPermission" :label="item.value">{{ item.label }}</el-radio>
+            <el-radio v-for="item in dict.course_join" :key="item.id" v-model="form.joinPermission" :label="item.value">{{ item.label }}</el-radio>
           </el-form-item>
           <el-form-item label=" 学期">
             <el-select v-model="form.semester" placeholder="选择所属学期">
@@ -69,8 +69,9 @@
           <template slot-scope="props">
             <span v-if="props.row.signHistory === null || props.row.signHistory.length === 0" style="color: #aaa">暂无签到记录</span>
             <el-timeline v-else>
-              <el-timeline-item v-for="sign in props.row.signHistory" :key="sign.id" :timestamp="parseTime(sign.createTime, '{y}-{m}-{d} 星期{a} {h}:{i}:{s}')" placement="top">
-                签到率：{{ signRate(sign.attendance, sign.absence) }}%
+              <el-timeline-item v-for="sign in props.row.signHistory" :key="sign.id" color="#74bcff" :timestamp="parseTime(sign.createTime, '{y}-{m}-{d} 星期{a} {h}:{i}:{s}')" placement="top">
+                <el-tag size="medium" type="info">签到率：{{ signRate(sign.attendance, sign.absence) }}%</el-tag>
+                <el-tag size="medium" type="info" style="margin-left: 20px">出勤人数：【{{ sign.attendance }}/{{ sign.attendance + sign.absence }}】</el-tag>
               </el-timeline-item>
             </el-timeline>
           </template>
@@ -95,10 +96,6 @@
               @change="changeEnabled(scope.row, scope.row.enabled,)"
             />
           </template>
-          <!-- <template slot-scope="scope">
-            <span v-if="scope.row.enabled">启用</span>
-            <span v-else>禁用</span>
-          </template> -->
         </el-table-column>
         <el-table-column v-if="columns.visible('joinPermission')" prop="joinPermission" label="允许加入" align="center">
           <template slot-scope="scope">
@@ -106,16 +103,6 @@
             <span v-else>否</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column v-if="columns.visible('joinPermission')" label="可加入" align="center" prop="joinPermission">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.joinPermission"
-              active-color="#13ce66"
-              inactive-color="#F56C6C"
-              @change="changeJoinPermission(scope.row, scope.row.joinPermission,)"
-            />
-          </template>
-        </el-table-column> -->
         <el-table-column v-permission="['admin','course:edit','course:del']" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -143,10 +130,10 @@
 </template>
 
 <script>
-import crudCourse from '@/api/course'
-import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import crudCourse from '@/api/study/course'
+import { getStudents } from '@/api/study/course'
 import { getDeptsAll } from '@/api/system/dept'
-import { getStudents } from '@/api/course'
+import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import Treeselect from '@riophae/vue-treeselect'
 import crudOperation from '@crud/CRUD.operation'
@@ -161,7 +148,7 @@ export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(defaultCrud), header(), form(defaultForm), crud()],
-  dicts: ['course_status', 'course_semester', 'course_permission'],
+  dicts: ['course_status', 'course_semester', 'course_join'],
   data() {
     return {
       deptName: '', colleges: [], studentDialog: false, studentData: null,
@@ -239,13 +226,13 @@ export default {
     },
     // 改变状态
     changeJoinPermission(data, val) {
-      this.$confirm('此操作将 "' + this.dict.label.course_permission[val] + '" ' + data.courseName + '课程, 是否继续？', '提示', {
+      this.$confirm('此操作将 "' + this.dict.label.course_join[val] + '" ' + data.courseName + '课程, 是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         crudCourse.edit(data).then(res => {
-          this.crud.notify(this.dict.label.course_permission[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
+          this.crud.notify(this.dict.label.course_join[val] + '成功', CRUD.NOTIFICATION_TYPE.SUCCESS)
         }).catch(err => {
           data.joinPermission = !data.joinPermission
           console.log(err.response.data.message)
