@@ -107,4 +107,12 @@ public interface UserService {
      * @return
      */
     Boolean checkRegister(String phone);
+
+    /**
+     * mobile
+     * */
+
+    UserDto findByPhoneOrEmail(String count);
+
+    void updatePassByPhone(String phone, String encryptPassword);
 }

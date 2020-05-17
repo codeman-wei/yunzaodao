@@ -66,4 +66,9 @@ public interface StudentService {
     * @throws IOException /
     */
     void download(List<StudentDto> all, HttpServletResponse response) throws IOException;
+
+
+    Student findByCount(String count);
+
+    void updatePass(String count, String pass);
 }

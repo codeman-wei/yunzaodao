@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50727
 File Encoding         : 65001
 
-Date: 2020-05-15 19:17:59
+Date: 2020-05-17 14:42:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -358,7 +358,7 @@ CREATE TABLE `log` (
   `address` varchar(255) DEFAULT NULL,
   `browser` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1651 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1695 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of log
@@ -2012,6 +2012,50 @@ INSERT INTO `log` VALUES ('1647', '2020-05-15 16:31:17', '查询课程信息', n
 INSERT INTO `log` VALUES ('1648', '2020-05-15 16:31:21', '查询字典', null, 'INFO', 'com.yzd.modules.system.rest.DictController.getDicts()', '{ resources: DictQueryCriteria(blurry=null) pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '0', 'admin', '内网IP', 'Chrome 8');
 INSERT INTO `log` VALUES ('1649', '2020-05-15 16:31:21', '查询菜单', null, 'INFO', 'com.yzd.modules.system.rest.MenuController.getMenus()', '{ criteria: MenuQueryCriteria(blurry=null, createTime=null) }', '192.168.1.23', '1', 'admin', '内网IP', 'Chrome 8');
 INSERT INTO `log` VALUES ('1650', '2020-05-15 16:31:25', '查询菜单', null, 'INFO', 'com.yzd.modules.system.rest.MenuController.getMenus()', '{ criteria: MenuQueryCriteria(blurry=null, createTime=null) }', '192.168.1.23', '2', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1651', '2020-05-16 19:25:07', '用户登录', null, 'INFO', 'com.yzd.modules.security.rest.AuthController.login()', '{ authUser: {username=admin, password= ******} request: SecurityContextHolderAwareRequestWrapper[ FirewalledRequest[ org.apache.catalina.connector.RequestFacade@ebdf8b8]] }', '192.168.1.23', '337', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1652', '2020-05-16 19:25:32', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '60', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1653', '2020-05-16 19:25:32', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '13', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1654', '2020-05-17 08:43:51', '用户登录', null, 'INFO', 'com.yzd.modules.security.rest.AuthController.login()', '{ authUser: {username=admin, password= ******} request: SecurityContextHolderAwareRequestWrapper[ FirewalledRequest[ org.apache.catalina.connector.RequestFacade@4db387e4]] }', '192.168.1.23', '359', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1655', '2020-05-17 08:44:30', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '86', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1656', '2020-05-17 08:44:30', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '13', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1657', '2020-05-17 08:44:42', '删除角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.delete()', '{ ids: [3] }', '192.168.1.23', '50', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1658', '2020-05-17 08:44:42', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '17', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1659', '2020-05-17 08:44:46', '查询菜单', null, 'INFO', 'com.yzd.modules.system.rest.MenuController.getMenus()', '{ criteria: MenuQueryCriteria(blurry=null, createTime=null) }', '192.168.1.23', '13', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1660', '2020-05-17 08:45:22', '查询签到历史记录', null, 'INFO', 'com.yzd.modules.study.rest.SignHistoryController.getSignHistorys()', '{ criteria: SignHistoryQueryCriteria(courseName=null, courseCode=null, createTime=null) pageable: Page request [number: 0, size 10, sort: createTime: DESC] }', '192.168.1.23', '44', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1661', '2020-05-17 08:45:24', '查询字典详情', null, 'INFO', 'com.yzd.modules.system.rest.DictDetailController.getDictDetails()', '{ criteria: DictDetailQueryCriteria(label=null, dictName=student_status) pageable: Page request [number: 0, size 2000, sort: sort: ASC] }', '192.168.1.23', '25', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1662', '2020-05-17 08:45:25', '查询学生', null, 'INFO', 'com.yzd.modules.study.rest.StudentController.getStudents()', '{ criteria: com.yzd.modules.study.service.dto.StudentQueryCriteria@20c3b4a5 pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '41', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1663', '2020-05-17 08:45:25', '查询部门', null, 'INFO', 'com.yzd.modules.system.rest.DeptController.getDepts()', '{ criteria: DeptQueryCriteria(ids=[], name=null, enabled=null, pid=null, createTime=null) }', '192.168.1.23', '60', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1664', '2020-05-17 08:45:25', '查询学生', null, 'INFO', 'com.yzd.modules.study.rest.StudentController.getStudents()', '{ criteria: com.yzd.modules.study.service.dto.StudentQueryCriteria@78c71754 pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '9', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1665', '2020-05-17 08:45:27', '查询系统变量', null, 'INFO', 'com.yzd.modules.study.rest.UserSysValController.getUserSysVals()', '{ userId: 1 }', '192.168.1.23', '23', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1666', '2020-05-17 08:45:30', '查询字典详情', null, 'INFO', 'com.yzd.modules.system.rest.DictDetailController.getDictDetails()', '{ criteria: DictDetailQueryCriteria(label=null, dictName=college_status) pageable: Page request [number: 0, size 2000, sort: sort: ASC] }', '192.168.1.23', '9', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1667', '2020-05-17 08:45:30', '查询部门', null, 'INFO', 'com.yzd.modules.system.rest.DeptController.getDepts()', '{ criteria: DeptQueryCriteria(ids=[], name=null, enabled=null, pid=null, createTime=null) }', '192.168.1.23', '13', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1668', '2020-05-17 08:45:33', '查询系统变量', null, 'INFO', 'com.yzd.modules.study.rest.UserSysValController.getUserSysVals()', '{ userId: 1 }', '192.168.1.23', '18', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1669', '2020-05-17 08:46:09', '查询菜单', null, 'INFO', 'com.yzd.modules.system.rest.MenuController.getMenus()', '{ criteria: MenuQueryCriteria(blurry=null, createTime=null) }', '192.168.1.23', '4', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1670', '2020-05-17 08:46:12', '查询字典详情', null, 'INFO', 'com.yzd.modules.system.rest.DictDetailController.getDictDetails()', '{ criteria: DictDetailQueryCriteria(label=null, dictName=user_status) pageable: Page request [number: 0, size 2000, sort: sort: ASC] }', '192.168.1.23', '25', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1671', '2020-05-17 08:46:12', '查询部门', null, 'INFO', 'com.yzd.modules.system.rest.DeptController.getDepts()', '{ criteria: DeptQueryCriteria(ids=[], name=null, enabled=null, pid=null, createTime=null) }', '192.168.1.23', '27', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1672', '2020-05-17 08:46:12', '查询用户', null, 'INFO', 'com.yzd.modules.system.rest.UserController.getUsers()', '{ criteria: UserQueryCriteria(id=null, deptIds=[], blurry=null, enabled=null, deptId=null, createTime=null) pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '46', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1673', '2020-05-17 08:46:12', '查询用户', null, 'INFO', 'com.yzd.modules.system.rest.UserController.getUsers()', '{ criteria: UserQueryCriteria(id=null, deptIds=[], blurry=null, enabled=null, deptId=null, createTime=null) pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '2', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1674', '2020-05-17 08:46:14', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '1', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1675', '2020-05-17 08:46:14', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '2', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1676', '2020-05-17 08:46:41', '修改角色菜单', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.updateMenu()', '{ resources: com.yzd.modules.system.domain.Role@20 }', '192.168.1.23', '80', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1677', '2020-05-17 08:46:57', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '11', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1678', '2020-05-17 08:46:58', '查询角色', null, 'INFO', 'com.yzd.modules.system.rest.RoleController.getRoles()', '{ criteria: RoleQueryCriteria(blurry=null, createTime=null) pageable: Page request [number: 0, size 10, sort: level: ASC] }', '192.168.1.23', '9', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1679', '2020-05-17 08:47:06', '查询签到历史记录', null, 'INFO', 'com.yzd.modules.study.rest.SignHistoryController.getSignHistorys()', '{ criteria: SignHistoryQueryCriteria(courseName=null, courseCode=null, createTime=null) pageable: Page request [number: 0, size 10, sort: createTime: DESC] }', '192.168.1.23', '7', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1680', '2020-05-17 08:47:08', '查询字典详情', null, 'INFO', 'com.yzd.modules.system.rest.DictDetailController.getDictDetails()', '{ criteria: DictDetailQueryCriteria(label=null, dictName=student_status) pageable: Page request [number: 0, size 2000, sort: sort: ASC] }', '192.168.1.23', '3', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1681', '2020-05-17 08:47:08', '查询学生', null, 'INFO', 'com.yzd.modules.study.rest.StudentController.getStudents()', '{ criteria: com.yzd.modules.study.service.dto.StudentQueryCriteria@7621b80c pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '12', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1682', '2020-05-17 08:47:08', '查询部门', null, 'INFO', 'com.yzd.modules.system.rest.DeptController.getDepts()', '{ criteria: DeptQueryCriteria(ids=[], name=null, enabled=null, pid=null, createTime=null) }', '192.168.1.23', '20', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1683', '2020-05-17 08:47:09', '查询学生', null, 'INFO', 'com.yzd.modules.study.rest.StudentController.getStudents()', '{ criteria: com.yzd.modules.study.service.dto.StudentQueryCriteria@c29572c pageable: Page request [number: 0, size 10, sort: id: DESC] }', '192.168.1.23', '3', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1684', '2020-05-17 08:47:10', '查询签到历史记录', null, 'INFO', 'com.yzd.modules.study.rest.SignHistoryController.getSignHistorys()', '{ criteria: SignHistoryQueryCriteria(courseName=null, courseCode=null, createTime=null) pageable: Page request [number: 0, size 10, sort: createTime: DESC] }', '192.168.1.23', '1', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1685', '2020-05-17 08:47:11', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 3 }', '192.168.1.23', '22', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1686', '2020-05-17 08:47:15', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 3 }', '192.168.1.23', '17', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1687', '2020-05-17 08:47:17', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 3 }', '192.168.1.23', '7', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1688', '2020-05-17 08:47:21', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 3 }', '192.168.1.23', '19', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1689', '2020-05-17 08:47:26', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 2 }', '192.168.1.23', '6', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1690', '2020-05-17 08:47:30', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 1 }', '192.168.1.23', '11', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1691', '2020-05-17 08:47:35', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 1 }', '192.168.1.23', '6', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1692', '2020-05-17 08:48:00', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 3 }', '192.168.1.23', '14', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1693', '2020-05-17 08:48:03', '查询课程某次签到记录', null, 'INFO', 'com.yzd.modules.study.rest.StudentCourseSignController.getSignsByHistoryId()', '{ id: 1 }', '192.168.1.23', '12', 'admin', '内网IP', 'Chrome 8');
+INSERT INTO `log` VALUES ('1694', '2020-05-17 08:48:38', '查询菜单', null, 'INFO', 'com.yzd.modules.system.rest.MenuController.getMenus()', '{ criteria: MenuQueryCriteria(blurry=null, createTime=null) }', '192.168.1.23', '2', 'admin', '内网IP', 'Chrome 8');
 
 -- ----------------------------
 -- Table structure for menu
@@ -2371,7 +2415,6 @@ CREATE TABLE `role` (
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '超级管理员', '-', '全部', '1', '2018-11-23 11:04:37', 'admin');
 INSERT INTO `role` VALUES ('2', '教师', '-', '本级', '2', '2018-11-23 13:09:06', 'teacher');
-INSERT INTO `role` VALUES ('3', '测试人员', '测试', '本级', '4', '2020-05-15 15:30:10', 'test');
 
 -- ----------------------------
 -- Table structure for roles_depts
@@ -2412,8 +2455,21 @@ INSERT INTO `roles_menus` VALUES ('3', '1');
 INSERT INTO `roles_menus` VALUES ('5', '1');
 INSERT INTO `roles_menus` VALUES ('6', '1');
 INSERT INTO `roles_menus` VALUES ('7', '1');
+INSERT INTO `roles_menus` VALUES ('10', '1');
+INSERT INTO `roles_menus` VALUES ('11', '1');
+INSERT INTO `roles_menus` VALUES ('14', '1');
+INSERT INTO `roles_menus` VALUES ('15', '1');
+INSERT INTO `roles_menus` VALUES ('16', '1');
+INSERT INTO `roles_menus` VALUES ('18', '1');
+INSERT INTO `roles_menus` VALUES ('19', '1');
+INSERT INTO `roles_menus` VALUES ('28', '1');
+INSERT INTO `roles_menus` VALUES ('30', '1');
 INSERT INTO `roles_menus` VALUES ('32', '1');
+INSERT INTO `roles_menus` VALUES ('33', '1');
+INSERT INTO `roles_menus` VALUES ('34', '1');
 INSERT INTO `roles_menus` VALUES ('35', '1');
+INSERT INTO `roles_menus` VALUES ('36', '1');
+INSERT INTO `roles_menus` VALUES ('38', '1');
 INSERT INTO `roles_menus` VALUES ('39', '1');
 INSERT INTO `roles_menus` VALUES ('41', '1');
 INSERT INTO `roles_menus` VALUES ('44', '1');
@@ -2431,6 +2487,17 @@ INSERT INTO `roles_menus` VALUES ('58', '1');
 INSERT INTO `roles_menus` VALUES ('64', '1');
 INSERT INTO `roles_menus` VALUES ('65', '1');
 INSERT INTO `roles_menus` VALUES ('66', '1');
+INSERT INTO `roles_menus` VALUES ('70', '1');
+INSERT INTO `roles_menus` VALUES ('71', '1');
+INSERT INTO `roles_menus` VALUES ('73', '1');
+INSERT INTO `roles_menus` VALUES ('74', '1');
+INSERT INTO `roles_menus` VALUES ('75', '1');
+INSERT INTO `roles_menus` VALUES ('77', '1');
+INSERT INTO `roles_menus` VALUES ('78', '1');
+INSERT INTO `roles_menus` VALUES ('79', '1');
+INSERT INTO `roles_menus` VALUES ('82', '1');
+INSERT INTO `roles_menus` VALUES ('83', '1');
+INSERT INTO `roles_menus` VALUES ('116', '1');
 INSERT INTO `roles_menus` VALUES ('117', '1');
 INSERT INTO `roles_menus` VALUES ('118', '1');
 INSERT INTO `roles_menus` VALUES ('119', '1');
@@ -2484,12 +2551,12 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`),
   KEY `FKgtle6mm88hvntwsdice7jaapj` (`college_id`),
   CONSTRAINT `FKgtle6mm88hvntwsdice7jaapj` FOREIGN KEY (`college_id`) REFERENCES `dept` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES ('1', '梁少斌', '男', '15988164559', '1101945419@qq.com', '190320015', null, '2020-05-10 13:58:24', '8', '', '$2a$10$yjpsWYMc15Fff8.jSaOrbOOVASMskVDD.KaPkXcViBbv7NzWgeH6e');
+INSERT INTO `student` VALUES ('1', '梁少斌', '男', '15988164559', '1101945419@qq.com', '190320015', '2020-05-17 10:36:13', '2020-05-10 13:58:24', '8', '', '$2a$10$pmGlm9rGidPdTSoZiAahGu1Fsfp8jVX41A7Gp221AKRMVVFb56Pku');
 INSERT INTO `student` VALUES ('2', '陈甘霖', '男', '15980266968', '460678255@qq.com', '031502522', null, '2020-05-10 13:58:36', '1', '', '$2a$10$yqM2grrTO9vgg/vKfhZLoOuTUMmx3vZw3QXES4a2bkVf2FgJHT1BO');
 INSERT INTO `student` VALUES ('3', '蔡鸿杰', '男', '15980266233', '928383651@qq.com', '190327001', null, '2020-05-13 19:26:46', '116', '', '$2a$10$upShgjmXeSJg.2WwlIQbBeTwnC7ruRfWXDtxXwtA5uptjrnSkj7AS');
 INSERT INTO `student` VALUES ('4', '林建洲', '男', '15659877459', '724117508qq.com', '190327055', null, '2020-05-13 19:27:33', '119', '', '$2a$10$1RjSb5/3i/R3Hys9CqGcgODmzk3BbYkPRn5fPUUab3gc7nxsTC5Jm');
@@ -2498,6 +2565,7 @@ INSERT INTO `student` VALUES ('6', '王灿杰', '男', '15874966963', '896567891
 INSERT INTO `student` VALUES ('7', '朱雨航', '男', '15749822639', '645544531@qq.com', '190327106', null, '2020-05-13 19:38:30', '119', '', '$2a$10$uujBZbWnh2Rf0cMjwq5DSet2wMjjYWK2WPlMDIA2sej1gIeLZFZ0W');
 INSERT INTO `student` VALUES ('8', '吴君毅', '男', '15846559725', '867588970@qq.com', '190327081', null, '2020-05-13 19:44:21', '7', '', '$2a$10$kXO9UgQH5JZ65gIqRbJfWelC1IlD/ML1d6AiX2HvxwA4WCWsOUt2G');
 INSERT INTO `student` VALUES ('9', '熊乾程', '男', '15688165559', '910079546@qq.com', '190327084', null, '2020-05-14 08:07:43', '8', '', '$2a$10$v.0QoubgN3mvIEgNMSIrEOIrc2L11Eg6v4WkzC2j.WeDUFm/dbUDu');
+INSERT INTO `student` VALUES ('10', '郭星宇', '男', '15666165559', '91045546@qq.com', '190d327022', null, '2020-05-17 14:02:42', '8', '', '123456');
 
 -- ----------------------------
 -- Table structure for student_course_sign
@@ -2589,13 +2657,13 @@ CREATE TABLE `user` (
   KEY `FKpq2dhypk2qgt68nauh2by22jb` (`avatar_id`) USING BTREE,
   CONSTRAINT `FK5rwmryny6jthaaxkogownknqp` FOREIGN KEY (`dept_id`) REFERENCES `dept` (`id`),
   CONSTRAINT `FKpq2dhypk2qgt68nauh2by22jb` FOREIGN KEY (`avatar_id`) REFERENCES `user_avatar` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '2', 'zhengjie@tom.com', '1', '$2a$10$fP.426qKaTmix50Oln8L.uav55gELhAd0Eg66Av4oG86u8km7D/Ky', 'admin', '7', '18888888888', '2018-08-23 09:11:56', '2019-05-18 17:34:21', '管理员', '男');
-INSERT INTO `user` VALUES ('5', null, '460678244@qq.com', '1', '$2a$10$tjjEmdjGm8uRsHPBvf7bY.FHgX/Z9Ypr5MDFf104XC/YxrpCayUJC', 'wdc', '7', '15980266329', '2020-03-27 09:16:20', null, '魏老师', '男');
+INSERT INTO `user` VALUES ('5', null, '460678244@qq.com', '1', '$2a$10$.qxqJ8V/oVmkyeajjWNK0OS0ka2CfZHdcu6cNnGBxTLiNpAQWtGX.', 'wdc', '7', '15980266329', '2020-03-27 09:16:20', '2020-05-17 11:59:09', '魏老师', '男');
 
 -- ----------------------------
 -- Table structure for users_roles
@@ -2689,7 +2757,7 @@ CREATE TABLE `visits` (
   `week_day` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UK_11aksgq87euk9bcyeesfs4vtp` (`date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='访客记录';
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='访客记录';
 
 -- ----------------------------
 -- Records of visits
@@ -2718,3 +2786,5 @@ INSERT INTO `visits` VALUES ('41', '2020-05-12 09:02:40', '2020-05-12', '1', '2'
 INSERT INTO `visits` VALUES ('42', '2020-05-13 18:45:47', '2020-05-13', '2', '3', 'Wed');
 INSERT INTO `visits` VALUES ('43', '2020-05-14 07:47:39', '2020-05-14', '1', '2', 'Thu');
 INSERT INTO `visits` VALUES ('44', '2020-05-15 13:33:18', '2020-05-15', '1', '4', 'Fri');
+INSERT INTO `visits` VALUES ('45', '2020-05-16 19:24:25', '2020-05-16', '1', '2', 'Sat');
+INSERT INTO `visits` VALUES ('46', '2020-05-17 08:43:21', '2020-05-17', '1', '2', 'Sun');

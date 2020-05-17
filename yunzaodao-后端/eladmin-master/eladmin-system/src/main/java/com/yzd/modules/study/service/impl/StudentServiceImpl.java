@@ -20,12 +20,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
 * @author wdc
@@ -41,11 +39,6 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
 
     private final CourseStudentRepository courseStudentRepository;
-
-//    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
-//        this.studentRepository = studentRepository;
-//        this.studentMapper = studentMapper;
-//    }
 
 
     public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper, CourseStudentRepository courseStudentRepository) {
@@ -101,13 +94,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Cacheable(key = "'loadStudentByName:'+#p0")
     public StudentDto findByName(String name) {
         Student student;
         if(ValidationUtil.isEmail(name)){
             student = studentRepository.findByEmail(name);
         } else {
-            student = studentRepository.findByName(name);
+            student = studentRepository.findByPhone(name);
         }
         if (student == null) {
             throw new EntityNotFoundException(Student.class, "name", name);
@@ -133,5 +125,28 @@ public class StudentServiceImpl implements StudentService {
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
+    }
+
+
+    @Override
+    public Student findByCount(String count) {
+        Student student;
+        if(ValidationUtil.isEmail(count)){
+            student = studentRepository.findByEmail(count);
+        } else {
+            student = studentRepository.findByPhone(count);
+        }
+        if (student == null) {
+            throw new EntityNotFoundException(Student.class, "count", count);
+        } else {
+            return student;
+        }
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePass(String count, String pass) {
+        studentRepository.updatePass(count,pass,new Date());
     }
 }

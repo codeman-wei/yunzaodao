@@ -115,13 +115,4 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation("安卓端学生注册账号")
-    @PostMapping(value = "/register")
-    @AnonymousAccess
-    public ResponseEntity<Object> register(@Validated @RequestBody Student resource) {
-        resource.setPassword(passwordEncoder.encode(resource.getPassword()));
-        resource.setEnabled(true);
-//        studentService.create(resource);
-        return new ResponseEntity<>(studentService.create(resource), HttpStatus.CREATED);
-    }
 }

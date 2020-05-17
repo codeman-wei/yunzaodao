@@ -1,12 +1,13 @@
 
 @token = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJkZXB0OmVkaXQsdXNlcjpsaXN0LHN0b3JhZ2U6YWRkLGRlcHQ6YWRkLHN0b3JhZ2U6ZWRpdCxtZW51OmRlbCxyb2xlczpkZWwsYWRtaW4sc3RvcmFnZTpsaXN0LHVzZXI6ZGVsLGRpY3Q6YWRkLGRlcHQ6bGlzdCx0aW1pbmc6YWRkLGRpY3Q6ZGVsLGRpY3Q6bGlzdCx0aW1pbmc6bGlzdCxyb2xlczphZGQsdXNlcjphZGQscGljdHVyZXM6bGlzdCxzdHVkZW50Omxpc3QsbWVudTplZGl0LHRpbWluZzplZGl0LG1lbnU6bGlzdCxzdG9yYWdlOmRlbCxyb2xlczpsaXN0LHBpY3R1cmVzOmRlbCxzaWduOmxpc3QsY291cnNlOmxzaXQsbWVudTphZGQscGljdHVyZXM6YWRkLHVzZXI6ZWRpdCxyb2xlczplZGl0LHRpbWluZzpkZWwsZGljdDplZGl0LGRlcHQ6ZGVsIiwiZXhwIjoxNTg5NDI4MDczfQ.ftALWXenBsvOjNRi4tMbaKc5qbUkYi4GC8M_yKgrCWuohGg20tflsYleNgI5dCdrBCk0wVVmYlKI-k7tgCz5Jg
 
-POST http://localhost:8000/auth/login HTTP/1.1
+POST http://localhost:8000/mobile/login HTTP/1.1
 content-type: application/json
 
 {
-  "username":"wdc",
-  "password":"123456"
+  "username": "zhengjie@tom.com",
+  "password": "123456",
+  "role": "student"
 }
 
 ###

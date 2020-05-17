@@ -3,6 +3,10 @@ package com.yzd.modules.study.repository;
 import com.yzd.modules.study.domain.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Date;
 
 /**
 * @author wdc
@@ -30,4 +34,8 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
      * @return
      */
     Student findByPhone(String phone);
+
+    @Modifying
+    @Query(value = "update student set password = ?2 , last_password_reset_time = ?3 where phone = ?1",nativeQuery = true)
+    void updatePass(String phone, String pass, Date lastPasswordResetTime);
 }

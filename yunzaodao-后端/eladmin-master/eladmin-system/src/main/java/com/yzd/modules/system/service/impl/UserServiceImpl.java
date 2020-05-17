@@ -209,13 +209,6 @@ public class UserServiceImpl implements UserService {
         userRepository.updateEmail(username,email);
     }
 
-    @Override
-    public Boolean checkRegister(String phone) {
-        if (userRepository.findByPhone(phone) != null || studentRepository.findByPhone(phone) != null) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public void download(List<UserDto> queryAll, HttpServletResponse response) throws IOException {
@@ -237,4 +230,30 @@ public class UserServiceImpl implements UserService {
         }
         FileUtil.downloadExcel(list, response);
     }
+
+    @Override
+    public Boolean checkRegister(String phone) {
+        if (userRepository.findByPhone(phone) != null || studentRepository.findByPhone(phone) != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public UserDto findByPhoneOrEmail(String count) {
+        User user;
+        if(ValidationUtil.isEmail(count)){
+            user = userRepository.findByEmail(count);
+        } else {
+            user = userRepository.findByPhone(count);
+        }
+        return userMapper.toDto(user);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePassByPhone(String phone, String encryptPassword) {
+        userRepository.updatePassByPhone(phone,encryptPassword,new Date());
+    }
+
 }
