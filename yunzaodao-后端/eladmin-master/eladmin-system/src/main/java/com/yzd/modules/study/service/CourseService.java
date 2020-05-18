@@ -67,4 +67,10 @@ public interface CourseService {
     * @throws IOException /
     */
     void download(List<CourseDto> all, HttpServletResponse response) throws IOException;
+
+
+    CourseDto createCourse(Course resource);
+
+
+    CourseDto findByCode(String code);
 }

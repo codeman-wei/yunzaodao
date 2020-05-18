@@ -18,6 +18,9 @@ public class CourseDto implements Serializable {
     /** 课程id */
     private Long id;
 
+    /** 班级 **/
+    private String className;
+
     /** 课程名 */
     private String courseName;
 

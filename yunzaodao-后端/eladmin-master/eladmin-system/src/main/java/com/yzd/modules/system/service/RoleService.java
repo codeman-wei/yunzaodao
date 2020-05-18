@@ -14,10 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Zheng Jie
- * @date 2018-12-03
- */
+
 public interface RoleService {
 
     /**

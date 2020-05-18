@@ -13,6 +13,8 @@ import java.util.List;
 */
 public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
 
+    Course findByCourseCode(String code);
+
     @Query(value = "select course_code from course" , nativeQuery = true)
     List<String> findCourseCodes();
 }

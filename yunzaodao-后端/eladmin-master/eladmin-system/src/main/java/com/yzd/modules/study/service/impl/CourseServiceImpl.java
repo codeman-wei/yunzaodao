@@ -134,4 +134,26 @@ public class CourseServiceImpl implements CourseService {
         }
         FileUtil.downloadExcel(list, response);
     }
+
+
+    @Override
+    @CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
+    public CourseDto createCourse(Course resources) {
+        /*随机生成课程码*/
+        String courseCode = StringUtils.randomNumStr(7);
+        List<String> codes = courseRepository.findCourseCodes();
+        while (codes.contains(courseCode)) {
+            courseCode = StringUtils.randomNumStr(7);
+        }
+        resources.setCourseCode(courseCode);
+        return courseMapper.toDto(courseRepository.save(resources));
+    }
+
+    @Override
+    public CourseDto findByCode(String code) {
+        Course course = courseRepository.findByCourseCode(code);
+        ValidationUtil.isNull(course.getCourseCode(),"Course","courseCode",code);
+        return courseMapper.toDto(course);
+    }
 }

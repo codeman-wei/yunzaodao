@@ -51,7 +51,6 @@ public class User implements Serializable {
     @NotBlank
     private String phone;
 
-    @NotNull
     private Boolean enabled;
 
     private String password;

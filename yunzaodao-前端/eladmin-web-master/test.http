@@ -5,9 +5,40 @@ POST http://localhost:8000/mobile/login HTTP/1.1
 content-type: application/json
 
 {
-  "username": "zhengjie@tom.com",
-  "password": "123456",
-  "role": "student"
+  "username": "15688165559",
+  "password": "123456"
+}
+
+###
+
+GET http://localhost:8000/mobile/userInfo?phone=15874966963
+
+###
+
+POST http://localhost:8000/mobile/password/change HTTP/1.1
+content-type: application/json
+
+{
+  "count": "15980266329",
+  "oldPassword": "wei123",
+  "newPassword": "123456",
+  "role": "teacher"
+}
+
+
+###
+
+POST http://localhost:8000/mobile/student/update
+content-type: application/json
+
+{
+  "id": "10",
+  "college": { "id": 8 },
+  "email": "91045546@qq.com",
+  "name": "郭星宇",
+  "phone": "15666165559",
+  "sex": "男",
+  "studentNumber": "190d327022"
 }
 
 ###
@@ -43,18 +74,18 @@ Authorization:{{token}}
 
 ###
 
-POST http://localhost:8000/api/student/register
+POST http://localhost:8000/mobile/register
 content-type: application/json
 Authorization:{{token}}
 
 {
   "college": { "id": 8 },
-  "email": "910079546@qq.com",
+  "email": "91045546@qq.com",
   "password": "123456",
-  "name": "熊乾程",
-  "phone": "15688165559",
+  "name": "郭星宇d",
+  "phone": "156661fdsf65559",
   "sex": "男",
-  "studentNumber": "190327084"
+  "studentNumber": "190d327022"
 }
 
 ###

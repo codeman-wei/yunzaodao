@@ -23,13 +23,15 @@ import java.util.Set;
 public class Course implements Serializable {
     /** 课程id */
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "class_name")
+    private String className;
+
     /** 课程名 */
-    @Column(name = "course_name",nullable = false)
-    @NotBlank
+    @Column(name = "course_name")
     private String courseName;
 
     /** 课程编码 */
@@ -37,10 +39,8 @@ public class Course implements Serializable {
     private String courseCode;
 
 
-    @NotNull
     private Boolean enabled;
 
-    @NotNull
     @Column(name = "join_permission")
     private Boolean joinPermission;
 
@@ -50,7 +50,7 @@ public class Course implements Serializable {
 
     /** 选课人数 */
     @Column(name = "student_count")
-    private Integer studentCount;
+    private Integer studentCount=0;
 
     /** 授课教师姓名 */
     @Column(name = "teacher_name")
@@ -68,7 +68,7 @@ public class Course implements Serializable {
 
     /** 签到发起次数 */
     @Column(name = "sign_count")
-    private Integer signCount;
+    private Integer signCount=0;
 
     @ManyToMany
     @JoinTable(name = "course_student", joinColumns = {@JoinColumn(name = "course_id",referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")})

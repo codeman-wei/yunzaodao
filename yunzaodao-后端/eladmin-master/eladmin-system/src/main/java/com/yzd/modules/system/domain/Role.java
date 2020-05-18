@@ -2,6 +2,7 @@ package com.yzd.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
@@ -12,16 +13,17 @@ import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * 角色
- * @author Zheng Jie
- * @date 2018-11-22
- */
+
 @Entity
 @Table(name = "role")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Role implements Serializable {
+
+    public Role(Long id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
