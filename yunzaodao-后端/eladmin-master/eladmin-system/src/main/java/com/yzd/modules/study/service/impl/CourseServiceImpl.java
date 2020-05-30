@@ -3,6 +3,8 @@ package com.yzd.modules.study.service.impl;
 import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.SignHistory;
 import com.yzd.modules.study.repository.CourseRepository;
+import com.yzd.modules.study.service.dto.CouserSmallDto;
+import com.yzd.modules.study.service.mapper.CourseSmallMapper;
 import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.study.service.dto.CourseDto;
 import com.yzd.modules.study.service.dto.CourseQueryCriteria;
@@ -45,11 +47,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserMapper userMapper;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper) {
+    private final CourseSmallMapper courseSmallMapper;
+
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper, CourseSmallMapper courseSmallMapper) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.courseSmallMapper = courseSmallMapper;
     }
 
     @Override
@@ -112,7 +117,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Cacheable(key = "'loadCourseById:'+#p0")
+//    @Cacheable(key = "'loadCourseById:'+#p0")
     public Course findCourseById(Long id) {
         Course course = courseRepository.findById(id).orElseGet(Course::new);
         return course;
@@ -156,4 +161,23 @@ public class CourseServiceImpl implements CourseService {
         ValidationUtil.isNull(course.getCourseCode(),"Course","courseCode",code);
         return courseMapper.toDto(course);
     }
+
+    @Override
+    public Boolean courseBelong(String code, String phone) {
+        Course course = courseRepository.findByCourseCode(code);
+        ValidationUtil.isNull(course.getCourseCode(),"Course","courseCode",code);
+        if(course.getCreateUser().getPhone().equals(phone)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Override
+    public List<CouserSmallDto> findByUserId(Long id) {
+        List<Course> course = courseRepository.findByUserId(id);
+        return courseSmallMapper.toDto(course);
+    }
+
 }

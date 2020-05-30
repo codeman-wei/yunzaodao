@@ -158,4 +158,10 @@ public class DeptServiceImpl implements DeptService {
         }
         return deptDtos;
     }
+
+
+    @Override
+    public List<DeptDto> findAll() {
+        return deptMapper.toDto(deptRepository.findAll());
+    }
 }

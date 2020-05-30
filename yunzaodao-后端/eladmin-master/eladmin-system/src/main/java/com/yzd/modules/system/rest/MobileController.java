@@ -7,18 +7,28 @@ import com.yzd.aop.log.Log;
 import com.yzd.exception.BadRequestException;
 import com.yzd.modules.security.security.vo.MobileAuth;
 import com.yzd.modules.study.domain.Course;
+import com.yzd.modules.study.domain.CourseStudent;
+import com.yzd.modules.study.domain.SignHistoryPrimaryKey;
 import com.yzd.modules.study.domain.Student;
+import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.service.CourseService;
 import com.yzd.modules.study.service.StudentService;
 import com.yzd.modules.study.service.dto.StudentDto;
+import com.yzd.modules.study.service.mapper.CourseMapper;
+import com.yzd.modules.study.service.mapper.StudentMapper;
 import com.yzd.modules.system.domain.Role;
 import com.yzd.modules.system.domain.User;
 import com.yzd.modules.system.domain.vo.MobilePassVo;
 import com.yzd.modules.system.domain.vo.MobileUser;
+import com.yzd.modules.system.service.DeptService;
 import com.yzd.modules.system.service.UserService;
+import com.yzd.modules.system.service.dto.DeptDto;
+import com.yzd.modules.system.service.dto.DeptQueryCriteria;
 import com.yzd.modules.system.service.dto.UserDto;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +44,18 @@ public class MobileController {
     private final UserService userService;
     private final CourseService courseService;
     private final PasswordEncoder passwordEncoder;
+    private final CourseStudentRepository courseStudentRepository;
+    private final StudentMapper studentMapper;
+    private final DeptService deptService;
 
-    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder) {
+    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder, CourseStudentRepository courseStudentRepository, StudentMapper studentMapper, DeptService deptService) {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
         this.passwordEncoder = passwordEncoder;
+        this.courseStudentRepository = courseStudentRepository;
+        this.studentMapper = studentMapper;
+        this.deptService = deptService;
     }
 
     @GetMapping(value = "/check")
@@ -166,5 +182,67 @@ public class MobileController {
     @AnonymousAccess
     public ResponseEntity<Object> getCourse(String courseCode) {
         return new ResponseEntity<>(courseService.findByCode(courseCode), HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/course/check")
+    @AnonymousAccess
+    public ResponseEntity<Object> checkCourseBelong(String courseCode, String phone) {
+        Boolean flag = courseService.courseBelong(courseCode, phone);
+        if(flag){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/course/belong")
+    @AnonymousAccess
+    public ResponseEntity<Object> getCourseByTeacherId(Long id) {
+        return new ResponseEntity<>(courseService.findByUserId(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/course/join")
+    @AnonymousAccess
+    public ResponseEntity<Object> getCourseByStudentId(Long id) {
+        return new ResponseEntity<>(studentService.findJoinCourse(id), HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "/course/update")
+    @AnonymousAccess
+    public ResponseEntity<Object> updateCourse(@RequestBody Course resources) {
+        courseService.update(resources);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/course/student")
+    @AnonymousAccess
+    public ResponseEntity<Object> getCourseStudents(Long id) {
+        Set<Student> students = courseService.findCourseById(id).getStudents();
+        Set<StudentDto> studentDtos = new HashSet<>();
+        if (students != null && students.size() != 0) {
+            for (Student student : students) {
+                SignHistoryPrimaryKey pk = new SignHistoryPrimaryKey(id, student.getId());
+                CourseStudent cs = courseStudentRepository.findById(pk).orElseGet(CourseStudent::new);
+                if (cs != null) {
+                    Integer experience = cs.getExperience();
+                    studentDtos.add(studentMapper.toDto(student, experience));
+                } else {
+                    throw new BadRequestException("获取学生经验值失败");
+                }
+            }
+        }
+        return new ResponseEntity<>(studentDtos,HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/college")
+    @AnonymousAccess
+    public ResponseEntity<Object> getColleges(){
+        // 数据权限
+        List<DeptDto> deptDtos = deptService.findAll();
+        Map<String,Object> map = (Map)deptService.buildTree(deptDtos);
+        return new ResponseEntity<>(map.get("content"), HttpStatus.OK);
     }
 }

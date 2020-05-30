@@ -85,4 +85,10 @@ public interface DeptService {
      * @return /
      */
     Set<DeptDto> getDeleteDepts(List<Dept> deptList, Set<DeptDto> deptDtos);
+
+    /**
+     * 直接获取所有部门
+     * @return
+     */
+    List<DeptDto> findAll();
 }

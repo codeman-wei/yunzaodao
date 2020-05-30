@@ -10,4 +10,5 @@ import java.util.List;
 public interface CourseStudentRepository extends JpaRepository<CourseStudent, SignHistoryPrimaryKey> {
 
     List<CourseStudent> findByIdCourseId(Long courseId);
+
 }

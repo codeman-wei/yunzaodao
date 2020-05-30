@@ -4,6 +4,7 @@ import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.SignHistory;
 import com.yzd.modules.study.service.dto.CourseDto;
 import com.yzd.modules.study.service.dto.CourseQueryCriteria;
+import com.yzd.modules.study.service.dto.CouserSmallDto;
 import org.springframework.data.domain.Pageable;
 import java.util.Map;
 import java.util.List;
@@ -73,4 +74,8 @@ public interface CourseService {
 
 
     CourseDto findByCode(String code);
+
+    Boolean courseBelong(String code, String phone);
+
+    List<CouserSmallDto> findByUserId(Long id);
 }

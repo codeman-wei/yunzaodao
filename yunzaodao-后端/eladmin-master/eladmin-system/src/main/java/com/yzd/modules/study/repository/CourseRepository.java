@@ -17,4 +17,6 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
 
     @Query(value = "select course_code from course" , nativeQuery = true)
     List<String> findCourseCodes();
+
+    List<Course> findByUserId(Long id);
 }

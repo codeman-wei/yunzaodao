@@ -1,12 +1,16 @@
 package com.yzd.modules.study.service;
 
+import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.Student;
+import com.yzd.modules.study.service.dto.CourseDto;
+import com.yzd.modules.study.service.dto.CouserSmallDto;
 import com.yzd.modules.study.service.dto.StudentDto;
 import com.yzd.modules.study.service.dto.StudentQueryCriteria;
 import org.springframework.data.domain.Pageable;
 import java.util.Map;
 import java.util.List;
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -71,4 +75,6 @@ public interface StudentService {
     Student findByCount(String count);
 
     void updatePass(String count, String pass);
+
+    List<CouserSmallDto> findJoinCourse(Long id);
 }

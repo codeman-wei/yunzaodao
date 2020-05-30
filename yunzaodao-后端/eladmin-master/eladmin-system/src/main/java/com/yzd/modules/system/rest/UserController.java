@@ -40,10 +40,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author Zheng Jie
- * @date 2018-11-23
- */
+
 @Api(tags = "系统：用户管理")
 @RestController     //注解相当于@ResponseBody ＋ @Controller合在一起的作用
 @RequestMapping("/api/users")

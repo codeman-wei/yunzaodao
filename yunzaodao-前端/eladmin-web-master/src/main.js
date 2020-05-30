@@ -24,6 +24,8 @@ import './assets/styles/index.scss'
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/atom-one-dark.css'
 
+import './assets/icons'
+
 import App from './App'
 import store from './store'
 import router from './router/routers'

@@ -1,12 +1,17 @@
 package com.yzd.modules.study.service.impl;
 
 import com.yzd.exception.EntityNotFoundException;
+import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.repository.StudentRepository;
 import com.yzd.modules.study.service.StudentService;
+import com.yzd.modules.study.service.dto.CourseDto;
+import com.yzd.modules.study.service.dto.CouserSmallDto;
 import com.yzd.modules.study.service.dto.StudentDto;
 import com.yzd.modules.study.service.dto.StudentQueryCriteria;
+import com.yzd.modules.study.service.mapper.CourseMapper;
+import com.yzd.modules.study.service.mapper.CourseSmallMapper;
 import com.yzd.modules.study.service.mapper.StudentMapper;
 import com.yzd.utils.FileUtil;
 import com.yzd.utils.PageUtil;
@@ -40,11 +45,14 @@ public class StudentServiceImpl implements StudentService {
 
     private final CourseStudentRepository courseStudentRepository;
 
+    private final CourseSmallMapper courseSmallMapper;
 
-    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper, CourseStudentRepository courseStudentRepository) {
+
+    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper, CourseStudentRepository courseStudentRepository, CourseSmallMapper courseSmallMapper) {
         this.studentRepository = studentRepository;
         this.studentMapper = studentMapper;
         this.courseStudentRepository = courseStudentRepository;
+        this.courseSmallMapper = courseSmallMapper;
     }
 
     @Override
@@ -148,5 +156,14 @@ public class StudentServiceImpl implements StudentService {
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String count, String pass) {
         studentRepository.updatePass(count,pass,new Date());
+    }
+
+
+    @Override
+    public List<CouserSmallDto> findJoinCourse(Long id) {
+        Student student = studentRepository.findById(id).orElseGet(Student::new);
+        ValidationUtil.isNull(student.getId(),"Student","id",id);
+        List<Course> coursess = new ArrayList<>(student.getCourses());
+        return courseSmallMapper.toDto(coursess);
     }
 }

@@ -82,6 +82,7 @@ public class AuthController {
         String password = authUser.getPassword();
         RSA rsa = new RSA(privateKey, null);
         if ("wdc".equals(authUser.getUsername())) {
+            /*注：这里这样做只是给测试软件用的，跳过验证码验证，生产阶段要删了*/
             authUser.setUsername("admin");
         } else {
             /*rsa.decrypt返回的实际上是byte[]*/

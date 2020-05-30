@@ -1,5 +1,6 @@
 package com.yzd.modules.study.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yzd.modules.system.domain.Dept;
 import lombok.Data;
 import cn.hutool.core.bean.BeanUtil;
@@ -14,6 +15,8 @@ import lombok.Setter;
 import org.hibernate.annotations.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
 * @author wdc
@@ -48,9 +51,9 @@ public class Student implements Serializable {
 
     private String password;
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "students")
-//    private Set<Course> courses;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private Set<Course> courses;
 
     /** 学院 */
     @OneToOne

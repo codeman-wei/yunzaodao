@@ -38,7 +38,7 @@ public class Course implements Serializable {
     @Column(name = "course_code",nullable = false)
     private String courseCode;
 
-
+    /** 课程状态 */
     private Boolean enabled;
 
     @Column(name = "join_permission")
@@ -61,10 +61,15 @@ public class Course implements Serializable {
     @JoinColumn(name = "college_id")
     private Dept college;
 
-    /** 课程创建者uid */
+    /** 课程创建者id */
     @OneToOne
     @JoinColumn(name = "create_uid")
     private User createUser;
+
+    /** 方便查询，没有实际显示 **/
+    @Column(name = "create_uid", insertable=false, updatable=false)
+    private Long userId;
+
 
     /** 签到发起次数 */
     @Column(name = "sign_count")
