@@ -36,13 +36,13 @@
     <h2 *ngIf="!slideFlag">您还没有创建的班课</h2>
   </div>
   <ion-list>
-    <ion-item detail *ngFor="let item of classList" (click)="detailInfo(item.id)">
+    <ion-item detail *ngFor="let item of classList" (click)="detailInfo(item.courseCode)">
       <ion-thumbnail slot="start">
         <ion-img></ion-img>
       </ion-thumbnail>
       <ion-label>
-        <h2>{{item.name}}</h2>
-        <h3>{{item.teacher}}</h3>
+        <h2>{{item.courseName}}</h2>
+        <h3>{{item.teacherName}}</h3>
         <p>{{item.semester}}</p>
       </ion-label>
     </ion-item>

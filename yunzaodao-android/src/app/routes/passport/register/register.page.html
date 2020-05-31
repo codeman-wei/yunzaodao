@@ -23,12 +23,12 @@
           </div>
           <ion-item>
             <ion-input
-                name="username"
+                name="phone"
                 required
                 type="number"
-                [(ngModel)]="register.username"
+                [(ngModel)]="register.phone"
                 pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"
-                #username="ngModel"
+                #phone="ngModel"
               >
             </ion-input>
           </ion-item>
@@ -159,8 +159,9 @@
 
       <ion-slide>
         <form
-          (ngSubmit)="onRegisterInfo(infoForm)"
-          #infoForm="ngForm"
+          (ngSubmit)="onRegisterInfo(studentInfoForm)"
+          #studentInfoForm="ngForm"
+          *ngIf="isStudent"
           class="center-e"
           validating
         >
@@ -177,6 +178,89 @@
               #name="ngModel"
               class="margintop"
             ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              name="email"
+              placeholder="请输入您的邮箱"
+              required
+              [(ngModel)]="register.email"
+              #email="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select required placeholder="请选择您的学院" name="college" [(ngModel)]="college" class="long-select margintop">
+              <ion-select-option *ngFor="let item of colleges" value="{{item.id}}"> {{item.label}} </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              name="studentNumber"
+              placeholder="请输入您的学号"
+              required
+              [(ngModel)]="register.studentNumber"
+              #studentNumber="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <ion-button
+            type="submit"
+            expand="full"
+            color="primary"
+            class="margintop fillet-boder"
+            >确定
+          </ion-button>
+        </form>
+        <form
+          (ngSubmit)="onRegisterInfo(teacherInfoForm)"
+          #teacherInfoForm="ngForm"
+          *ngIf="!isStudent"
+          class="center-e"
+          validating
+        >
+          <div class="margintop left" style="font-size:large;">
+            请完善基本信息
+          </div>
+          <br />
+          <ion-item>
+            <ion-input
+              name="nickName"
+              placeholder="请输入您的姓名"
+              required
+              [(ngModel)]="register.nickName"
+              #nickName="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              name="userName"
+              placeholder="用户名（用于登录web管理系统）"
+              required
+              pattern="^[a-zA-Z][a-zA-Z0-9]{3,15}$"
+              [(ngModel)]="register.username"
+              #userName="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <div class="left" style="font-size:12px;">
+            长度4至16位，由字母、数字组成，必须由字母开头
+          </div>
+          <ion-item>
+            <ion-input
+              name="email"
+              placeholder="请输入您的邮箱"
+              required
+              [(ngModel)]="register.email"
+              #email="ngModel"
+              class="margintop"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select required placeholder="请选择您的学院" name="college" [(ngModel)]="college" class="long-select margintop">
+              <ion-select-option *ngFor="let item of colleges" value="{{item.id}}"> {{item.label}} </ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-button
             type="submit"

@@ -26,31 +26,40 @@ export class ChangePasswordPage implements OnInit {
 
   async onChangePassword(form: NgForm) {
     if (form.valid) {
-      this.passportService.changePassword(this.oldPassword, this.newPassword).then(async (res:any) =>{
-        if(res.code == 200){
-          let userInfo: any = this.localStorageService.get(USER_KEY, false)
-          userInfo['isLogin'] = false
-          this.localStorageService.set(USER_KEY, userInfo)
-          const alert = await this.alertCtrl.create({
-              header: '提示',
-              message: '密码修改成功',
-              backdropDismiss: false,
-              buttons: [{
-                text: '重新登录',
-                handler: () => {
-                  window.location.replace('passport/login')
-                }
-              }]
-          })
-          alert.present()
-        }else if(res.code == 400){
-          const alert = await this.alertCtrl.create({
-            header: '警告',
-            message: '原密码错误',
-            buttons: ['确定']
-          })
-          alert.present()
-        }
+      const userInfo = this.localStorageService.get(USER_KEY, '')
+      let status = userInfo.status
+      switch(status){
+        case '学生':
+          status = 'student'
+          break
+        case '教师':
+          status = 'teacher'
+          break
+      }
+      this.passportService.changePassword(this.oldPassword, this.newPassword, status).then(async (res:any) =>{
+        let userInfo: any = this.localStorageService.get(USER_KEY, false)
+        userInfo['isLogin'] = false
+        this.localStorageService.set(USER_KEY, userInfo)
+        const alert = await this.alertCtrl.create({
+            header: '提示',
+            message: '密码修改成功',
+            backdropDismiss: false,
+            buttons: [{
+              text: '重新登录',
+              handler: () => {
+                window.location.replace('passport/login')
+              }
+            }]
+        })
+        alert.present()
+      }).catch(async (err:any) => {
+        console.log(err)
+        const alert = await this.alertCtrl.create({
+          header: '警告',
+          message: '原密码错误',
+          buttons: ['确定']
+        })
+        alert.present()
       })
     }
   }

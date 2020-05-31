@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-popover',
@@ -9,16 +10,25 @@ import { Router } from '@angular/router';
 })
 export class PopoverComponent implements OnInit {
 
-  constructor(private router: Router, public popoverController: PopoverController) { }
+  constructor(private router: Router, public popoverController: PopoverController, private localStorageService:LocalStorageService, private toastCtrl: ToastController) { }
 
   ngOnInit() {}
 
   dismissPopover() {
     this.popoverController.dismiss()
   }
-  createClass(){
+  async createClass(){
     this.dismissPopover()
-    this.router.navigateByUrl("/home/class/create-class")
+    if(this.localStorageService.get(USER_KEY,{}).status === '教师'){
+      this.router.navigateByUrl("/home/class/create-class")
+    }
+    else{
+      const toast = await this.toastCtrl.create({
+        message: '学生暂不能创建班课',
+        duration: 3000,
+      })
+      toast.present()
+    }
   }
   joinClass(){
     this.dismissPopover()

@@ -4,6 +4,7 @@ import { AuthenticationCodeService } from 'src/app/services/authentication-code.
 import { NgForm } from '@angular/forms';
 import { PassportService } from 'src/app/services/passport.service';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 @Component({
   selector: 'app-register',
@@ -14,12 +15,25 @@ export class RegisterPage implements OnInit {
 
   slideIndex = 0
 
+  isStudent = true
+
+  college = ''
+  dept = ''
+  colleges = []
+
   register = {
-    username: '15695917757',
+    phone: '15695917757',
+    email: '896567891@qq.com',
     password: 'a123456',
     code: '1314',
     type: '',
-    name: ''
+    sex: '',
+    name: '王灿杰',
+    nickName: '',
+    username: '',
+    studentNumber: '190327071',
+    college: { "id": 8 },
+    dept: { "id": 8 },
   }
 
   verifyCode = {
@@ -32,13 +46,25 @@ export class RegisterPage implements OnInit {
   }
 
 
-  constructor(private router: Router, private toastCtrl: ToastController,private alertCtrl: AlertController,private passportService: PassportService, private authenticationCode: AuthenticationCodeService) { }
+  constructor(private router: Router, private toastCtrl: ToastController,private alertCtrl: AlertController,private passportService: PassportService, private authenticationCode: AuthenticationCodeService, private httpService:CommonService) { }
 
   @ViewChild('registerSlides', { static: true }) registerSlides: IonSlides
   //字符串'registerSlides'和模板中的#registerSlides引用变量的名称一致
   ngOnInit() {
     this.registerSlides.lockSwipeToNext(true)
     this.registerSlides.lockSwipeToPrev(true)
+    const api='/mobile/college'
+    this.httpService.ajaxGet(api).then((res:any)=>{
+      for(let i in res[0].children){
+        const item = {
+          'id': res[0].children[i].id,
+          'label': res[0].children[i].label
+        }
+        this.colleges.push(item)
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
   onNext() {
     this.registerSlides.lockSwipeToNext(false)
@@ -55,26 +81,24 @@ export class RegisterPage implements OnInit {
   
   async onregisterPhone(form: NgForm) {
     if (form.valid) {
-      this.passportService.checkIsRegisted(this.register.username).then(async (Response:any) =>{
-        if(!Response.data){
-          this.onNext()
-        }
-        else {
-          const toast = await this.toastCtrl.create({
-            message: '该手机号码已注册',
-            duration: 3000,
-            buttons: [
-              {
-                side: 'end',
-                text: '去登陆',
-                handler: () => {
-                  this.router.navigateByUrl('login')
-                }
+      this.passportService.checkIsRegisted(this.register.phone).then(async (res:any) =>{
+        this.onNext()
+      }).catch(async (err:any) =>{
+        console.log(err)
+        const toast = await this.toastCtrl.create({
+          message: '该手机号码已注册',
+          duration: 3000,
+          buttons: [
+            {
+              side: 'end',
+              text: '去登陆',
+              handler: () => {
+                this.router.navigateByUrl('passport/login')
               }
-            ]
-          })
-          toast.present()
-        }
+            }
+          ]
+        })
+        toast.present()
       })
     } else {
       const toast = await this.toastCtrl.create({
@@ -103,19 +127,31 @@ export class RegisterPage implements OnInit {
     }, 1000)
   }
   async getCode() {
-    this.authenticationCode.getCode(this.register.username).then(async (res)=>{
-      const toast = await this.toastCtrl.create({
-        message: '验证码已发送至' + this.register.username,
-        duration: 3000
-      })
-      toast.present()
-    }).catch(async (err)=>{
-      const toast = await this.toastCtrl.create({
-        message: '验证码请求失败，请稍后再试',
-        duration: 3000
-      })
-      toast.present()
+    // this.authenticationCode.getCode(this.register.phone).then(async (res)=>{
+    //   const toast = await this.toastCtrl.create({
+    //     message: '验证码已发送至' + this.register.phone,
+    //     duration: 3000
+    //   })
+    //   toast.present()
+    // }).catch(async (err)=>{
+    //   const toast = await this.toastCtrl.create({
+    //     message: '验证码请求失败，请稍后再试',
+    //     duration: 3000
+    //   })
+    //   toast.present()
+    // })
+    // //发送验证码成功后开始倒计时
+    // this.verifyCode.disable = false
+    // this.verifyCode.sended = true
+    // this.settime()
+    let newcode = this.authenticationCode.createCode(4)
+    console.log(newcode)
+    const alert = await this.alertCtrl.create({
+      header: '验证码',
+      message: newcode,
+      buttons: ['确定']
     })
+    alert.present()
     //发送验证码成功后开始倒计时
     this.verifyCode.disable = false
     this.verifyCode.sended = true
@@ -125,23 +161,35 @@ export class RegisterPage implements OnInit {
     if(form.valid){
       this.verifyCode.submited = true
       // 验证code是否一致
-      this.authenticationCode.checkCode(this.register.username, this.register.code).then((res)=>{
+      if (this.authenticationCode.validate(this.register.code)) {
         this.verifyCode.verifyCodeResult = true
         this.onNext()
-      }).catch(async (err)=>{
+      } else {
         this.verifyCode.verifyCodeResult = false
         const toast = await this.toastCtrl.create({
           message: '验证码错误或已失效',
           duration: 3000
         })
         toast.present()
-      })
-    }else{
-      const toast = await this.toastCtrl.create({
-        message: '请输入验证码',
-        duration: 3000
-      })
-      toast.present()
+      }
+    //   // 验证code是否一致
+    //   this.authenticationCode.checkCode(this.register.phone, this.register.code).then((res)=>{
+    //     this.verifyCode.verifyCodeResult = true
+    //     this.onNext()
+    //   }).catch(async (err)=>{
+    //     this.verifyCode.verifyCodeResult = false
+    //     const toast = await this.toastCtrl.create({
+    //       message: '验证码错误或已失效',
+    //       duration: 3000
+    //     })
+    //     toast.present()
+    //   })
+    // }else{
+    //   const toast = await this.toastCtrl.create({
+    //     message: '请输入验证码',
+    //     duration: 3000
+    //   })
+    //   toast.present()
     }
   }
   async onRegisterPassword(form: NgForm){
@@ -157,31 +205,33 @@ export class RegisterPage implements OnInit {
   }
 
   imStudent() {
-    this.register.type='学生'
+    this.isStudent=true
     this.onNext()
   }
   imTeacher() {
-    this.register.type='教师'
+    this.isStudent=false
     this.onNext()
   }
+
   async onRegisterInfo(form: NgForm){
     if(form.valid){
-      this.passportService.register(this.register).then(async (res:any)=>{
-        if(res.code == 200){
-          const alert = await this.alertCtrl.create({
-            header: '提示',
-            message: '注册成功',
-            buttons: ['确定']
-          })
-          alert.present()
-          // window.location.replace('passport/login')
-          this.router.navigateByUrl('passport/login')
-        }
-        else{ }
+      this.register.college.id = Number(this.college)
+      this.register.dept.id = Number(this.college)
+      this.passportService.register(this.isStudent, this.register).then(async (res:any)=>{
+        const alert = await this.alertCtrl.create({
+          header: '提示',
+          message: '注册成功',
+          buttons: ['确定']
+        })
+        alert.present()
+        window.location.replace('passport/login')
+        // this.router.navigateByUrl('passport/login')
+      }).catch(err =>{
+        console.log(err)
       })
     }else{
       const toast = await this.toastCtrl.create({
-        message: '请输入您的姓名',
+        message: '请输入完整信息',
         duration: 3000
       })
       toast.present()

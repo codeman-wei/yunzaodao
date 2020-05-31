@@ -11,30 +11,46 @@ import { LocalStorageService, GLOBAL_VARIABLE_KEY } from 'src/app/shared/service
 })
 export class InfoPage implements OnInit {
 
-  classId = ''
+  college = ''
+  colleges = []
+
+  courseCode = ''
 
   classInfo = {
-    'name': '',
-    'class': '',
+    'id': '',
+    'courseCode': '',
+    'courseName': '',
+    'className': '',
+    'teacherName': '',
     'semester': '',
-    'school': '',
-    'college': '',
+    'school': '福州大学',
+    'college': {},
+    'joinPermission': true,
+    'enabled': false,
   }
 
   constructor(private router: Router, private httpService:CommonService, private toastCtrl: ToastController, private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.classId = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').classId
-    const api='/class/info'
-    const json = {
-      'number': this.classId
-    }
-    this.httpService.ajaxPost(api, json).then(async (res:any) =>{
-      this.classInfo.name = res.data.name
-      this.classInfo.class = res.data.class
-      this.classInfo.semester = res.data.semester
-      this.classInfo.school = res.data.school
-      this.classInfo.college = res.data.college
+    let api='/mobile/college'
+    this.httpService.ajaxGet(api).then((res:any)=>{
+      for(let i in res[0].children){
+        const item = {
+          'id': res[0].children[i].id,
+          'label': res[0].children[i].label
+        }
+        this.colleges.push(item)
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
+    this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').courseCode
+    api = '/mobile/course/info?'+'courseCode='+this.courseCode
+    this.httpService.ajaxGet(api).then(async (res:any) =>{
+      for(let item in res){
+        this.classInfo[item] = res[item]
+      }
+      this.college = res['college'].id.toString()
     })
 
   }
@@ -42,12 +58,12 @@ export class InfoPage implements OnInit {
   async change(){
     let info = ''
     for(let item in this.classInfo){
-      if(!this.classInfo[item]) {
+      if(this.classInfo[item] === '') {
         switch(item){
-          case 'name':
+          case 'courseName':
             info = '课程'
             break
-          case 'class':
+          case 'className':
             info = '班级'
             break
           case 'semester':
@@ -55,9 +71,6 @@ export class InfoPage implements OnInit {
             break
           case 'school':
             info = '学校'
-            break
-          case 'college':
-            info = '院系'
             break
         }
         const toast = await this.toastCtrl.create({
@@ -68,16 +81,19 @@ export class InfoPage implements OnInit {
         return
       }
     }
-    const api = '/class/change/info'
-    const json = {
-      'number': this.classId,
-      'name': this.classInfo.name,
-      'class': this.classInfo.class,
-      'semester': this.classInfo.semester,
-      'school': this.classInfo.school,
-      'college': this.classInfo.college
+    if(JSON.stringify(this.classInfo['college']) == '{}' && !this.college){
+      const toast = await this.toastCtrl.create({
+        message: '院系 不能为空',
+        duration: 3000
+      })
+      toast.present()
+      return
     }
-    this.httpService.ajaxPost(api, json).then(async (res:any) =>{
+    const api = '/mobile/course/update'
+    let json = this.classInfo
+    json['college'] = {id: this.college}
+    console.log(json)
+    this.httpService.ajaxPut(api, json).then(async (res:any) =>{
       window.location.replace('home/class/detail/details')
     })
   }

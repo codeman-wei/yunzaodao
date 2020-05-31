@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { PassportService } from 'src/app/services/passport.service';
 import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-storage.service';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,11 @@ export class LoginPage implements OnInit {
 
   login = {
     userName: '15695917757',
-    password: 'admin',
+    password: 'a123456',
     submited: false
   }
 
-  constructor(private router: Router,private toastCtrl: ToastController,private passportService: PassportService,private localStorageService: LocalStorageService) { }
+  constructor(private router: Router,private toastCtrl: ToastController,private passportService: PassportService,private localStorageService: LocalStorageService, private httpService:CommonService) { }
 
   ngOnInit() {
   }
@@ -41,30 +42,50 @@ export class LoginPage implements OnInit {
       toast.present()
     } else {
       const json = { 'username':this.login.userName, 'password':this.login.password }
-      const toast = await this.toastCtrl.create({
-        message: '帐号或密码不正确',
-        duration: 3000,
-        buttons: [
-          {
-            side: 'end',
-            text: '找回密码',
-            handler: () => {
-              this.router.navigateByUrl('forgot-password')
-            }
-          }
-        ]
-      })
-      this.passportService.login(json).then((res:any)=>{
-        if(res.code == 200){
-          let userInfo: any = this.localStorageService.get(USER_KEY, {})
-          userInfo['phone'] = this.login.userName
-          userInfo['name'] = res.data.name
-          userInfo['status'] = res.data.status
+      this.passportService.login(json).then(async (res:any)=>{
+        let userInfo: any = this.localStorageService.get(USER_KEY, {})
+        userInfo['phone'] = this.login.userName
+        const api='/mobile/userInfo?phone=' + this.login.userName
+        this.httpService.ajaxGet(api).then((res:any)=>{
+          userInfo = res
           userInfo['isLogined'] = true
           this.localStorageService.set(USER_KEY, userInfo)
           window.location.replace('home')
           console.log("登录成功")
-        }else if (res.code == 400){
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }).catch(async (err:any) =>{
+        console.log(err)
+        if (err.status == 400){
+          const toast = await this.toastCtrl.create({
+            message: '密码不正确',
+            duration: 3000,
+            buttons: [
+              {
+                side: 'end',
+                text: '找回密码',
+                handler: () => {
+                  this.router.navigateByUrl('forgot-password')
+                }
+              }
+            ]
+          })
+          toast.present()
+        }else if (err.status == 404){
+          const toast = await this.toastCtrl.create({
+            message: '帐号不存在',
+            duration: 3000,
+            buttons: [
+              {
+                side: 'end',
+                text: '去注册',
+                handler: () => {
+                  this.router.navigateByUrl('forgot-password')
+                }
+              }
+            ]
+          })
           toast.present()
         }
       })

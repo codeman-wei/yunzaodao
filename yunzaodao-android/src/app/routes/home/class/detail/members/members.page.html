@@ -17,17 +17,17 @@
   <ion-list style="width: 90%;margin: 0 auto;">
     <ion-list-header>
       <ion-label>成员总数</ion-label>
-      <ion-text>{{num}}人 </ion-text>
+      <ion-text>{{classInfo.studentCount}}人 </ion-text>
     </ion-list-header>
-    <ion-item detail *ngFor="let item of memberList" (click)="memberDetail(item.number)">
-      <ion-text slot="start">{{item.id}}</ion-text>
+    <ion-item *ngFor="let item of memberList let i=index" (click)="memberDetail(item.number)">
+      <ion-text slot="start">{{i + 1}}</ion-text>
       <ion-thumbnail slot="start">
         <ion-img></ion-img>
       </ion-thumbnail>
       <ion-label>
         <h2>{{item.name}}</h2>
-        <h2>{{item.exp}}经验值</h2>
-        <p>{{item.number}}</p>
+        <h2><strong style="color:orange">{{item.experience}}</strong>&nbsp;&nbsp;<span style="font-size: smaller;">经验值</span></h2>
+        <p>{{item.studentNumber}}</p>
       </ion-label>
     </ion-item>
   </ion-list>

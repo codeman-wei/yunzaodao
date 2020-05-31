@@ -36,15 +36,16 @@ export class ClassPage implements OnInit {
   }
 
   async initClassList(isCreater){
-    const api='/class/list'
-    const json={
-      'phone': this.phone,
-      'isCreater': isCreater
+    let api='/mobile/course/'
+    const id = this.localStorageService.get(USER_KEY, '').id
+    if(isCreater){
+      api += 'belong'
+    }else{
+      api += 'join'
     }
-    this.httpService.ajaxPost(api, json).then(async (res:any)=>{
-      if(res.code == 200){
-        this.classList=res.data
-      }
+    api += '?id=' + id
+    this.httpService.ajaxGet(api).then(async (res:any)=>{
+      this.classList = res
     })
   }
 
@@ -63,7 +64,7 @@ export class ClassPage implements OnInit {
   }
 
   async detailInfo(index){
-    this.localStorageService.set(GLOBAL_VARIABLE_KEY,{'classId':index})
+    this.localStorageService.set(GLOBAL_VARIABLE_KEY,{'courseCode':index})
     this.router.navigateByUrl('/home/class/detail')
   }
 }
