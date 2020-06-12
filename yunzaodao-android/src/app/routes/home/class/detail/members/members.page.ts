@@ -11,7 +11,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class MembersPage implements OnInit {
 
-  classId = ''
+  courseCode = ''
 
   num = 50
 
@@ -20,6 +20,7 @@ export class MembersPage implements OnInit {
   isTeacher = false
 
   classInfo = {
+    'id': '',
     'number': '',
     'name': '',
     'class': '',
@@ -27,6 +28,7 @@ export class MembersPage implements OnInit {
     'semester': '',
     'school': '',
     'college': '',
+    'studentCount': 0,
     'isJoinable': true,
     'isClosed': false,
     'isDeleted': false
@@ -50,32 +52,29 @@ export class MembersPage implements OnInit {
   constructor(private localStorageService:LocalStorageService, private router: Router, private httpService:CommonService, private toastCtrl: ToastController, private alertCtrl: AlertController) { }
 
   ngOnInit() {
-    this.classId = this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').classId
-    // 查询是否是老师的接口
-    let api = '/class/isTeacher'
-    let json = {
-      'phone':this.localStorageService.get(USER_KEY,'').phone,
-      'classId':this.classId
-    }
-    this.httpService.ajaxPost(api, json).then(async (res:any) =>{
-      if(res.code==200){
-        this.isTeacher=true
-        this.signIn_text='发起签到'
-      }else if(res.code==400){
-        this.isTeacher=false
-        this.signIn_text='参与签到'
+    const userInfo = this.localStorageService.get(USER_KEY,'')
+    this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').courseCode
+    let api = '/mobile/course/check?'+'courseCode='+this.courseCode+'&'+'phone='+userInfo.phone
+    this.httpService.ajaxGet(api).then(res =>{
+      this.isTeacher = true
+      this.signIn_text='发起签到'
+    }).catch(err =>{
+      this.isTeacher = false
+      this.signIn_text='参与签到'
+    })
+
+    // 获取班课信息
+    api = '/mobile/course/info?'+'courseCode='+this.courseCode
+    this.httpService.ajaxGet(api).then(async (res:any) =>{
+      for(let item in res){
+        this.classInfo[item] = res[item]
       }
+      // 获取班课成员的接口
+      api = '/mobile/course/student?'+'id='+this.classInfo.id
+      this.httpService.ajaxGet(api).then(async (res:any) =>{
+        this.memberList = res
+      })
     })
-    // 获取班课信息的接口
-    api = '/class/info'
-    json['classId'] = this.classId
-    this.httpService.ajaxPost(api, json).then(async (res:any) =>{
-      this.classInfo = res.data
-    })
-
-    // 获取班课成员的接口
-
-    
   }
 
   async signIn(){

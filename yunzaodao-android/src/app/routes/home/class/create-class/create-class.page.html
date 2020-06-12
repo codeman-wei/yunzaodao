@@ -24,14 +24,14 @@
       class="hori_border"
     >
       <ion-label>课程</ion-label>
-      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.name"></ion-input>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.courseName"></ion-input>
     </ion-item>
     <ion-item
       lines="none"
       class="bottom_border"
     >
       <ion-label>班级</ion-label>
-      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.class"></ion-input>
+      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.className"></ion-input>
     </ion-item>
     <ion-item
       lines="none"
@@ -45,14 +45,16 @@
       class="bottom_border"
     >
       <ion-label>学校</ion-label>
-      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.school"></ion-input>
+      <ion-input disabled="true" class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.school"></ion-input>
     </ion-item>
     <ion-item
       lines="none"
       class="bottom_border"
     >
       <ion-label>院系</ion-label>
-      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.college"></ion-input>
+      <ion-select required placeholder="请选择学院" name="college" [(ngModel)]="college" class="long-select">
+        <ion-select-option *ngFor="let item of colleges" value="{{item.id}}"> {{item.label}} </ion-select-option>
+      </ion-select>
     </ion-item>
   </ion-list>
 

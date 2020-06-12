@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-storage.service';
 
 @Component({
@@ -11,14 +11,16 @@ import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-sto
 export class MinePage implements OnInit {
 
   userInfo = {
-    name: ""
+    name: '',
+    status: ''
   }
 
-  constructor(private router: Router,private alertCtrl: AlertController,private localStorageService:LocalStorageService) { }
+  constructor(private router: Router,private toastCtrl: ToastController,private alertCtrl: AlertController,private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
     const userInfo = this.localStorageService.get(USER_KEY, '')
     this.userInfo.name = userInfo.name
+    this.userInfo.status = userInfo.status
   }
 
   async onLogout() {
@@ -42,5 +44,19 @@ export class MinePage implements OnInit {
       ]
     })
     alert.present()
+  }
+  async detail() {
+    switch(this.userInfo.status){
+      case '学生':
+        this.router.navigateByUrl('/home/mine/user-info')
+        break
+      case '教师':
+        const toast = await this.toastCtrl.create({
+          message: '教师信息请在web管理系统修改',
+          duration: 3000
+        })
+        toast.present()
+        break
+    }
   }
 }

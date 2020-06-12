@@ -12,14 +12,17 @@ export class UserInfoPage implements OnInit {
 
   name: ''
 
+  college = ''
+  colleges = []
+
   userInfo = {
+    'id': '',
     'name': '',
     'phone': '',
-    'birthYear': '',
     'sex': '',
     'status': '',
     'school': '',
-    'college': '',
+    'college': { "id": 8 },
     'number': ''
   }
 
@@ -28,30 +31,45 @@ export class UserInfoPage implements OnInit {
   ngOnInit() {
     const userInfo = this.localStorageService.get(USER_KEY, '')
     this.userInfo.phone = userInfo.phone
-    const api='/userInfo?phone=' + this.userInfo.phone
+    let api='/mobile/userInfo?phone=' + this.userInfo.phone
     this.httpService.ajaxGet(api).then(async (res:any)=>{
-      this.userInfo=res.data
+      this.userInfo=res
+      api='/mobile/college'
+      this.httpService.ajaxGet(api).then((res:any)=>{
+        for(let i in res[0].children){
+          if(res[0].children[i].label === this.userInfo.college){
+            this.college = res[0].children[i].id.toString()
+          }
+          const item = {
+            'id': res[0].children[i].id,
+            'label': res[0].children[i].label
+          }
+          this.colleges.push(item)
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }).catch((err)=>{
+      console.log(err)
     })
   }
 
   async save() {
-    if(this.userInfo.name){
-      const api='/userInfo'
+    this.userInfo.college = {id: Number(this.college)}
+    this.userInfo['studentNumber'] = this.userInfo.number
+    if(this.userInfo.name && this.userInfo.number){
+      const api='/mobile/student/update'
       const json = this.userInfo
       this.httpService.ajaxPost(api,json).then((res:any)=>{
-        if(res.code == 200){
           this.localStorageService.set(USER_KEY, this.userInfo)
           window.location.replace('home/mine')
-        }else {
-          console.log("error")
-        }
       }).catch((err)=>{
-        console.log('网络错误')
+        console.log(err)
       })
     }
     else {
       const toast = await this.toastCtrl.create({
-        message: '姓名不能为空',
+        message: '请输入完整信息',
         duration: 3000,
       })
       toast.present()

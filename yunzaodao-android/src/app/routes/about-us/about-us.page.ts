@@ -11,13 +11,14 @@ export class AboutUsPage implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
-    const api = '/passport/login'
-    const json = {
-      'username':'15695917757',
-      'password':'admin'
-    }
-    this.httpService.request('post', api, json).subscribe(res =>{
-      console.log(res)
-    })
+    // requst 拦截器测试
+    // const api = '/passport/login'
+    // const json = {
+    //   'username':'15695917757',
+    //   'password':'admin'
+    // }
+    // this.httpService.request('post', api, json).subscribe(res =>{
+    //   console.log(res)
+    // })
   }
 }
