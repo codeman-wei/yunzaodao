@@ -11,4 +11,8 @@ public interface CourseStudentRepository extends JpaRepository<CourseStudent, Si
 
     List<CourseStudent> findByIdCourseId(Long courseId);
 
+    Integer countByIdCourseId(Long courseId);
+
+
+
 }

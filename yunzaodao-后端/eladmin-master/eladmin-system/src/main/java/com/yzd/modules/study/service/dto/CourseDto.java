@@ -38,6 +38,8 @@ public class CourseDto implements Serializable {
     /** 选课人数 */
     private Integer studentCount;
 
+    private Integer count;
+
     /** 授课教师姓名 */
     private String teacherName;
 

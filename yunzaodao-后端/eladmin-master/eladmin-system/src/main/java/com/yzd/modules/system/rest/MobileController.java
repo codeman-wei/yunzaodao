@@ -5,6 +5,7 @@ import cn.hutool.crypto.asymmetric.RSA;
 import com.yzd.annotation.AnonymousAccess;
 import com.yzd.aop.log.Log;
 import com.yzd.exception.BadRequestException;
+import com.yzd.exception.EntityExistException;
 import com.yzd.modules.security.security.vo.MobileAuth;
 import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.CourseStudent;
@@ -13,6 +14,7 @@ import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.service.CourseService;
 import com.yzd.modules.study.service.StudentService;
+import com.yzd.modules.study.service.dto.CourseDto;
 import com.yzd.modules.study.service.dto.StudentDto;
 import com.yzd.modules.study.service.mapper.CourseMapper;
 import com.yzd.modules.study.service.mapper.StudentMapper;
@@ -25,6 +27,8 @@ import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.system.service.dto.DeptDto;
 import com.yzd.modules.system.service.dto.DeptQueryCriteria;
 import com.yzd.modules.system.service.dto.UserDto;
+import com.yzd.utils.SecurityUtils;
+import com.yzd.utils.StringUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -244,5 +248,30 @@ public class MobileController {
         List<DeptDto> deptDtos = deptService.findAll();
         Map<String,Object> map = (Map)deptService.buildTree(deptDtos);
         return new ResponseEntity<>(map.get("content"), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/join/course")
+    @AnonymousAccess
+    public ResponseEntity<Object> studentJoinCourse(Long userId, String courseCode) {
+        CourseDto course = courseService.findByCode(courseCode);
+        SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(course.getId(), userId);
+        if((courseStudentRepository.findById(key)).orElse(null) != null) {
+             throw new EntityExistException("用户已经加入该课程");
+        }
+        if(!course.getJoinPermission()) {
+            throw new BadRequestException(HttpStatus.CONFLICT ,"该课程不允许加入");
+        }
+        CourseStudent courseStudent = new CourseStudent(key, 0);
+        courseStudentRepository.save(courseStudent);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/quit/course")
+    @AnonymousAccess
+    public ResponseEntity<Object> studentQuitCourse(Long userId, String courseCode) {
+        CourseDto course = courseService.findByCode(courseCode);
+        SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(course.getId(), userId);
+        courseStudentRepository.deleteById(key);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

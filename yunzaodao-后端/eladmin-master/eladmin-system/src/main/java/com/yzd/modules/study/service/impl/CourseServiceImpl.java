@@ -1,8 +1,11 @@
 package com.yzd.modules.study.service.impl;
 
 import com.yzd.modules.study.domain.Course;
+import com.yzd.modules.study.domain.CourseStudent;
 import com.yzd.modules.study.domain.SignHistory;
+import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.repository.CourseRepository;
+import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.service.dto.CouserSmallDto;
 import com.yzd.modules.study.service.mapper.CourseSmallMapper;
 import com.yzd.modules.system.service.UserService;
@@ -49,18 +52,27 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseSmallMapper courseSmallMapper;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper, CourseSmallMapper courseSmallMapper) {
+    private final CourseStudentRepository courseStudentRepository;
+
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper, CourseSmallMapper courseSmallMapper, CourseStudentRepository courseStudentRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userService = userService;
         this.userMapper = userMapper;
         this.courseSmallMapper = courseSmallMapper;
+        this.courseStudentRepository = courseStudentRepository;
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public Map<String,Object> queryAll(CourseQueryCriteria criteria, Pageable pageable){
         Page<Course> page = courseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+        List<Course> courses  = page.getContent();
+        courses.forEach(course -> {
+            Integer count = courseStudentRepository.countByIdCourseId(course.getId());
+            System.out.println(count);
+            course.setStudentCount(count);
+        });
         return PageUtil.toPage(page.map(courseMapper::toDto));
     }
 

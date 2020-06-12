@@ -11,6 +11,16 @@ content-type: application/json
 
 ###
 
+PUT http://localhost:8000/mobile/join/course HTTP/1.1
+content-type: application/json
+
+{
+  "course_id": 3,
+  "student_id": 1
+}
+
+###
+
 GET http://localhost:8000/mobile/userInfo?phone=15874966963
 
 ###
