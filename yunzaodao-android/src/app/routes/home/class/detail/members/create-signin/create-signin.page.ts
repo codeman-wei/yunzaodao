@@ -46,13 +46,16 @@ export class CreateSigninPage implements OnInit {
     for(let index in this.historyList){
       const now = new Date(this.historyList[index].createTime);
       const year = now.getFullYear();
-      const month = now.getMonth() + 1;
-      const date = now.getDate();
-      const hour = now.getHours();
-      const minute = now.getMinutes();
-      const second = now.getSeconds();
+      const month = this.padding(now.getMonth() + 1);
+      const date = this.padding(now.getDate());
+      const hour = this.padding(now.getHours());
+      const minute = this.padding(now.getMinutes());
+      const second = this.padding(now.getSeconds());
       this.historyList[index]['day'] = year + '-' + month + '-' + date
       this.historyList[index]['time'] = hour + ':' + minute + ':' + second
     }
+  }
+  padding(number:Number){
+    return number < 10 ? ('0' + number) : number
   }
 }

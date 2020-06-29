@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class JoinSigninPage implements OnInit {
 
   classId=''
+  courseCode=''
 
   historyList=[
     {
@@ -32,45 +33,23 @@ export class JoinSigninPage implements OnInit {
   constructor(private localStorageService:LocalStorageService, private toastCtrl: ToastController, private httpService:CommonService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
-    this.classId = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').clasId
+    this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').courseCode
+    const api = '/mobile/course/info?'+'courseCode='+this.courseCode
+    this.httpService.ajaxGet(api).then(async (res:any) =>{
+      this.classId = res.id
+    })
   }
 
   async signin(){
-    const api='/class/signin/join'
-    const json={
-      'classId': this.classId
-    }
-    this.httpService.ajaxPost(api, json).then(async (res:any)=>{
-      if(res.code == 400){
-        const toast = await this.toastCtrl.create({
-          message: '老师还未发起签到或签到已结束',
-          duration: 3000
-        })
-        toast.present()
-      }else if(res.code == 200){
-        const api = '/class/signin/join/common'
-        const json={
-          'classId': this.classId,
-          'phone': this.localStorageService.get(USER_KEY,'').phone
-        }
-        this.httpService.ajaxPost(api,json).then(async (res:any)=>{
-          const alert = await this.alertCtrl.create({
-            header: '提示',
-            message: '签到成功',
-            buttons: [
-              {
-                text: '确定',
-                handler: () => {
-                  this.router.navigateByUrl('/home/class/detail/members')
-                }
-              }
-            ]
-          })
-          alert.present()
-        })
-      }else if(res.code == 202){
-        this.router.navigateByUrl('/home/class/detail/members/join-signin/signin')
-      }
+    const api='/mobile/sign/check?courseId=' + this.classId
+    this.httpService.ajaxGet(api).then(async (res:any)=>{
+      this.router.navigateByUrl('/home/class/detail/members/join-signin/signin')
+    }).catch(async (err:any)=>{
+      const toast = await this.toastCtrl.create({
+        message: '老师还未发起签到',
+        duration: 3000
+      })
+      toast.present()
     })
   }
 }

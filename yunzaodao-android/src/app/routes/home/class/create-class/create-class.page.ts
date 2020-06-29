@@ -86,7 +86,7 @@ export class CreateClassPage implements OnInit {
         buttons: [{
           text: '确定',
           handler: () => {
-            this.router.navigateByUrl('home/class')
+            window.location.replace('home/class')
           }
         }]
       })

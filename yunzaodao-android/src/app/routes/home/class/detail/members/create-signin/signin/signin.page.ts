@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService, GLOBAL_VARIABLE_KEY } from 'src/app/shared/services/local-storage.service';
 
@@ -16,17 +16,40 @@ export class SigninPage implements OnInit {
   type = ''
   title = ''
   classId = ''
+  courseCode = ''
+  attendances = [
+    {
+    "signTime": 1593399961000,
+    "time":"8:0:1",
+    "studentNumber": "190327001",
+    "studentName": "蔡鸿杰"
+    }
+  ]
+  absences = [
+    {
+      "signTime": 1593399961000,
+      "time":"8:0:1",
+      "studentNumber": "190327106",
+      "studentName": "朱雨航"
+    }
+  ]
 
   isStart = false
 
   constructor(private localStorageService:LocalStorageService,public activatedRoute: ActivatedRoute, private toastCtrl: ToastController, private httpService:CommonService, private router: Router, private alertCtrl: AlertController) { }
-
+  
+  @ViewChild('createSigninSlides', { static: true }) createSigninSlides: IonSlides
   ngOnInit() {
-    this.classId = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').classId
+    this.createSigninSlides.lockSwipeToNext(true)
+    this.createSigninSlides.lockSwipeToPrev(true)
+    this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').courseCode
+    const api = '/mobile/course/info?'+'courseCode='+this.courseCode
+    this.httpService.ajaxGet(api).then(async (res:any) =>{
+      this.classId = res.id
+    })
     // 接受路由传过来的签到种类
     this.activatedRoute.queryParams.subscribe((data: any) => {
       this.type = data.type  //此时的data存的就是上个页面传过来的值
-      this.classId = data.classId
       switch (this.type){
         case 'common':
           this.title = '一键签到'
@@ -46,9 +69,10 @@ export class SigninPage implements OnInit {
 
   async start(){
     this.isStart = true
-    const api='/class/signin/create/' + this.type
+    const api='/mobile/release/sign'
     const json = {
-      'classId':this.classId
+      'course':{'id':this.classId} ,
+      'code':this.password
     }
     this.httpService.ajaxPost(api,json).then(async (res:any)=>{
       console.log('开始签到')
@@ -75,15 +99,24 @@ export class SigninPage implements OnInit {
         {
           text: '确定',
           handler: () => {
-            const api = '/class/change/close'
-            const json = {
-              'number': this.classId
-            }
-            this.httpService.ajaxPost(api,json).then(async (res:any)=>{
+            const api = '/mobile/sign/close?courseId='+this.classId
+            this.httpService.ajaxGet(api).then(async (res:any)=>{
+              this.attendances = res.attendances
+              this.absences = res.absences
+              this.convert2DateTime()
               // 结束签到
               this.isStart = false
               const toast = await this.toastCtrl.create({
                 message: '签到已结束',
+                duration: 3000
+              })
+              toast.present()
+              this.createSigninSlides.lockSwipeToNext(false)
+              this.createSigninSlides.slideNext()
+              this.createSigninSlides.lockSwipeToNext(true)
+            }).catch(async (err:any)=>{
+              const toast = await this.toastCtrl.create({
+                message: '结束签到失败，请重试',
                 duration: 3000
               })
               toast.present()
@@ -93,5 +126,25 @@ export class SigninPage implements OnInit {
       ]
     })
     alert.present()
+  }
+  async convert2DateTime(){
+    for(let index in this.attendances){
+      const now = new Date(this.attendances[index].signTime);
+      // const year = now.getFullYear();
+      // const month = now.getMonth() + 1;
+      // let mon = this.padding(month)
+      // const date = now.getDate();
+      // let d = this.padding(date)
+      const hour = now.getHours();
+      let h = this.padding(hour)
+      const minute = now.getMinutes();
+      let m = this.padding(minute)
+      const second = now.getSeconds();
+      let s = this.padding(second)
+      this.attendances[index]['time'] = h + ':' + m + ':' + s
+    }
+  }
+  padding(number:Number){
+    return number < 10 ? ('0' + number) : number
   }
 }

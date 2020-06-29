@@ -6507,8 +6507,8 @@ window.__Zone_disable_customElements = true;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! F:\homework\yunzaodao\src\polyfills.ts */"./src/polyfills.ts");
-module.exports = __webpack_require__(/*! F:\homework\yunzaodao\node_modules\@angular-devkit\build-angular\src\angular-cli-files\models\jit-polyfills.js */"./node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/jit-polyfills.js");
+__webpack_require__(/*! F:\homework\yunzaodao\yunzaodao-android\src\polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! F:\homework\yunzaodao\yunzaodao-android\node_modules\@angular-devkit\build-angular\src\angular-cli-files\models\jit-polyfills.js */"./node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/jit-polyfills.js");
 
 
 /***/ })

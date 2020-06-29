@@ -30,8 +30,17 @@ export class PopoverComponent implements OnInit {
       toast.present()
     }
   }
-  joinClass(){
+  async joinClass(){
     this.dismissPopover()
-    this.router.navigateByUrl("/home/class/join-class")
+    if(this.localStorageService.get(USER_KEY,{}).status === '学生'){
+      this.router.navigateByUrl("/home/class/join-class")
+    }
+    else{
+      const toast = await this.toastCtrl.create({
+        message: '教师暂不能加入班课',
+        duration: 3000,
+      })
+      toast.present()
+    }
   }
 }

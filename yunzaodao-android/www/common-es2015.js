@@ -634,6 +634,106 @@ const openURL = async (url, ev, direction) => {
 
 
 
+/***/ }),
+
+/***/ "./src/app/services/passport.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/services/passport.service.ts ***!
+  \**********************************************/
+/*! exports provided: PassportService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PassportService", function() { return PassportService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _shared_services_common_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/services/common.service */ "./src/app/shared/services/common.service.ts");
+/* harmony import */ var _shared_services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/services/local-storage.service */ "./src/app/shared/services/local-storage.service.ts");
+
+
+
+
+let PassportService = class PassportService {
+    constructor(httpService, localStorageService) {
+        this.httpService = httpService;
+        this.localStorageService = localStorageService;
+    }
+    login(json) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            const api = '/mobile/login';
+            return new Promise((resolve, reject) => {
+                this.httpService.ajaxPost(api, json).then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        });
+    }
+    checkIsRegisted(phone) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            const api = '/mobile/check?phone=' + phone;
+            return new Promise((resolve, reject) => {
+                this.httpService.ajaxGet(api).then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        });
+    }
+    register(isStudent, json) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            let api = '';
+            if (isStudent) {
+                api = '/mobile/student/register';
+            }
+            else {
+                api = '/mobile/teacher/register';
+            }
+            return new Promise((resolve, reject) => {
+                this.httpService.ajaxPost(api, json).then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        });
+    }
+    changePassword(oldPassword, newPassword, status) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            let userInfo = this.localStorageService.get(_shared_services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__["USER_KEY"], false);
+            const api = '/mobile/password/change';
+            const json = {
+                count: userInfo.phone,
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+                role: status
+            };
+            return new Promise((resolve, reject) => {
+                this.httpService.ajaxPost(api, json).then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        });
+    }
+};
+PassportService.ctorParameters = () => [
+    { type: _shared_services_common_service__WEBPACK_IMPORTED_MODULE_2__["CommonService"] },
+    { type: _shared_services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__["LocalStorageService"] }
+];
+PassportService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_services_common_service__WEBPACK_IMPORTED_MODULE_2__["CommonService"], _shared_services_local_storage_service__WEBPACK_IMPORTED_MODULE_3__["LocalStorageService"]])
+], PassportService);
+
+
+
 /***/ })
 
 }]);

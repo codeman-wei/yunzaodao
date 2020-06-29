@@ -12,20 +12,22 @@ import { Router } from '@angular/router';
 export class SigninPage implements OnInit {
 
   password = ''
+  classId = ''
+  courseCode = ''
 
   constructor(private localStorageService:LocalStorageService, private toastCtrl: ToastController, private httpService:CommonService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
+    this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').courseCode
+    const api = '/mobile/course/info?'+'courseCode='+this.courseCode
+    this.httpService.ajaxGet(api).then(async (res:any) =>{
+      this.classId = res.id
+    })
   }
 
   async start(){
-    const api='/class/signin/join/password'
-    const json={
-      'phone':this.localStorageService.get(USER_KEY,'').phone,
-      'classId':this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').classId,
-      'password':this.password
-    }
-    this.httpService.ajaxPost(api,json).then(async (res:any)=>{
+    const api='/mobile/sign/student?courseId=' + this.classId + '&code=' + this.password + '&studentId=' + this.localStorageService.get(USER_KEY, {'id': null}).id
+    this.httpService.ajaxGet(api).then(async (res:any)=>{
       const alert = await this.alertCtrl.create({
         header: '提示',
         message: '签到成功',
@@ -39,6 +41,12 @@ export class SigninPage implements OnInit {
         ]
       })
       alert.present()
+    }).catch(async (err:any)=>{
+      const toast = await this.toastCtrl.create({
+        message: err.msg,
+        duration: 3000
+      })
+      toast.present()
     })
   }
 

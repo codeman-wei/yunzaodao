@@ -30,22 +30,23 @@ export class JoinClassPage implements OnInit {
 
   async findClass(){
     if(this.classNumber != ''){
-      const api = '/class/info' + '?number=' + this.classNumber
+      const api = '/mobile/course/info?courseCode=' + this.classNumber
       this.httpService.ajaxGet(api).then(async (res:any)=>{
-        if(res.code == 200){
-          this.classInfo = res.data
-          this.joinClassSlides.lockSwipeToNext(false)
-          this.joinClassSlides.slideNext()
-          this.joinClassSlides.lockSwipeToNext(true)
-        }else if(res.code == 400){
-          const toast = await this.toastCtrl.create({
-            message: '你输入的班课不存在，请重新输入',
-            duration: 3000
-          })
-          toast.present()
-        }
-      }).catch((err)=>{
+        this.classInfo.name = res.courseName
+        this.classInfo.class = res.className
+        this.classInfo.teacher = res.teacherName
+        this.classInfo.semester = res.semester
+
+        this.joinClassSlides.lockSwipeToNext(false)
+        this.joinClassSlides.slideNext()
+        this.joinClassSlides.lockSwipeToNext(true)
+      }).catch(async (err)=>{
         console.log(err)
+        const toast = await this.toastCtrl.create({
+          message: '你输入的班课不存在，请重新输入',
+          duration: 3000
+        })
+        toast.present()
       })
     }
     else{
@@ -58,30 +59,35 @@ export class JoinClassPage implements OnInit {
   }
   
   async join(){
-    const api = '/class/join'
-    const json = {
-      "number" : this.classNumber,
-      "phone" : this.localStorageService.get(USER_KEY, {"phone":null}).phone
-    }
-    this.httpService.ajaxPost(api,json).then(async (res:any)=>{
-      if(res.code == 200){
+    const api = '/mobile/join/course?'+'userId='+this.localStorageService.get(USER_KEY, {"id":null}).id+'&'+'courseCode='+this.classNumber
+    this.httpService.ajaxGet(api).then(async (res:any)=>{
+      console.log(res)
+      const alert = await this.alertCtrl.create({
+        header: '提示',
+        backdropDismiss: false,
+        message: '您已加入班课 '+this.classInfo.name,
+        buttons: [{
+          text: '确定',
+          handler: () => {
+            window.location.replace('home/class')
+          }
+        }]
+      })
+      alert.present()
+    }).catch(async (err)=>{
+      if(err.status == 409){
         const alert = await this.alertCtrl.create({
-          header: '提示',
-          backdropDismiss: false,
-          message: '您已加入班课 '+this.classInfo.name,
-          buttons: [{
-            text: '确定',
-            handler: () => {
-              this.router.navigateByUrl('home/class')
-            }
-          }]
+          header: '警告',
+          message: '班课 '+this.classInfo.name+' 不允许加入'
         })
         alert.present()
-      }else if(res.code == 400){
-        console.log(res.code)
+      }else if(err.status == 400){
+        const alert = await this.alertCtrl.create({
+          header: '警告',
+          message: '请勿重复加入班课 '+this.classInfo.name
+        })
+        alert.present()
       }
-    }).catch((err)=>{
-        console.log(err)
     })
   }
 }

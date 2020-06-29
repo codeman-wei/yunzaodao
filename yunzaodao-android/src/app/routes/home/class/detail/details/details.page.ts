@@ -116,29 +116,25 @@ export class DetailsPage implements OnInit {
   // }
 
   async exitClass(){
-    // const alert = await this.alertCtrl.create({
-    //   header: '警告',
-    //   message: '是否退出当前班课',
-    //   buttons: [
-    //     {
-    //       text: '取消',
-    //       role: 'cancel'
-    //     },
-    //     {
-    //       text: '确定',
-    //       handler: () => {
-    //         const api = '/class/change/exit'
-    //         const json = {
-    //           'number': this.classId,
-    //           'phone': this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').phone
-    //         }
-    //         this.httpService.ajaxPost(api,json).then(async (res:any)=>{
-    //           window.location.replace('/home/class')
-    //         })
-    //       }
-    //     }
-    //   ]
-    // })
-    // alert.present()
+    const alert = await this.alertCtrl.create({
+      header: '警告',
+      message: '是否退出当前班课',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel'
+        },
+        {
+          text: '确定',
+          handler: () => {
+            const api = '/mobile/quit/course?'+'userId='+this.localStorageService.get(USER_KEY, {"id":null}).id+'&'+'courseCode='+this.courseCode
+            this.httpService.ajaxGet(api).then(async (res:any)=>{
+              window.location.replace('/home/class')
+            })
+          }
+        }
+      ]
+    })
+    alert.present()
   }
 }
