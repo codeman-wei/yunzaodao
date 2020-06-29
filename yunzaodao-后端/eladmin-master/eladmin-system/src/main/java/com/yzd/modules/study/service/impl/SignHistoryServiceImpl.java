@@ -1,6 +1,12 @@
 package com.yzd.modules.study.service.impl;
 
 import com.yzd.modules.study.domain.SignHistory;
+import com.yzd.modules.study.domain.Student;
+import com.yzd.modules.study.domain.StudentCourseSign;
+import com.yzd.modules.study.repository.StudentCourseSignRepository;
+import com.yzd.modules.study.service.dto.StudentCourseSignDto;
+import com.yzd.modules.study.service.dto.StudentSmallDto;
+import com.yzd.modules.study.service.mapper.StudentSmallMapper;
 import com.yzd.utils.FileUtil;
 import com.yzd.utils.PageUtil;
 import com.yzd.utils.QueryHelp;
@@ -19,12 +25,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
 * @author wdc
@@ -39,20 +43,26 @@ public class SignHistoryServiceImpl implements SignHistoryService {
 
     private final SignHistoryMapper signHistoryMapper;
 
-    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper) {
+    private final StudentCourseSignRepository studentCourseSignRepository;
+
+    private final StudentSmallMapper studentSmallMapper;
+
+    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper, StudentCourseSignRepository studentCourseSignRepository, StudentSmallMapper studentSmallMapper) {
         this.signHistoryRepository = signHistoryRepository;
         this.signHistoryMapper = signHistoryMapper;
+        this.studentCourseSignRepository = studentCourseSignRepository;
+        this.studentSmallMapper = studentSmallMapper;
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public Map<String,Object> queryAll(SignHistoryQueryCriteria criteria, Pageable pageable){
         Page<SignHistory> page = signHistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(signHistoryMapper::toDto));
     }
 
     @Override
-    @Cacheable
+//    @Cacheable
     public List<SignHistoryDto> queryAll(SignHistoryQueryCriteria criteria){
         return signHistoryMapper.toDto(signHistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
     }
@@ -66,14 +76,14 @@ public class SignHistoryServiceImpl implements SignHistoryService {
     }
 
     @Override
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public SignHistoryDto create(SignHistory resources) {
         return signHistoryMapper.toDto(signHistoryRepository.save(resources));
     }
 
     @Override
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void update(SignHistory resources) {
         SignHistory signHistory = signHistoryRepository.findById(resources.getId()).orElseGet(SignHistory::new);
@@ -83,7 +93,7 @@ public class SignHistoryServiceImpl implements SignHistoryService {
     }
 
     @Override
-    @CacheEvict(allEntries = true)
+//    @CacheEvict(allEntries = true)
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
             signHistoryRepository.deleteById(id);
@@ -104,5 +114,33 @@ public class SignHistoryServiceImpl implements SignHistoryService {
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
+    }
+
+    @Override
+    public Map<String, Object> findSignHistoryStudentsById(Long id) {
+        List<StudentCourseSign> signList = studentCourseSignRepository.findBySignHistory_Id(id);
+        Set<Map> attendances = new HashSet<>();
+        Set<Map> absences = new HashSet<>();
+        for(StudentCourseSign sign: signList) {
+            Map<String, Object> studentSignInfo = new HashMap<>(3);
+            Student student = sign.getStudent();
+            studentSignInfo.put("studentName", student.getName());
+            studentSignInfo.put("studentNumber", student.getStudentNumber());
+            studentSignInfo.put("signTime", sign.getCreateTime());
+//            if (sign.getAttendance()) {
+//                attendances.add(studentSmallMapper.toDto(sign.getStudent()));
+//            } else {
+//                absences.add(studentSmallMapper.toDto(sign.getStudent()));
+//            }
+            if (sign.getAttendance()) {
+                attendances.add(studentSignInfo);
+            } else {
+                absences.add(studentSignInfo);
+            }
+        }
+        Map<String, Object> result = new HashMap<>(2);
+        result.put("attendances", attendances);
+        result.put("absences", absences);
+        return result;
     }
 }

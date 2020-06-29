@@ -120,7 +120,7 @@ export default {
       permission: {
         add: [''],
         edit: [''],
-        del: ['admin', 'signHistory:del']
+        del: ['']
       }
     }
   },

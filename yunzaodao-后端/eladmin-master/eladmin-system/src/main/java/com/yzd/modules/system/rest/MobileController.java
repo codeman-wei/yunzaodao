@@ -1,22 +1,20 @@
 package com.yzd.modules.system.rest;
 
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
 import com.yzd.annotation.AnonymousAccess;
-import com.yzd.aop.log.Log;
 import com.yzd.exception.BadRequestException;
 import com.yzd.exception.EntityExistException;
 import com.yzd.modules.security.security.vo.MobileAuth;
-import com.yzd.modules.study.domain.Course;
-import com.yzd.modules.study.domain.CourseStudent;
-import com.yzd.modules.study.domain.SignHistoryPrimaryKey;
-import com.yzd.modules.study.domain.Student;
+import com.yzd.modules.study.domain.*;
 import com.yzd.modules.study.repository.CourseStudentRepository;
+import com.yzd.modules.study.repository.SignHistoryRepository;
+import com.yzd.modules.study.repository.StudentCourseSignRepository;
 import com.yzd.modules.study.service.CourseService;
+import com.yzd.modules.study.service.SignHistoryService;
+import com.yzd.modules.study.service.StudentCourseSignService;
 import com.yzd.modules.study.service.StudentService;
 import com.yzd.modules.study.service.dto.CourseDto;
+import com.yzd.modules.study.service.dto.SignHistoryDto;
 import com.yzd.modules.study.service.dto.StudentDto;
-import com.yzd.modules.study.service.mapper.CourseMapper;
 import com.yzd.modules.study.service.mapper.StudentMapper;
 import com.yzd.modules.system.domain.Role;
 import com.yzd.modules.system.domain.User;
@@ -25,14 +23,9 @@ import com.yzd.modules.system.domain.vo.MobileUser;
 import com.yzd.modules.system.service.DeptService;
 import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.system.service.dto.DeptDto;
-import com.yzd.modules.system.service.dto.DeptQueryCriteria;
 import com.yzd.modules.system.service.dto.UserDto;
-import com.yzd.utils.SecurityUtils;
-import com.yzd.utils.StringUtils;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +44,12 @@ public class MobileController {
     private final CourseStudentRepository courseStudentRepository;
     private final StudentMapper studentMapper;
     private final DeptService deptService;
+    private final SignHistoryService signHistoryService;
+    private final SignHistoryRepository signHistoryRepository;
+    private final StudentCourseSignService studentCourseSignService;
+    private final StudentCourseSignRepository studentCourseSignRepository;
 
-    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder, CourseStudentRepository courseStudentRepository, StudentMapper studentMapper, DeptService deptService) {
+    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder, CourseStudentRepository courseStudentRepository, StudentMapper studentMapper, DeptService deptService, SignHistoryService signHistoryService, SignHistoryRepository signHistoryRepository, StudentCourseSignService studentCourseSignService, StudentCourseSignRepository studentCourseSignRepository, CourseStudentRepository courseStudentRepository1) {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
@@ -60,6 +57,10 @@ public class MobileController {
         this.courseStudentRepository = courseStudentRepository;
         this.studentMapper = studentMapper;
         this.deptService = deptService;
+        this.signHistoryService = signHistoryService;
+        this.signHistoryRepository = signHistoryRepository;
+        this.studentCourseSignService = studentCourseSignService;
+        this.studentCourseSignRepository = studentCourseSignRepository;
     }
 
     @GetMapping(value = "/check")
@@ -273,5 +274,90 @@ public class MobileController {
         SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(course.getId(), userId);
         courseStudentRepository.deleteById(key);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/release/sign")
+    @AnonymousAccess
+    public ResponseEntity<Object> releaseSign(@RequestBody SignHistory resource) {
+        Set<Student> students = courseService.findCourseById((resource.getCourse()).getId()).getStudents();
+        resource.setAbsence(students.size());
+        SignHistoryDto signHistory = signHistoryService.create(resource);
+        List<StudentCourseSign> absentList = new ArrayList<>();
+        for(Student student: students){
+            absentList.add(new StudentCourseSign(signHistory.getId(), student.getId(), false, false));
+        }
+        studentCourseSignService.create(absentList);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sign/student")
+    @AnonymousAccess
+    public ResponseEntity<Object> studentSign(Long courseId,String code, Long studentId) {
+        List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
+        if (signHistories.size() == 0) {
+            throw new BadRequestException("该课程未发布签到");
+        }
+        SignHistory sign = signHistories.get(0);
+        Map<String,Object> map = new HashMap<>(1);
+        if (sign.getStatus()) {
+            if (sign.getCode() != null && sign.getCode().equals(code)) {
+                List<StudentCourseSign> signs = studentCourseSignRepository.findBySignHistory_IdAndStudent_Id(sign.getId(), studentId);
+                if (signs.size() < 1) {
+                    map.put("msg", "该学生未加入该课程");
+                    return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+                }
+                StudentCourseSign studentSign = signs.get(0);
+                if (studentSign.getAttendance()) {
+                    map.put("msg", "已经完成签到，无需重复签到");
+                    return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+                }
+                studentSign.setAttendance(true);
+                SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(courseId, studentId);
+                CourseStudent courseStudent = courseStudentRepository.findById(key).orElse(new CourseStudent());
+                if (courseStudent.getId() == null) {
+                    throw new BadRequestException("该生未加入该课程");
+                }
+                courseStudent.setExperience(courseStudent.getExperience() + 10);
+                courseStudentRepository.save(courseStudent);
+                studentCourseSignService.update(studentSign);
+                // 签到成功 更新成功签到数和缺勤数
+                sign.setAttendance(sign.getAttendance() + 1);
+                sign.setAbsence(sign.getAbsence() - 1);
+                signHistoryService.update(sign);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                map.put("msg", "验证码错误");
+                return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            map.put("msg", "该课程签到已结束");
+            return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/sign/check")
+    @AnonymousAccess
+    public ResponseEntity<Object> checkSign(Long courseId) {
+        List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
+        if (signHistories.size() != 0 && signHistories.get(0).getStatus()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/sign/close")
+    @AnonymousAccess
+    public ResponseEntity<Object> closeSign(Long courseId) {
+        List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
+        if (signHistories.size() != 0 && signHistories.get(0).getStatus()) {
+            SignHistory sign = signHistories.get(0);
+            sign.setStatus(!sign.getStatus());
+            signHistoryService.update(sign);
+            return new ResponseEntity<>(signHistoryService.findSignHistoryStudentsById(sign.getId()),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

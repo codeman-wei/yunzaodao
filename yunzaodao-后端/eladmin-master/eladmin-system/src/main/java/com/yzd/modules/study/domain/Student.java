@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 import java.sql.Timestamp;
@@ -26,7 +27,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name="student")
+@NoArgsConstructor
 public class Student implements Serializable {
+    public Student(Long id) {
+        this.id = id;
+    }
 
     /** 学生id */
     @Id

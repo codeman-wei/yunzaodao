@@ -63,4 +63,6 @@ public interface SignHistoryService {
     * @throws IOException /
     */
     void download(List<SignHistoryDto> all, HttpServletResponse response) throws IOException;
+
+    Map<String, Object> findSignHistoryStudentsById(Long id);
 }

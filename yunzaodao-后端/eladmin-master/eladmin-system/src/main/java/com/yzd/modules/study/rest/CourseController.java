@@ -11,6 +11,9 @@ import com.yzd.aop.log.Log;
 import com.yzd.modules.study.service.CourseService;
 import com.yzd.modules.study.service.dto.StudentDto;
 import com.yzd.modules.study.service.mapper.StudentMapper;
+import com.yzd.modules.system.service.UserService;
+import com.yzd.modules.system.service.dto.UserDto;
+import com.yzd.utils.SecurityUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +38,13 @@ public class CourseController {
     private final CourseService courseService;
     private final StudentMapper studentMapper;
     private final CourseStudentRepository courseStudentRepository;
+    private final UserService userService;
 
-    public CourseController(CourseService courseService, StudentMapper studentMapper, CourseStudentRepository courseStudentRepository) {
+    public CourseController(CourseService courseService, StudentMapper studentMapper, CourseStudentRepository courseStudentRepository, UserService userService) {
         this.courseService = courseService;
         this.studentMapper = studentMapper;
         this.courseStudentRepository = courseStudentRepository;
+        this.userService = userService;
     }
 
     @Log("导出数据")

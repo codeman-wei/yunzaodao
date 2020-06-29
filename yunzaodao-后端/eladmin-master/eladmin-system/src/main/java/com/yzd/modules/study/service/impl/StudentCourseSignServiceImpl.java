@@ -123,6 +123,12 @@ public class StudentCourseSignServiceImpl implements StudentCourseSignService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(List<StudentCourseSign> resources) {
+        studentCourseSignRepository.saveAll(resources);
+    }
+
+    @Override
 //    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void update(StudentCourseSign resources) {
@@ -130,6 +136,11 @@ public class StudentCourseSignServiceImpl implements StudentCourseSignService {
         ValidationUtil.isNull( studentCourseSign.getId(),"StudentCourseSign","id",resources.getId());
         studentCourseSign.copy(resources);
         studentCourseSignRepository.save(studentCourseSign);
+    }
+
+    @Override
+    public Set<Long> findSignedStudentsById(Long id) {
+        return studentCourseSignRepository.findAllStudentIdById(id);
     }
 
     @Override

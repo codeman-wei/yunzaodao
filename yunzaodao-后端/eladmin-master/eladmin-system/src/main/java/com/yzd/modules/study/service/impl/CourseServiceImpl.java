@@ -8,9 +8,11 @@ import com.yzd.modules.study.repository.CourseRepository;
 import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.service.dto.CouserSmallDto;
 import com.yzd.modules.study.service.mapper.CourseSmallMapper;
+import com.yzd.modules.system.service.RoleService;
 import com.yzd.modules.system.service.UserService;
 import com.yzd.modules.study.service.dto.CourseDto;
 import com.yzd.modules.study.service.dto.CourseQueryCriteria;
+import com.yzd.modules.system.service.dto.RoleSmallDto;
 import com.yzd.modules.system.service.dto.UserDto;
 import com.yzd.modules.system.service.mapper.UserMapper;
 import com.yzd.utils.*;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 
 /**
 * @author wdc
@@ -54,26 +57,44 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseStudentRepository courseStudentRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper, CourseSmallMapper courseSmallMapper, CourseStudentRepository courseStudentRepository) {
+    private final RoleService roleService;
+
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper, UserService userService, UserMapper userMapper, CourseSmallMapper courseSmallMapper, CourseStudentRepository courseStudentRepository, RoleService roleService) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userService = userService;
         this.userMapper = userMapper;
         this.courseSmallMapper = courseSmallMapper;
         this.courseStudentRepository = courseStudentRepository;
+        this.roleService = roleService;
     }
 
     @Override
 //    @Cacheable
     public Map<String,Object> queryAll(CourseQueryCriteria criteria, Pageable pageable){
+        UserDto user = userService.findByName(SecurityUtils.getUsername());
+        List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
+        Long id = user.getId();
+        Boolean isTeacher = false;
+        for(RoleSmallDto role: roleSet) {
+            if("教师".equals(role.getName())) {
+                isTeacher = true;
+                break;
+            }
+        }
         Page<Course> page = courseRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         List<Course> courses  = page.getContent();
+        if (isTeacher) {
+            courses = courses.stream().filter(item -> item.getUserId() == id).collect(Collectors.toList());
+        }
         courses.forEach(course -> {
             Integer count = courseStudentRepository.countByIdCourseId(course.getId());
-            System.out.println(count);
             course.setStudentCount(count);
         });
-        return PageUtil.toPage(page.map(courseMapper::toDto));
+        Map<String,Object> map = new LinkedHashMap<>(2);
+        map.put("content",courseMapper.toDto(courses));
+        map.put("totalElements",courses.size());
+        return map;
     }
 
     @Override

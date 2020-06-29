@@ -20,8 +20,17 @@ content-type: application/json
 }
 
 ###
+POST  http://localhost:8000/mobile/release/sign HTTP/1.1
+content-type: application/json
 
-GET http://localhost:8000/mobile/userInfo?phone=15874966963
+{
+  "course": {"id": 3},
+  "code": "1234"
+}
+
+###
+
+GET http://localhost:8000/mobile/sign/student?courseId=1&code=123
 
 ###
 
