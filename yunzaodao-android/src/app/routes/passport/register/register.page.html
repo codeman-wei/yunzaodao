@@ -107,7 +107,7 @@
               placeholder="请输入密码"
               type="password"
               required
-              pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$"
+              pattern="^[0-9A-Za-z]{6,16}$"
               minlength="6"
               maxlength="16"
               [(ngModel)]="register.password"
@@ -116,7 +116,7 @@
             ></ion-input>
           </ion-item>
           <div class="left" style="font-size:12px;">
-            长度6至16位，至少包含数字、英文、符号其中两种字符
+            长度6至16位
           </div>
           <ion-button
             type="submit"

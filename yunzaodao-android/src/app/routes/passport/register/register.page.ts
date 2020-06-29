@@ -197,7 +197,7 @@ export class RegisterPage implements OnInit {
       this.onNext()
     }else{
       const toast = await this.toastCtrl.create({
-        message: '密码格式不正确，请重新输入',
+        message: '密码长度为长度6至16位，请重新输入',
         duration: 3000
       })
       toast.present()
