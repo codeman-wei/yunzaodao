@@ -52,7 +52,7 @@ public class DeptController {
     @PreAuthorize("@el.check('course:list','student:list','user:list','dept:list')")
     public ResponseEntity<Object> getDepts(DeptQueryCriteria criteria){
         // 数据权限
-        criteria.setIds(dataScope.getDeptIds());
+//        criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = deptService.queryAll(criteria);
         return new ResponseEntity<>(deptService.buildTree(deptDtos),HttpStatus.OK);
     }

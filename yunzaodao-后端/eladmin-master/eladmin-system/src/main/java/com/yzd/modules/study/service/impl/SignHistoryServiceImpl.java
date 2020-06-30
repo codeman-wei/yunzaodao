@@ -1,16 +1,20 @@
 package com.yzd.modules.study.service.impl;
 
+import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.SignHistory;
 import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.domain.StudentCourseSign;
+import com.yzd.modules.study.repository.CourseRepository;
 import com.yzd.modules.study.repository.StudentCourseSignRepository;
+import com.yzd.modules.study.service.CourseService;
 import com.yzd.modules.study.service.dto.StudentCourseSignDto;
 import com.yzd.modules.study.service.dto.StudentSmallDto;
 import com.yzd.modules.study.service.mapper.StudentSmallMapper;
-import com.yzd.utils.FileUtil;
-import com.yzd.utils.PageUtil;
-import com.yzd.utils.QueryHelp;
-import com.yzd.utils.ValidationUtil;
+import com.yzd.modules.system.service.RoleService;
+import com.yzd.modules.system.service.UserService;
+import com.yzd.modules.system.service.dto.RoleSmallDto;
+import com.yzd.modules.system.service.dto.UserDto;
+import com.yzd.utils.*;
 import com.yzd.modules.study.repository.SignHistoryRepository;
 import com.yzd.modules.study.service.SignHistoryService;
 import com.yzd.modules.study.service.dto.SignHistoryDto;
@@ -28,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -47,16 +52,49 @@ public class SignHistoryServiceImpl implements SignHistoryService {
 
     private final StudentSmallMapper studentSmallMapper;
 
-    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper, StudentCourseSignRepository studentCourseSignRepository, StudentSmallMapper studentSmallMapper) {
+    private final UserService userService;
+
+    private final RoleService roleService;
+
+    private final CourseRepository courseRepository;
+
+    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper, StudentCourseSignRepository studentCourseSignRepository, StudentSmallMapper studentSmallMapper, UserService userService, RoleService roleService, CourseRepository courseRepository) {
         this.signHistoryRepository = signHistoryRepository;
         this.signHistoryMapper = signHistoryMapper;
         this.studentCourseSignRepository = studentCourseSignRepository;
         this.studentSmallMapper = studentSmallMapper;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.courseRepository = courseRepository;
     }
 
     @Override
 //    @Cacheable
     public Map<String,Object> queryAll(SignHistoryQueryCriteria criteria, Pageable pageable){
+        UserDto user = userService.findByName(SecurityUtils.getUsername());
+        List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
+        Long id = user.getId();
+        Boolean isTeacher = false;
+        for(RoleSmallDto role: roleSet) {
+            if("教师".equals(role.getName())) {
+                isTeacher = true;
+                break;
+            }
+        }
+        List<SignHistory> signHistories = new ArrayList<>();
+        if (isTeacher) {
+            int pageSize = pageable.getPageSize();
+            Long offSet = pageable.getOffset();
+            List<Course> courses = courseRepository.findByUserId(id);
+            for (Course course: courses) {
+                signHistories.addAll(course.getSignHistory());
+            }
+            List<SignHistoryDto> content = signHistories.stream().map(signHistoryMapper::toDto).collect(Collectors.toList());
+            Map<String,Object> map = new LinkedHashMap<>(2);
+            map.put("content",content);
+            map.put("totalElements",content.size());
+            return map;
+        }
         Page<SignHistory> page = signHistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(signHistoryMapper::toDto));
     }

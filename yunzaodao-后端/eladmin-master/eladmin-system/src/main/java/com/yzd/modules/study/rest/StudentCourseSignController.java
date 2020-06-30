@@ -32,7 +32,7 @@ public class StudentCourseSignController {
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('studentCourseSign:list')")
+    @PreAuthorize("@el.check('sign:list')")
     public void download(HttpServletResponse response, StudentCourseSignQueryCriteria criteria) throws IOException {
         studentCourseSignService.download(studentCourseSignService.queryAll(criteria), response);
     }
@@ -40,7 +40,7 @@ public class StudentCourseSignController {
     @GetMapping
     @Log("查询签到记录")
     @ApiOperation("查询签到记录")
-    @PreAuthorize("@el.check('studentCourseSign:list')")
+    @PreAuthorize("@el.check('sign:list')")
     public ResponseEntity<Object> getStudentCourseSigns(StudentCourseSignQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(studentCourseSignService.queryAll(criteria,pageable),HttpStatus.OK);
     }
@@ -48,7 +48,7 @@ public class StudentCourseSignController {
     @GetMapping(value = "/sign")
     @Log("查询课程某次签到记录")
     @ApiOperation("查询课程某次签到记录")
-    @PreAuthorize("@el.check('signHistory:list')")
+    @PreAuthorize("@el.check('sign:list')")
     public ResponseEntity<Object> getSignsByHistoryId(Long id){
         return new ResponseEntity<>(studentCourseSignService.findByHistoryId(id),HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class StudentCourseSignController {
     @PostMapping
     @Log("新增签到记录")
     @ApiOperation("新增签到记录")
-    @PreAuthorize("@el.check('studentCourseSign:add')")
+    @PreAuthorize("@el.check('sign:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody StudentCourseSign resources){
         return new ResponseEntity<>(studentCourseSignService.create(resources),HttpStatus.CREATED);
     }
@@ -64,7 +64,7 @@ public class StudentCourseSignController {
     @PutMapping
     @Log("修改签到记录")
     @ApiOperation("修改签到记录")
-    @PreAuthorize("@el.check('studentCourseSign:edit')")
+    @PreAuthorize("@el.check('sign:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody StudentCourseSign resources){
         studentCourseSignService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -80,7 +80,7 @@ public class StudentCourseSignController {
 
     @Log("删除签到记录")
     @ApiOperation("删除签到记录")
-    @PreAuthorize("@el.check('studentCourseSign:del')")
+    @PreAuthorize("@el.check('sign:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
         studentCourseSignService.deleteAll(ids);
