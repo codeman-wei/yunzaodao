@@ -13,8 +13,8 @@ import { CommonService } from 'src/app/shared/services/common.service';
 export class LoginPage implements OnInit {
 
   login = {
-    userName: '15695917757',
-    password: 'a123456',
+    userName: '',
+    password: '',
     submited: false
   }
 

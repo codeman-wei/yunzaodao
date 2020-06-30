@@ -10,7 +10,7 @@
 <ion-content>
   <ion-list>
     <ion-thumbnail style="width: 100px; height: 100px;margin: auto;">
-      <ion-img [src]="'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2333787549,3902944237&fm=26&gp=0.jpg'"></ion-img>
+      <ion-img src="/assets/img/course_photo.jpg"></ion-img>
     </ion-thumbnail>
     <!-- <br /> -->
     <!-- <ion-text>班课封面</ion-text> -->
@@ -38,7 +38,9 @@
       class="bottom_border"
     >
       <ion-label>学期</ion-label>
-      <ion-input class="input_text" slot="end" placeholder="未设置" [(ngModel)]="classInfo.semester"></ion-input>
+      <ion-select class="input_text" placeholder="未设置" [(ngModel)]="classInfo.semester">
+        <ion-select-option *ngFor="let item of semesters">{{item}}</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item
       lines="none"
@@ -52,7 +54,7 @@
       class="bottom_border"
     >
       <ion-label>院系</ion-label>
-      <ion-select required placeholder="请选择学院" name="college" [(ngModel)]="college" class="long-select">
+      <ion-select required placeholder="请选择学院" name="college" [(ngModel)]="college" class="long-select input_text">
         <ion-select-option *ngFor="let item of colleges" value="{{item.id}}"> {{item.label}} </ion-select-option>
       </ion-select>
     </ion-item>

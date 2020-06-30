@@ -14,6 +14,8 @@ export class InfoPage implements OnInit {
   college = ''
   colleges = []
 
+  semesters = []
+
   courseCode = ''
 
   classInfo = {
@@ -52,7 +54,7 @@ export class InfoPage implements OnInit {
       }
       this.college = res['college'].id.toString()
     })
-
+    this.semesters = this.createSemesters()
   }
 
   async change(){
@@ -96,6 +98,17 @@ export class InfoPage implements OnInit {
     this.httpService.ajaxPut(api, json).then(async (res:any) =>{
       window.location.replace('home/class/detail/details')
     })
+  }
+  createSemesters(){
+    var semesters = []
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth() + 1
+    for(let index=year+1; index>2010; index--){
+      semesters.push((index-1)+'-'+index+'-'+'2')
+      semesters.push((index-1)+'-'+index+'-'+'1')
+    }
+    return semesters
   }
 
 }

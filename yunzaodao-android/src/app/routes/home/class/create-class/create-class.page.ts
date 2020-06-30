@@ -14,10 +14,12 @@ export class CreateClassPage implements OnInit {
   college = ''
   colleges = []
 
+  semesters = []
+
   classInfo = {
-    'courseName': '心算',
-    'className': '19级计算机专硕',
-    'semester': '2019-2020-2',
+    'courseName': '',
+    'className': '',
+    'semester': '',
     'school': '福州大学',
     'college': {}
   }
@@ -37,6 +39,7 @@ export class CreateClassPage implements OnInit {
     }).catch((err)=>{
       console.log(err)
     })
+    this.semesters = this.createSemesters()
   }
 
   async create() {
@@ -96,4 +99,15 @@ export class CreateClassPage implements OnInit {
     })
   }
 
+  createSemesters(){
+    var semesters = []
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth() + 1
+    for(let index=year+1; index>2010; index--){
+      semesters.push((index-1)+'-'+index+'-'+'2')
+      semesters.push((index-1)+'-'+index+'-'+'1')
+    }
+    return semesters
+  }
 }

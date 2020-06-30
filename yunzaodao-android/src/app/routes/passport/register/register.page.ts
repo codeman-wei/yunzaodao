@@ -22,16 +22,16 @@ export class RegisterPage implements OnInit {
   colleges = []
 
   register = {
-    phone: '15695917757',
-    email: '896567891@qq.com',
-    password: 'a123456',
-    code: '1314',
+    phone: '',
+    email: '',
+    password: '',
+    code: '',
     type: '',
     sex: '',
-    name: '王灿杰',
+    name: '',
     nickName: '',
     username: '',
-    studentNumber: '190327071',
+    studentNumber: '',
     college: { "id": 8 },
     dept: { "id": 8 },
   }
