@@ -69,7 +69,7 @@ export default {
       }
     }
     return {
-      active: 2, isDisabled: true, submiting: false, sendLoading: false,
+      active: 0, isDisabled: true, submiting: false, sendLoading: false,
       codeData: { type: 'email', value: '' },
       verificationForm: {
         email: '',

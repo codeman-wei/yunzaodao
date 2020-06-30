@@ -3,19 +3,11 @@ package com.yzd.modules.security.rest;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.GifCaptcha;
-import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import com.yzd.annotation.AnonymousAccess;
 import com.yzd.aop.log.Log;
-import com.yzd.domain.VerificationCode;
-import com.yzd.domain.vo.EmailVo;
 import com.yzd.exception.BadRequestException;
-import com.yzd.modules.system.service.UserService;
-import com.yzd.service.EmailService;
-import com.yzd.service.VerificationCodeService;
-import com.yzd.utils.ElAdminConstant;
 import com.yzd.utils.RedisUtils;
 import com.yzd.utils.SecurityUtils;
 import com.yzd.utils.StringUtils;
@@ -79,10 +71,9 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUser authUser, HttpServletRequest request){
         // 密码解密
-        String password = authUser.getPassword();
         RSA rsa = new RSA(privateKey, null);
         /*rsa.decrypt返回的实际上是byte[]*/
-        password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
+        String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
         // 清除验证码
