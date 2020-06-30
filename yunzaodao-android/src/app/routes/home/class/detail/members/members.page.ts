@@ -73,6 +73,9 @@ export class MembersPage implements OnInit {
       api = '/mobile/course/student?'+'id='+this.classInfo.id
       this.httpService.ajaxGet(api).then(async (res:any) =>{
         this.memberList = res
+        this.memberList.sort(function(a:any, b:any){
+          return b.exp - a.exp
+        })
       })
     })
   }

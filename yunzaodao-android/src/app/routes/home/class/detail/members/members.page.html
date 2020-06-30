@@ -22,7 +22,7 @@
     <ion-item *ngFor="let item of memberList let i=index" (click)="memberDetail(item.number)">
       <ion-text slot="start">{{i + 1}}</ion-text>
       <ion-thumbnail slot="start">
-        <ion-img></ion-img>
+        <ion-img src="/assets/img/profile_photo.jpg"></ion-img>
       </ion-thumbnail>
       <ion-label>
         <h2>{{item.name}}</h2>

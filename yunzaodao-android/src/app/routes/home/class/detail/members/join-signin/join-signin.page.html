@@ -14,14 +14,13 @@
   <ion-list>
     <ion-list-header>
       <ion-label>历史签到记录</ion-label>
-      <!-- <ion-text></ion-text> -->
     </ion-list-header>
     <ion-item *ngFor="let item of historyList">
       <ion-label>
         <h2>{{item.day}} 签到</h2>
         <p>{{item.time}}</p>
       </ion-label>
-      <ion-text slot="end">{{item.isSignined?'已签到':'未签到'}}</ion-text>
+      <ion-text slot="end">{{item.attendance?'已签到':'未签到'}}</ion-text>
     </ion-item>
   </ion-list>
 </ion-content>

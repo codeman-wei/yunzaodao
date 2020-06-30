@@ -11,7 +11,7 @@
   <ion-list>
     <ion-item *ngIf="isTeacher" class="card" lines="none" detail [disabled]="!classInfo.enabled" (click)="doChange()">
       <ion-thumbnail slot="start">
-        <ion-img></ion-img>
+        <ion-img src="/assets/img/course_photo.jpg"></ion-img>
       </ion-thumbnail>
       <ion-label>
         <h2>{{classInfo.className}}</h2>
@@ -21,7 +21,7 @@
     </ion-item>
     <ion-item *ngIf="!isTeacher" class="card" lines="none">
       <ion-thumbnail slot="start">
-        <ion-img></ion-img>
+        <ion-img src="/assets/img/course_photo.jpg"></ion-img>
       </ion-thumbnail>
       <ion-label>
         <h2>{{classInfo.className}}</h2>
