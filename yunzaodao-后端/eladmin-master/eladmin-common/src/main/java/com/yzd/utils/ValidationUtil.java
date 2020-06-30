@@ -19,6 +19,12 @@ public class ValidationUtil{
         }
     }
 
+    public static void isNull(Object obj, String msg){
+        if(ObjectUtil.isNull(obj)){
+            throw new BadRequestException(msg);
+        }
+    }
+
     /**
      * 验证是否为邮箱
      */

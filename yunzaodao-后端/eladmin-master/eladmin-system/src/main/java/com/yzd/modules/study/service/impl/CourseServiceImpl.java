@@ -89,7 +89,10 @@ public class CourseServiceImpl implements CourseService {
         }
         courses.forEach(course -> {
             Integer count = courseStudentRepository.countByIdCourseId(course.getId());
-            course.setStudentCount(count);
+            if (count != course.getStudentCount()) {
+                course.setStudentCount(count);
+                update(course);
+            }
         });
         Map<String,Object> map = new LinkedHashMap<>(2);
         map.put("content",courseMapper.toDto(courses));
@@ -193,6 +196,13 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findByCourseCode(code);
         ValidationUtil.isNull(course.getCourseCode(),"Course","courseCode",code);
         return courseMapper.toDto(course);
+    }
+
+    @Override
+    public Course findEntityByCode(String code) {
+        Course course = courseRepository.findByCourseCode(code);
+        ValidationUtil.isNull(course,"无效的班课号");
+        return course;
     }
 
     @Override

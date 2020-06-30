@@ -254,7 +254,7 @@ public class MobileController {
     @GetMapping(value = "/join/course")
     @AnonymousAccess
     public ResponseEntity<Object> studentJoinCourse(Long userId, String courseCode) {
-        CourseDto course = courseService.findByCode(courseCode);
+        Course course = courseService.findEntityByCode(courseCode);
         SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(course.getId(), userId);
         if((courseStudentRepository.findById(key)).orElse(null) != null) {
              throw new EntityExistException("用户已经加入该课程");
@@ -264,15 +264,19 @@ public class MobileController {
         }
         CourseStudent courseStudent = new CourseStudent(key, 0);
         courseStudentRepository.save(courseStudent);
+        course.setStudentCount(course.getSignCount() + 1);
+        courseService.update(course);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/quit/course")
     @AnonymousAccess
     public ResponseEntity<Object> studentQuitCourse(Long userId, String courseCode) {
-        CourseDto course = courseService.findByCode(courseCode);
+        Course course = courseService.findEntityByCode(courseCode);
         SignHistoryPrimaryKey key = new SignHistoryPrimaryKey(course.getId(), userId);
         courseStudentRepository.deleteById(key);
+        course.setStudentCount(course.getStudentCount()-1);
+        courseService.update(course);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -359,5 +363,24 @@ public class MobileController {
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }
+    }
+
+    @GetMapping(value = "/sign/history")
+    @AnonymousAccess
+    public ResponseEntity<Object> checkSignHistory(Long courseId, Long studentId) {
+        List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
+        List<Map> results = new ArrayList<>();
+        for(SignHistory history: signHistories) {
+            Map<String, Object> item = new HashMap<>(2);
+            item.put("time", history.getCreateTime());
+            List<StudentCourseSign> signs = studentCourseSignRepository.findBySignHistory_IdAndStudent_Id(history.getId(), studentId);
+            if (signs.size() > 0 && (signs.get(0).getAttendance() || signs.get(0).getReplenish())) {
+                item.put("attendance", true);
+            } else {
+                item.put("attendance", false);
+            }
+            results.add(item);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

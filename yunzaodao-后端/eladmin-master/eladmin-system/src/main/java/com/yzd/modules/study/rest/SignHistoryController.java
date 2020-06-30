@@ -42,7 +42,7 @@ public class SignHistoryController {
     @Log("查询签到历史记录")
     @ApiOperation("查询签到历史记录")
     @PreAuthorize("@el.check('signHistory:list')")
-    public ResponseEntity<Object> getSignHistorys(SignHistoryQueryCriteria criteria, Pageable pageable){
+    public ResponseEntity<Object> getSignHistory(SignHistoryQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(signHistoryService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 

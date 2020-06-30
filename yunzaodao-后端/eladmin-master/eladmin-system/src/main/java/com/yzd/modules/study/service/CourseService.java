@@ -75,6 +75,8 @@ public interface CourseService {
 
     CourseDto findByCode(String code);
 
+    Course findEntityByCode(String code);
+
     Boolean courseBelong(String code, String phone);
 
     List<CouserSmallDto> findByUserId(Long id);
