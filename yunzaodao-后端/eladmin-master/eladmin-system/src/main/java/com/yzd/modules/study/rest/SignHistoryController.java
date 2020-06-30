@@ -33,7 +33,7 @@ public class SignHistoryController {
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('signHistory:list')")
+    @PreAuthorize("@el.check('sign:list')")
     public void download(HttpServletResponse response, SignHistoryQueryCriteria criteria) throws IOException {
         signHistoryService.download(signHistoryService.queryAll(criteria), response);
     }
@@ -41,7 +41,7 @@ public class SignHistoryController {
     @GetMapping
     @Log("查询签到历史记录")
     @ApiOperation("查询签到历史记录")
-    @PreAuthorize("@el.check('signHistory:list')")
+    @PreAuthorize("@el.check('sign:list')")
     public ResponseEntity<Object> getSignHistory(SignHistoryQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(signHistoryService.queryAll(criteria,pageable),HttpStatus.OK);
     }
@@ -50,7 +50,7 @@ public class SignHistoryController {
     @PostMapping
     @Log("新增签到历史记录")
     @ApiOperation("新增签到历史记录")
-    @PreAuthorize("@el.check('signHistory:add')")
+    @PreAuthorize("@el.check('sign:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody SignHistory resources){
         return new ResponseEntity<>(signHistoryService.create(resources),HttpStatus.CREATED);
     }
@@ -58,7 +58,7 @@ public class SignHistoryController {
     @PutMapping
     @Log("修改签到历史记录")
     @ApiOperation("修改签到历史记录")
-    @PreAuthorize("@el.check('signHistory:edit')")
+    @PreAuthorize("@el.check('sign:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody SignHistory resources){
         signHistoryService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -66,7 +66,7 @@ public class SignHistoryController {
 
     @Log("删除签到历史记录")
     @ApiOperation("删除签到历史记录")
-    @PreAuthorize("@el.check('signHistory:del')")
+    @PreAuthorize("@el.check('sign:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
         signHistoryService.deleteAll(ids);

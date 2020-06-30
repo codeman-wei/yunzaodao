@@ -11,11 +11,20 @@ content-type: application/json
 
 ###
 
+GET  http://localhost:8000/mobile/quit/course?courseCode=2076883&userId=3
+
+###
+
+GET  http://localhost:8000/mobile/sign/history?courseId=3&studentId=3
+
+###
+
+
 PUT http://localhost:8000/mobile/join/course HTTP/1.1
 content-type: application/json
 
 {
-  "course_id": 3,
+  "course_id": 2076883,
   "student_id": 1
 }
 
@@ -30,7 +39,11 @@ content-type: application/json
 
 ###
 
-GET http://localhost:8000/mobile/sign/student?courseId=1&code=123
+GET http://localhost:8000/mobile/sign/student?courseId=4&code=1230&studentId=3
+
+###
+
+GET http://localhost:8000/mobile/sign/close?courseId=3
 
 ###
 
