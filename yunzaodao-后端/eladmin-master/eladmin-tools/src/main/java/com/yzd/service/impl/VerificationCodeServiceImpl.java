@@ -46,7 +46,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
             content = template.render(Dict.create().set("code",code.getCode()));
             emailVo = new EmailVo(Collections.singletonList(code.getValue()),"云早到后台管理系统邮箱",content);
             verificationCodeRepository.save(code);
-//            timedDestruction(verificationCodeRepository.save(code));
+            timedDestruction(verificationCodeRepository.save(code));
         // 存在就再次发送原来的验证码
         } else {
             content = template.render(Dict.create().set("code",verificationCode.getCode()));
@@ -82,4 +82,6 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
             e.printStackTrace();
         }
     }
+
+
 }

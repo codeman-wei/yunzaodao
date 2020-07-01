@@ -1,5 +1,6 @@
 package com.yzd.modules.study.service.impl;
 
+import com.yzd.domain.VerificationCode;
 import com.yzd.modules.study.domain.Course;
 import com.yzd.modules.study.domain.SignHistory;
 import com.yzd.modules.study.domain.Student;
@@ -32,6 +33,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,7 +62,9 @@ public class SignHistoryServiceImpl implements SignHistoryService {
 
     private final CourseRepository courseRepository;
 
-    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper, StudentCourseSignRepository studentCourseSignRepository, StudentSmallMapper studentSmallMapper, UserService userService, RoleService roleService, CourseRepository courseRepository) {
+    private final CourseService courseService;
+
+    public SignHistoryServiceImpl(SignHistoryRepository signHistoryRepository, SignHistoryMapper signHistoryMapper, StudentCourseSignRepository studentCourseSignRepository, StudentSmallMapper studentSmallMapper, UserService userService, RoleService roleService, CourseRepository courseRepository, CourseService courseService) {
         this.signHistoryRepository = signHistoryRepository;
         this.signHistoryMapper = signHistoryMapper;
         this.studentCourseSignRepository = studentCourseSignRepository;
@@ -66,6 +72,7 @@ public class SignHistoryServiceImpl implements SignHistoryService {
         this.userService = userService;
         this.roleService = roleService;
         this.courseRepository = courseRepository;
+        this.courseService = courseService;
     }
 
     @Override
@@ -118,6 +125,33 @@ public class SignHistoryServiceImpl implements SignHistoryService {
     @Transactional(rollbackFor = Exception.class)
     public SignHistoryDto create(SignHistory resources) {
         return signHistoryMapper.toDto(signHistoryRepository.save(resources));
+    }
+
+    @Override
+    public SignHistory releaseSign(SignHistory resource) {
+//        SignHistoryDto signHistoryDto = create(resource);
+        SignHistory signHistory = signHistoryRepository.save(resource);
+        signDestruction(signHistoryRepository.save(resource));
+        return signHistory;
+    }
+
+    /**
+     * 定时任务，指定分钟后改变签到状态
+     * @param signHistory 签到信息
+     */
+    private void signDestruction(SignHistory signHistory) {
+        //以下示例为程序调用结束继续运行
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        try {
+            executorService.schedule(() -> {
+                if (signHistory.getStatus()) {
+                    signHistory.setStatus(false);
+                    signHistoryRepository.save(signHistory);
+                }
+            }, 10 * 60 * 1000L, TimeUnit.MILLISECONDS);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -181,4 +215,5 @@ public class SignHistoryServiceImpl implements SignHistoryService {
         result.put("absences", absences);
         return result;
     }
+
 }

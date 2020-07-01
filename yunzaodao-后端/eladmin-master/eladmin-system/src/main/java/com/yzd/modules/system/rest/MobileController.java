@@ -264,7 +264,8 @@ public class MobileController {
         }
         CourseStudent courseStudent = new CourseStudent(key, 0);
         courseStudentRepository.save(courseStudent);
-        course.setStudentCount(course.getSignCount() + 1);
+        // 更新课程学生人数
+        course.setStudentCount(courseStudentRepository.countByIdCourseId(course.getId()));
         courseService.update(course);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -286,7 +287,13 @@ public class MobileController {
     public ResponseEntity<Object> releaseSign(@RequestBody SignHistory resource) {
         Set<Student> students = courseService.findCourseById((resource.getCourse()).getId()).getStudents();
         resource.setAbsence(students.size());
-        SignHistoryDto signHistory = signHistoryService.create(resource);
+        // 创建完签到保存到数据库sign_history表，并且设置成3分钟后自动将签到状态结束
+        SignHistory signHistory = signHistoryService.releaseSign(resource);
+        // 更新课程的历史签到数
+        Course course = courseService.findCourseById(resource.getCourse().getId());
+        course.setSignCount(signHistoryRepository.countByCourseId(course.getId()));
+
+        // 暂时先把该课程所有学生设为缺席添加到student_course_sign表中，等学生签到的时候一个一个改
         List<StudentCourseSign> absentList = new ArrayList<>();
         for(Student student: students){
             absentList.add(new StudentCourseSign(signHistory.getId(), student.getId(), false, false));

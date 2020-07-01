@@ -44,6 +44,8 @@ public interface SignHistoryService {
     */
     SignHistoryDto create(SignHistory resources);
 
+    SignHistory releaseSign(SignHistory resource);
+
     /**
     * 编辑
     * @param resources /
@@ -65,4 +67,6 @@ public interface SignHistoryService {
     void download(List<SignHistoryDto> all, HttpServletResponse response) throws IOException;
 
     Map<String, Object> findSignHistoryStudentsById(Long id);
+
+
 }
