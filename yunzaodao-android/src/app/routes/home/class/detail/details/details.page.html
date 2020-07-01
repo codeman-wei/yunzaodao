@@ -30,23 +30,19 @@
         <p>{{classInfo.semester}}</p>
       </ion-label>
     </ion-item>
-
-    <ion-item *ngIf="isTeacher" class="info" lines="none" [disabled]="!classInfo.enabled">
-      <ion-label>班课号</ion-label>
-      <ion-text>{{classInfo.courseCode}}</ion-text>
-    </ion-item>
     <ion-item *ngIf="isTeacher" class="info" lines="none">
       <ion-label>允许加入</ion-label>
       <ion-checkbox (ionChange)="checkboxChange()" [disabled]="!classInfo.enabled" [(ngModel)]="classInfo.joinPermission"></ion-checkbox>
     </ion-item>
+    <ion-item *ngIf="isTeacher" class="info" lines="none" [disabled]="!classInfo.enabled">
+      <ion-label>班课号</ion-label>
+      <ion-text>{{classInfo.courseCode}}</ion-text>
+    </ion-item>
   </ion-list>
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-
+  <div [hidden]="!isTeacher" class="qrdiv">
+    <canvas #qr id="qr"></canvas>
+  </div>
+ 
   <ion-button *ngIf="isTeacher" expand="block" color="danger" class="info" fill="outline" [disabled]="!classInfo.enabled" (click)="closeClass()">结束班课</ion-button>
   <br />
   <!-- <ion-button *ngIf="isTeacher" expand="block" color="danger" class="info" fill="outline" [disabled]="classInfo.enabled || classInfo.isDeleted" (click)="deleteClass()">删除班课</ion-button>

@@ -4,6 +4,9 @@
       <ion-back-button defaultHref="/home/class"></ion-back-button>
     </ion-buttons>
     <ion-title>加入班课</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [hidden]="slideIndex==2" (click)="scanQrCode()"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +15,7 @@
     <ion-slide>
       <ion-list style="width: 80%;">
         <ion-item>
-          <ion-input required placeholder="请输入班课号" [(ngModel)]="classNumber"></ion-input>
+          <ion-input required placeholder="输入班课号或点击右上角扫描二维码" [(ngModel)]="classNumber"></ion-input>
         </ion-item>
         <br />
         <ion-button style="width: 100%;" (click)="findClass()">下一步</ion-button>

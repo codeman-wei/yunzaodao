@@ -3,6 +3,7 @@ import { ToastController, IonSlides, AlertController } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService, USER_KEY } from 'src/app/shared/services/local-storage.service';
 import { Router } from '@angular/router';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-join-class',
@@ -11,7 +12,9 @@ import { Router } from '@angular/router';
 })
 export class JoinClassPage implements OnInit {
 
-  classNumber = '1314'
+  classNumber = ''
+
+  slideIndex = 1
 
   classInfo = {
     'name': '',
@@ -20,10 +23,11 @@ export class JoinClassPage implements OnInit {
     'semester': ''
   }
 
-  constructor(private router: Router, private httpService:CommonService, private toastCtrl: ToastController, private alertCtrl: AlertController, private localStorageService: LocalStorageService) { }
+  constructor(private router: Router, private barcodeScanner: BarcodeScanner, private httpService:CommonService, private toastCtrl: ToastController, private alertCtrl: AlertController, private localStorageService: LocalStorageService) { }
 
   @ViewChild('joinClassSlides', { static: true }) joinClassSlides: IonSlides
   ngOnInit() {
+    this.slideIndex = 1
     this.joinClassSlides.lockSwipeToNext(true)
     this.joinClassSlides.lockSwipeToPrev(true)
   }
@@ -39,11 +43,12 @@ export class JoinClassPage implements OnInit {
 
         this.joinClassSlides.lockSwipeToNext(false)
         this.joinClassSlides.slideNext()
+        this.slideIndex = 2
         this.joinClassSlides.lockSwipeToNext(true)
       }).catch(async (err)=>{
         console.log(err)
         const toast = await this.toastCtrl.create({
-          message: '你输入的班课不存在，请重新输入',
+          message: '该班课不存在，请重新输入或扫描',
           duration: 3000
         })
         toast.present()
@@ -51,7 +56,7 @@ export class JoinClassPage implements OnInit {
     }
     else{
       const toast = await this.toastCtrl.create({
-        message: '请输入班课号',
+        message: '请输入班课号或扫描二维码',
         duration: 3000
       })
       toast.present()
@@ -88,6 +93,23 @@ export class JoinClassPage implements OnInit {
         })
         alert.present()
       }
+    })
+  }
+
+  scanQrCode(){
+    this.barcodeScanner.scan().then(async (barcodeData:any) => {
+      if(barcodeData.length != 7){
+        const alert = await this.alertCtrl.create({
+          header: '警告',
+          message: '您扫描的二维码有误'
+        })
+        alert.present()
+      }else{
+        this.classNumber = barcodeData
+        this.findClass()
+      }
+    }).catch(err => {
+      console.log(err)
     })
   }
 }

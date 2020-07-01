@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LocalStorageService, GLOBAL_VARIABLE_KEY, USER_KEY } from 'src/app/shared/services/local-storage.service';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { AlertController } from '@ionic/angular';
+declare var QRious: any;
 
 @Component({
   selector: 'app-details',
@@ -27,9 +28,9 @@ export class DetailsPage implements OnInit {
     'joinPermission': null,
     'enabled': null,
   }
-
+  @ViewChild('qr', {static: true}) qr: ElementRef;
   constructor(private localStorageService:LocalStorageService, private router: Router, private httpService:CommonService, private alertCtrl: AlertController) { }
-
+  
   ngOnInit() {
     const userInfo = this.localStorageService.get(USER_KEY,'')
     this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').courseCode
@@ -44,6 +45,11 @@ export class DetailsPage implements OnInit {
       for(let item in res){
         this.classInfo[item] = res[item]
       }
+    })
+    var qr = new QRious({
+      element: this.qr.nativeElement,
+      size: 180,
+      value: this.courseCode
     })
   }
 

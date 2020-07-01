@@ -8,8 +8,8 @@ export class CommonService {
 
   public config:any={
     //域名：
-    // domain:'http://47.115.72.49:7300/mock/5e7ababe6914d01473f8142c/yunzaodao',  // easy-mock
-    domain:'http://localhost:8000',  // 本地后端
+    domain:'http://47.112.226.54:8010',  // 服务器
+    // domain:'http://localhost:8000',  // 本地后端
   }
 
   private header = new HttpHeaders({'content-type': 'application/json'});
