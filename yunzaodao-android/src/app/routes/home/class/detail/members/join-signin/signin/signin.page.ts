@@ -4,6 +4,8 @@ import { ToastController, AlertController } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Router } from '@angular/router';
 
+import { Geolocation } from "@ionic-native/geolocation/ngx"
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -15,7 +17,7 @@ export class SigninPage implements OnInit {
   classId = ''
   courseCode = ''
 
-  constructor(private localStorageService:LocalStorageService, private toastCtrl: ToastController, private httpService:CommonService, private alertCtrl: AlertController, private router: Router) { }
+  constructor(private localStorageService:LocalStorageService, private geolocation:Geolocation, private toastCtrl: ToastController, private httpService:CommonService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
     this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY, '').courseCode
@@ -26,6 +28,12 @@ export class SigninPage implements OnInit {
   }
 
   async start(){
+    this.geolocation.getCurrentPosition().then(async (resp) => {
+      console.log(resp.coords.latitude);
+      console.log(resp.coords.longitude);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    })
     const api='/mobile/sign/student?courseId=' + this.classId + '&code=' + this.password + '&studentId=' + this.localStorageService.get(USER_KEY, {'id': null}).id
     this.httpService.ajaxGet(api).then(async (res:any)=>{
       const alert = await this.alertCtrl.create({

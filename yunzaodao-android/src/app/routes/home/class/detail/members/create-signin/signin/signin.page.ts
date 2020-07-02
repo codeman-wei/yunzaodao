@@ -4,6 +4,8 @@ import { ToastController, AlertController, IonSlides } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService, GLOBAL_VARIABLE_KEY } from 'src/app/shared/services/local-storage.service';
 
+import { Geolocation } from "@ionic-native/geolocation/ngx"
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -36,7 +38,7 @@ export class SigninPage implements OnInit {
 
   isStart = false
 
-  constructor(private localStorageService:LocalStorageService,public activatedRoute: ActivatedRoute, private toastCtrl: ToastController, private httpService:CommonService, private router: Router, private alertCtrl: AlertController) { }
+  constructor(private localStorageService:LocalStorageService,private geolocation:Geolocation,public activatedRoute: ActivatedRoute, private toastCtrl: ToastController, private httpService:CommonService, private router: Router, private alertCtrl: AlertController) { }
   
   @ViewChild('createSigninSlides', { static: true }) createSigninSlides: IonSlides
   ngOnInit() {
@@ -68,10 +70,16 @@ export class SigninPage implements OnInit {
   }
 
   async start(){
+    this.geolocation.getCurrentPosition().then(async (resp) => {
+      console.log(resp.coords.latitude);
+      console.log(resp.coords.longitude);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    })
     this.isStart = true
     const api='/mobile/release/sign'
     const json = {
-      'course':{'id':this.classId} ,
+      'course':{'id':this.classId},
       'code':this.password
     }
     this.httpService.ajaxPost(api,json).then(async (res:any)=>{

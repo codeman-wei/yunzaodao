@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString('#ffffff')
+      this.statusBar.styleLightContent();
       // this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
