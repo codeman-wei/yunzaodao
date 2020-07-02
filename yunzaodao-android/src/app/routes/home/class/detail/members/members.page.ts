@@ -28,26 +28,13 @@ export class MembersPage implements OnInit {
     'semester': '',
     'school': '',
     'college': '',
-    'studentCount': 0,
+    'studentCount': '',
     'isJoinable': true,
     'isClosed': false,
     'isDeleted': false
   }
 
-  memberList = [
-    {
-      'id': '1',
-      'name': '张三',
-      'exp': '50',
-      'number': '190327071'
-    },
-    {
-      'id': '2',
-      'name': '李四',
-      'exp': '44',
-      'number': '190327088'
-    }
-  ]
+  memberList = []
 
   constructor(private localStorageService:LocalStorageService, private router: Router, private httpService:CommonService, private toastCtrl: ToastController, private alertCtrl: AlertController) { }
 
@@ -72,6 +59,7 @@ export class MembersPage implements OnInit {
       // 获取班课成员的接口
       api = '/mobile/course/student?'+'id='+this.classInfo.id
       this.httpService.ajaxGet(api).then(async (res:any) =>{
+        this.classInfo['studentCount'] = res.length
         this.memberList = res
         this.memberList.sort(function(a:any, b:any){
           return b.exp - a.exp
