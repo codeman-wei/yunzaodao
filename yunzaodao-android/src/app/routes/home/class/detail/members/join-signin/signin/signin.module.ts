@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SigninPageRoutingModule } from './signin-routing.module';
 
 import { SigninPage } from './signin.page';
+import { Geolocation } from "@ionic-native/geolocation/ngx"
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SigninPage } from './signin.page';
     IonicModule,
     SigninPageRoutingModule
   ],
-  declarations: [SigninPage]
+  declarations: [SigninPage],
+  providers: [Geolocation]
 })
 export class SigninPageModule {}

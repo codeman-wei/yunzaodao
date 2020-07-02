@@ -98,14 +98,14 @@ export class JoinClassPage implements OnInit {
 
   scanQrCode(){
     this.barcodeScanner.scan().then(async (barcodeData:any) => {
-      if(barcodeData.length != 7){
+      if(!barcodeData.text || barcodeData.text.length != 7){
         const alert = await this.alertCtrl.create({
           header: '警告',
           message: '您扫描的二维码有误'
         })
         alert.present()
       }else{
-        this.classNumber = barcodeData
+        this.classNumber = barcodeData.text
         this.findClass()
       }
     }).catch(err => {

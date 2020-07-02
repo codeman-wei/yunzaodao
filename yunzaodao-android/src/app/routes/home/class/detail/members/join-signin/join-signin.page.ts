@@ -15,18 +15,7 @@ export class JoinSigninPage implements OnInit {
   classId=''
   courseCode=''
 
-  historyList=[
-    {
-      'day':'2020-02-29',
-      'time':'08:02',
-      'attendance':true
-    },
-    {
-      'day':'2020-03-07',
-      'time':'08:01',
-      'attendance':false
-    }
-  ]
+  historyList=[]
 
   constructor(private localStorageService:LocalStorageService, private toastCtrl: ToastController, private httpService:CommonService, private alertCtrl: AlertController, private router: Router) { }
 

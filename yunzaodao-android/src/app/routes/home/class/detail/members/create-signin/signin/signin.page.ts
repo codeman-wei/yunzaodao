@@ -19,22 +19,8 @@ export class SigninPage implements OnInit {
   title = ''
   classId = ''
   courseCode = ''
-  attendances = [
-    {
-    "signTime": 1593399961000,
-    "time":"8:0:1",
-    "studentNumber": "190327001",
-    "studentName": "蔡鸿杰"
-    }
-  ]
-  absences = [
-    {
-      "signTime": 1593399961000,
-      "time":"8:0:1",
-      "studentNumber": "190327106",
-      "studentName": "朱雨航"
-    }
-  ]
+  attendances = []
+  absences = []
 
   isStart = false
 

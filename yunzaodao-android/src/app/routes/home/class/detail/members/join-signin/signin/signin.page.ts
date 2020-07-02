@@ -50,6 +50,7 @@ export class SigninPage implements OnInit {
       })
       alert.present()
     }).catch(async (err:any)=>{
+      console.log(err)
       const toast = await this.toastCtrl.create({
         message: err.msg,
         duration: 3000
