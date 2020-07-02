@@ -5,7 +5,7 @@
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
         <el-input v-model="query.courseName" clearable placeholder="输入课程名搜索" style="width: 180px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
-        <el-input v-model="query.courseName" clearable placeholder="输入编码搜索" style="width: 170px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input v-model="query.courseCode" clearable placeholder="输入编码搜索" style="width: 170px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <el-date-picker
           v-model="query.createTime"
           :default-time="['00:00:00','23:59:59']"

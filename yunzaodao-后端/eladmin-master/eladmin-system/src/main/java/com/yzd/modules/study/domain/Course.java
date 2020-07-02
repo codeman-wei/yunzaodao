@@ -28,7 +28,7 @@ public class Course implements Serializable {
     private Long id;
 
     @Column(name = "class_name")
-    private String className;
+    private String className="20级计算机";
 
     /** 课程名 */
     @Column(name = "course_name")

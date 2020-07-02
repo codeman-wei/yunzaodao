@@ -101,7 +101,7 @@ public class DeptController {
         try {
             deptService.delete(deptDtos);
         }catch (Throwable e){
-            ThrowableUtil.throwForeignKeyException(e, "所选部门中存在岗位或者角色关联，请取消关联后再试");
+            ThrowableUtil.throwForeignKeyException(e, "所选部门中存在用户或者课程关联，请取消关联后再试");
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

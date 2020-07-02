@@ -38,7 +38,7 @@ public class User implements Serializable {
     private String nickName;
 
     /** 性别 */
-    private String sex;
+    private String sex="男";
 
     @OneToOne
     @JoinColumn(name = "avatar_id")

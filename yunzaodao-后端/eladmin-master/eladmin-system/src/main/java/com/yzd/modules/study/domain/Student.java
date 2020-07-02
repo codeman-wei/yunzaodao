@@ -85,7 +85,7 @@ public class Student implements Serializable {
 
     /** 性别 */
     @Column(name = "sex")
-    private String sex;
+    private String sex="男";
 
     public void copy(Student source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));

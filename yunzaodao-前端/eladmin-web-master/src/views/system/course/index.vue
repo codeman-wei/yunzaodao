@@ -29,6 +29,9 @@
           <el-form-item label="课程名" prop="courseName">
             <el-input v-model="form.courseName" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="年级" prop="className">
+            <el-input v-model="form.className" style="width: 370px;" />
+          </el-form-item>
           <el-form-item label="学院">
             <treeselect
               v-model="form.college.id"
@@ -77,6 +80,7 @@
           </template>
         </el-table-column>
         <el-table-column v-if="columns.visible('courseName')" prop="courseName" label="课程名" align="center" />
+        <el-table-column v-if="columns.visible('className')" prop="className" label="年级" align="center" />
         <el-table-column v-if="columns.visible('courseCode')" prop="courseCode" label="课程编码" align="center" />
         <el-table-column v-if="columns.visible('semester')" prop="semester" label="所属学期" align="center" />
         <el-table-column v-if="columns.visible('studentCount')" prop="studentCount" label="选课人数" align="center">
@@ -143,7 +147,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 // crud交由presenter持有
 const defaultCrud = CRUD({ title: '课程管理', url: 'api/course', sort: 'id,desc', crudMethod: { ...crudCourse }})
-const defaultForm = { id: null, courseName: null, courseCode: null, enabled: 'true', joinPermission: 'true', studentCount: '0', teacherName: null, college: { id: null }, userName: null, signCount: '0', semester: null }
+const defaultForm = { id: null, courseName: null, className: null, courseCode: null, enabled: 'true', joinPermission: 'true', studentCount: '0', teacherName: null, college: { id: null }, userName: null, signCount: '0', semester: null }
 export default {
   name: 'Course',
   components: { Treeselect, pagination, crudOperation, rrOperation, udOperation },
@@ -160,6 +164,9 @@ export default {
       rules: {
         courseName: [
           { required: true, message: '课程名不能为空', trigger: 'blur' }
+        ],
+        className: [
+          { required: true, message: '年级不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [
