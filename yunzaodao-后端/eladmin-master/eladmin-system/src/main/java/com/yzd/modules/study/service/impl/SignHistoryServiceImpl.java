@@ -131,7 +131,7 @@ public class SignHistoryServiceImpl implements SignHistoryService {
     public SignHistory releaseSign(SignHistory resource) {
 //        SignHistoryDto signHistoryDto = create(resource);
         SignHistory signHistory = signHistoryRepository.save(resource);
-        signDestruction(signHistoryRepository.save(resource));
+//        signDestruction(signHistoryRepository.save(resource));
         return signHistory;
     }
 
