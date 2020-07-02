@@ -373,7 +373,7 @@ public class MobileController {
     }
 
     @GetMapping(value = "/sign/history")
-//    @AnonymousAccess
+    @AnonymousAccess
     public ResponseEntity<Object> checkSignHistory(Long courseId, Long studentId) {
         List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
         List<Map> results = new ArrayList<>();

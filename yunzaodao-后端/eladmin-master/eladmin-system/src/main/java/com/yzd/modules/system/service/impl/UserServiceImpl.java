@@ -154,6 +154,9 @@ public class UserServiceImpl implements UserService {
             user = userRepository.findByEmail(userName);
         } else {
             user = userRepository.findByUsername(userName);
+            if (user == null) {
+                user = userRepository.findByPhone(userName);
+            }
         }
         if (user == null) {
             throw new EntityNotFoundException(User.class, "name", userName);
