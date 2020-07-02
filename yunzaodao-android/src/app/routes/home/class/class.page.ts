@@ -25,7 +25,15 @@ export class ClassPage implements OnInit {
     const userInfo = this.localStorageService.get(USER_KEY, '')
     this.phone = userInfo.phone
     this.status = userInfo.status
-    this.initClassList(true)
+    switch(this.status){
+      case '教师':
+        this.slideFlag = false
+        this.initClassList(true)
+        break
+      case '学生':
+        this.slideFlag = true
+        this.initClassList(false)
+    }
   }
 
   async more(ev: any){

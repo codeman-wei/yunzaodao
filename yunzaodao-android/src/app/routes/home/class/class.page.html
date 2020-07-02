@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-grid class="ion-no-padding">
       <ion-row style="width: fit-content;">
-        <ion-col>
+        <ion-col *ngIf="!slideFlag">
           <ion-row>
             <div (click)="myCreate()" style="font-size: smaller;padding: 12px 12px 0 12px;">
               <ion-text *ngIf="slideFlag">我创建的</ion-text>
@@ -13,7 +13,7 @@
             <hr *ngIf="!slideFlag" class="line">
           </ion-row>
         </ion-col>
-        <ion-col>
+        <ion-col *ngIf="slideFlag">
           <ion-row>
             <div (click)="myJoin()" style="font-size: smaller;padding: 12px 12px 0 12px;">
               <ion-text *ngIf="!slideFlag">我加入的</ion-text>
