@@ -59,26 +59,31 @@ export class SigninPage implements OnInit {
     this.geolocation.getCurrentPosition().then(async (resp) => {
       console.log(resp.coords.latitude);
       console.log(resp.coords.longitude);
-    }).catch((error) => {
+      this.isStart = true
+      const api='/mobile/release/sign'
+      const json = {
+        'course':{'id':this.classId},
+        'code':this.password
+      }
+      this.httpService.ajaxPost(api,json).then(async (res:any)=>{
+        console.log('开始签到')
+      }).catch(err=>{
+        console.log(err)
+        return
+      })
+      const toast = await this.toastCtrl.create({
+        message: '签到已开始，请通知学生进行签到',
+        duration: 3000
+      })
+      toast.present()
+    }).catch(async (error) => {
       console.log('Error getting location', error);
+      const toast = await this.toastCtrl.create({
+        message: '申请权限失败，请打开定位权限',
+        duration: 3000
+      })
+      toast.present()
     })
-    this.isStart = true
-    const api='/mobile/release/sign'
-    const json = {
-      'course':{'id':this.classId},
-      'code':this.password
-    }
-    this.httpService.ajaxPost(api,json).then(async (res:any)=>{
-      console.log('开始签到')
-    }).catch(err=>{
-      console.log(err)
-      return
-    })
-    const toast = await this.toastCtrl.create({
-      message: '签到已开始，请通知学生进行签到',
-      duration: 3000
-    })
-    toast.present()
   }
 
   async finish(){
