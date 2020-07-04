@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/class/detail/members/create-signin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>历史签到详情</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      未签到
+    </ion-list-header>
+    <ion-item *ngFor="let item of absences">
+      <ion-label>
+        <h2>{{item.name}}</h2>
+        <p>{{item.studentNumber}}</p>
+      </ion-label>
+      <ion-text slot="end" style="color: coral;">缺勤</ion-text>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      已签到
+    </ion-list-header>
+    <ion-item *ngFor="let item of attendences">
+      <ion-label>
+        <h2>{{item.name}}</h2>
+        <p>{{item.studentNumber}}</p>
+      </ion-label>
+      <ion-text slot="end">出勤</ion-text>
+    </ion-item>
+  </ion-list>
+</ion-content>

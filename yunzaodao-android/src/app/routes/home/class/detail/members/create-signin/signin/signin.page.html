@@ -25,18 +25,6 @@
       <div style="width: 100%;">
         <ion-list>
           <ion-list-header>
-            已签到
-          </ion-list-header>
-          <ion-item *ngFor="let item of attendances">
-            <ion-label>
-              <h2>{{item.studentName}}</h2>
-              <p>{{item.studentNumber}}</p>
-            </ion-label>
-            <ion-text slot="end">{{item.time}}</ion-text>
-          </ion-item>
-        </ion-list>
-        <ion-list>
-          <ion-list-header>
             未签到
           </ion-list-header>
           <ion-item *ngFor="let item of absences">
@@ -45,6 +33,18 @@
               <p>{{item.studentNumber}}</p>
             </ion-label>
             <ion-text slot="end">缺勤</ion-text>
+          </ion-item>
+        </ion-list>
+        <ion-list>
+          <ion-list-header>
+            已签到
+          </ion-list-header>
+          <ion-item *ngFor="let item of attendances">
+            <ion-label>
+              <h2>{{item.studentName}}</h2>
+              <p>{{item.studentNumber}}</p>
+            </ion-label>
+            <ion-text slot="end">{{item.time}}</ion-text>
           </ion-item>
         </ion-list>
       </div>

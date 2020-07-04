@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/eladmin.iml" filepath="$PROJECT_DIR$/eladmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-common/eladmin-common.iml" filepath="$PROJECT_DIR$/eladmin-common/eladmin-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-generator/eladmin-generator.iml" filepath="$PROJECT_DIR$/eladmin-generator/eladmin-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-logging/eladmin-logging.iml" filepath="$PROJECT_DIR$/eladmin-logging/eladmin-logging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-monitor/eladmin-monitor.iml" filepath="$PROJECT_DIR$/eladmin-monitor/eladmin-monitor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-system/eladmin-system.iml" filepath="$PROJECT_DIR$/eladmin-system/eladmin-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eladmin-tools/eladmin-tools.iml" filepath="$PROJECT_DIR$/eladmin-tools/eladmin-tools.iml" />
+    </modules>
+  </component>
+</project>
