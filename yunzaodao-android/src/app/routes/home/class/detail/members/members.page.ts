@@ -62,7 +62,7 @@ export class MembersPage implements OnInit {
         this.classInfo['studentCount'] = res.length
         this.memberList = res
         this.memberList.sort(function(a:any, b:any){
-          return b.exp - a.exp
+          return b.experience - a.experience
         })
       })
     })

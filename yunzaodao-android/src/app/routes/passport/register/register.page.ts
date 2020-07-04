@@ -27,7 +27,6 @@ export class RegisterPage implements OnInit {
     password: '',
     code: '',
     type: '',
-    sex: '',
     name: '',
     nickName: '',
     username: '',

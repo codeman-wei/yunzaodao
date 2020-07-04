@@ -11,24 +11,7 @@ export class CreateSigninPage implements OnInit {
 
   courseCode= ''
 
-  historyList=[
-    {
-      'id':1,
-      'createTime':1589370317000,
-      'attendance':0,
-      'absence':10,
-      'day':'',
-      'time':''
-    },
-    {
-      'id':2,
-      'createTime':1589370317000,
-      'attendance':10,
-      'absence':0,
-      'day':'',
-      'time':''
-    }
-  ]
+  historyList=[]
 
   constructor(private localStorageService:LocalStorageService, private httpService:CommonService) { }
 
@@ -38,6 +21,10 @@ export class CreateSigninPage implements OnInit {
     const api = '/mobile/course/info?'+'courseCode='+this.courseCode
     this.httpService.ajaxGet(api).then(async (res:any) =>{
       this.historyList=res.signHistory
+      this.historyList.sort(function(a:any, b:any){
+        return b.createTime - a.createTime
+      })
+      console.log(this.historyList)
       this.convert2DateTime()
     })
   }

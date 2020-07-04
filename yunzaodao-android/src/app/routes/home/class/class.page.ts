@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class ClassPage implements OnInit {
 
   phone = ''
+  status = ''
 
   slideFlag = false  // false = created, true = joined
 
@@ -23,7 +24,16 @@ export class ClassPage implements OnInit {
   ngOnInit() {
     const userInfo = this.localStorageService.get(USER_KEY, '')
     this.phone = userInfo.phone
-    this.initClassList(true)
+    this.status = userInfo.status
+    switch(this.status){
+      case '教师':
+        this.slideFlag = false
+        this.initClassList(true)
+        break
+      case '学生':
+        this.slideFlag = true
+        this.initClassList(false)
+    }
   }
 
   async more(ev: any){
@@ -52,14 +62,16 @@ export class ClassPage implements OnInit {
   async myCreate(){
     if(this.slideFlag){
       this.slideFlag = false
-      this.initClassList(true)
+      if(this.status == '教师') this.initClassList(true)
+      else this.classList = []
     }
   }
 
   async myJoin(){
     if(!this.slideFlag){
       this.slideFlag = true
-      this.initClassList(false)
+      if(this.status == '学生') this.initClassList(false)
+      else this.classList = []
     }
   }
 
