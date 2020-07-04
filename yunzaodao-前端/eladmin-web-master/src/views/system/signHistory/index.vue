@@ -174,22 +174,26 @@ export default {
           ids.push(item.id)
         }
       })
-      updateSign(ids).then(res => {
-        this.$notify({
-          title: '成功',
-          message: '补签成功',
-          type: 'success'
+      if (ids.length !== 0) {
+        updateSign(ids).then(res => {
+          this.$notify({
+            title: '成功',
+            message: '补签成功',
+            type: 'success'
+          })
+          this.$nextTick(() => {
+            this.crud.refresh()
+            this.signDialog = false
+          })
+        }).catch(() => {
+          this.$notify.error({
+            title: '错误',
+            message: '补签失败'
+          })
         })
-        this.$nextTick(() => {
-          this.crud.refresh()
-          this.signDialog = false
-        })
-      }).catch(() => {
-        this.$notify.error({
-          title: '错误',
-          message: '补签失败'
-        })
-      })
+      } else {
+        this.signDialog = false
+      }
       // console.log(ids)
     }
   }

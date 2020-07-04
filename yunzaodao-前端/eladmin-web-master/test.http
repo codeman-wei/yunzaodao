@@ -11,7 +11,7 @@ content-type: application/json
 
 ###
 
-GET  http://localhost:8000/mobile/join/course?courseCode=3440332&userId=13
+GET  http://47.112.226.54:8010/mobile/join/course?courseCode=2076883&userId=3
 
 ###
 
@@ -29,21 +29,25 @@ content-type: application/json
 }
 
 ###
-POST  http://localhost:8000/mobile/release/sign HTTP/1.1
+POST  http://47.112.226.54:8010/mobile/release/sign HTTP/1.1
 content-type: application/json
 
 {
-  "course": {"id": 8},
+  "course": {"id": 7},
   "code": "1234"
 }
 
 ###
 
-GET http://localhost:8000/mobile/sign/student?courseId=8&code=1234&studentId=13
+GET http://47.112.226.54:8010/mobile/sign/student?courseId=7&code=1234&studentId=1
 
 ###
 
-GET http://localhost:8000/mobile/sign/close?courseId=8
+GET http://47.112.226.54:8010/mobile/sign/close?courseId=7
+
+###
+
+GET http://localhost:8000/mobile/sign/test?lat1=118.296709&lng1=25.019749
 
 ###
 
@@ -149,7 +153,7 @@ Authorization:{{token}}
 
 ###
 
-Get http://localhost:8000/mobile/course/info?courseCode=3456003
+Get http://47.112.226.54:8010/mobile/course/info?courseCode=2076883
 
 ###
 
@@ -194,5 +198,19 @@ content-type: application/json
 Authorization:{{token}}
 
 {
-  "id
+  "id"
+}
+
+###
+
+POST http://47.112.226.54:8010/mobile/teacher/register
+content-type: application/json
+
+{
+  "dept": { "id": 8 },
+  "email": "91045522@qq.com",
+  "password": "123456",
+  "username": "guoxinyun",
+  "nickName": "学生2",
+  "phone": "15666165522"
 }
