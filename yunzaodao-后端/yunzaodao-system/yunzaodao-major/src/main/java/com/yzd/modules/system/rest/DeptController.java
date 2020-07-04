@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@Api(tags = "系统：部门管理")
+@Api(tags = "系统：学院管理")
 @RequestMapping("/api/dept")
 public class DeptController {
 
@@ -38,16 +38,16 @@ public class DeptController {
         this.dataScope = dataScope;
     }
 
-    @Log("导出部门数据")
-    @ApiOperation("导出部门数据")
+    @Log("导出学院数据")
+    @ApiOperation("导出学院数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('dept:list')")
     public void download(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
         deptService.download(deptService.queryAll(criteria), response);
     }
 
-    @Log("查询部门")
-    @ApiOperation("查询部门")
+    @Log("查询学院")
+    @ApiOperation("查询学院")
     @GetMapping
     @PreAuthorize("@el.check('course:list','student:list','user:list','dept:list')")
     public ResponseEntity<Object> getDepts(DeptQueryCriteria criteria){
@@ -65,8 +65,8 @@ public class DeptController {
         return new ResponseEntity<>(deptService.buildTree(deptDtos),HttpStatus.OK);
     }
 
-    @Log("新增部门")
-    @ApiOperation("新增部门")
+    @Log("新增学院")
+    @ApiOperation("新增学院")
     @PostMapping
     @PreAuthorize("@el.check('dept:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Dept resources){
@@ -76,8 +76,8 @@ public class DeptController {
         return new ResponseEntity<>(deptService.create(resources),HttpStatus.CREATED);
     }
 
-    @Log("修改部门")
-    @ApiOperation("修改部门")
+    @Log("修改学院")
+    @ApiOperation("修改学院")
     @PutMapping
     @PreAuthorize("@el.check('dept:edit')")
     public ResponseEntity<Object> update(@Validated(Dept.Update.class) @RequestBody Dept resources){
@@ -85,8 +85,8 @@ public class DeptController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除部门")
-    @ApiOperation("删除部门")
+    @Log("删除学院")
+    @ApiOperation("删除学院")
     @DeleteMapping
     @PreAuthorize("@el.check('dept:del')")
     public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
@@ -101,7 +101,7 @@ public class DeptController {
         try {
             deptService.delete(deptDtos);
         }catch (Throwable e){
-            ThrowableUtil.throwForeignKeyException(e, "所选部门中存在用户或者课程关联，请取消关联后再试");
+            ThrowableUtil.throwForeignKeyException(e, "所选学院中存在用户或者课程关联，请取消关联后再试");
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

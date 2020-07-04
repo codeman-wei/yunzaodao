@@ -303,20 +303,9 @@ public class MobileController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sign/test")
-    @AnonymousAccess
-    public ResponseEntity<Object> studentSign(double lat1, double lng1) {
-        double lat_source = 118.296959;
-        double lng_source = 25.019732;
-        return new ResponseEntity<>(StringUtils.GetDistance(lat1, lng1, lat_source, lng_source), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/sign/student")
     @AnonymousAccess
-    public ResponseEntity<Object> studentSign(Long courseId,String code, Long studentId,  double lat1, double lng1) {
-        double lat_source = 33.3;
-        double lng_source = 22.3;
-        StringUtils.GetDistance(lat1, lng1, lat_source, lng_source);
+    public ResponseEntity<Object> studentSign(Long courseId,String code, Long studentId) {
         List<SignHistory> signHistories = signHistoryRepository.findByCourseIdOrderByCreateTimeDesc(courseId);
         if (signHistories.size() == 0) {
             throw new BadRequestException("该课程未发布签到");

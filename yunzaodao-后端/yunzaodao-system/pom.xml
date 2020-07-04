@@ -14,7 +14,6 @@
         <module>yunzaodao-logging</module>
         <module>yunzaodao-major</module>
         <module>yunzaodao-tools</module>
-		<module>yunzaodao-monitor</module>
         <module>yunzaodao-template</module>
     </modules>
 
