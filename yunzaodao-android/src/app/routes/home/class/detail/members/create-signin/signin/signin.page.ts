@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, AlertController, IonSlides } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides, LoadingController } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService, GLOBAL_VARIABLE_KEY } from 'src/app/shared/services/local-storage.service';
 
@@ -24,7 +24,7 @@ export class SigninPage implements OnInit {
 
   isStart = false
 
-  constructor(private localStorageService:LocalStorageService,private geolocation:Geolocation,public activatedRoute: ActivatedRoute, private toastCtrl: ToastController, private httpService:CommonService, private router: Router, private alertCtrl: AlertController) { }
+  constructor(private localStorageService:LocalStorageService,private loadingController: LoadingController,private geolocation:Geolocation,private activatedRoute: ActivatedRoute, private toastCtrl: ToastController, private httpService:CommonService, private router: Router, private alertCtrl: AlertController) { }
   
   @ViewChild('createSigninSlides', { static: true }) createSigninSlides: IonSlides
   ngOnInit() {
@@ -56,6 +56,12 @@ export class SigninPage implements OnInit {
   }
 
   async start(){
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: '请稍后...',
+      duration: 2000
+    })
+    await loading.present();
     this.geolocation.getCurrentPosition().then(async (resp) => {
       console.log(resp.coords.latitude);
       console.log(resp.coords.longitude);
@@ -66,9 +72,10 @@ export class SigninPage implements OnInit {
         'code':this.password
       }
       this.httpService.ajaxPost(api,json).then(async (res:any)=>{
-        console.log('开始签到')
+        loading.dismiss()
       }).catch(err=>{
         console.log(err)
+        loading.dismiss()
         return
       })
       const toast = await this.toastCtrl.create({
@@ -78,6 +85,7 @@ export class SigninPage implements OnInit {
       toast.present()
     }).catch(async (error) => {
       console.log('Error getting location', error);
+      loading.dismiss()
       const toast = await this.toastCtrl.create({
         message: '申请权限失败，请打开定位权限',
         duration: 3000
