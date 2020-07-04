@@ -54,10 +54,9 @@ export class SigninPage implements OnInit {
         })
         alert.present()
       }).catch(async (err:any)=>{
-        console.log(err)
         loading.dismiss()
         const toast = await this.toastCtrl.create({
-          message: err.msg,
+          message: '签到失败，'+err.error.msg,
           duration: 3000
         })
         toast.present()
