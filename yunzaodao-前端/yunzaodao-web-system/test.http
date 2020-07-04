@@ -1,0 +1,216 @@
+
+@token = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJkZXB0OmVkaXQsdXNlcjpsaXN0LHN0b3JhZ2U6YWRkLGRlcHQ6YWRkLHN0b3JhZ2U6ZWRpdCxtZW51OmRlbCxyb2xlczpkZWwsYWRtaW4sc3RvcmFnZTpsaXN0LHVzZXI6ZGVsLGRpY3Q6YWRkLGRlcHQ6bGlzdCx0aW1pbmc6YWRkLGRpY3Q6ZGVsLGRpY3Q6bGlzdCx0aW1pbmc6bGlzdCxyb2xlczphZGQsdXNlcjphZGQscGljdHVyZXM6bGlzdCxzdHVkZW50Omxpc3QsbWVudTplZGl0LHRpbWluZzplZGl0LG1lbnU6bGlzdCxzdG9yYWdlOmRlbCxyb2xlczpsaXN0LHBpY3R1cmVzOmRlbCxzaWduOmxpc3QsY291cnNlOmxzaXQsbWVudTphZGQscGljdHVyZXM6YWRkLHVzZXI6ZWRpdCxyb2xlczplZGl0LHRpbWluZzpkZWwsZGljdDplZGl0LGRlcHQ6ZGVsIiwiZXhwIjoxNTg5NDI4MDczfQ.ftALWXenBsvOjNRi4tMbaKc5qbUkYi4GC8M_yKgrCWuohGg20tflsYleNgI5dCdrBCk0wVVmYlKI-k7tgCz5Jg
+
+POST http://localhost:8000/mobile/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "15688165559",
+  "password": "123456"
+}
+
+###
+
+GET  http://47.112.226.54:8010/mobile/join/course?courseCode=2076883&userId=3
+
+###
+
+GET  http://localhost:8000/mobile/sign/history?courseId=3&studentId=3
+
+###
+
+
+PUT http://localhost:8000/mobile/join/course HTTP/1.1
+content-type: application/json
+
+{
+  "course_id": 8844871,
+  "student_id": 3
+}
+
+###
+POST  http://47.112.226.54:8010/mobile/release/sign HTTP/1.1
+content-type: application/json
+
+{
+  "course": {"id": 7},
+  "code": "1234"
+}
+
+###
+
+GET http://47.112.226.54:8010/mobile/sign/student?courseId=7&code=1234&studentId=1
+
+###
+
+GET http://47.112.226.54:8010/mobile/sign/close?courseId=7
+
+###
+
+GET http://localhost:8000/mobile/sign/test?lat1=118.296709&lng1=25.019749
+
+###
+
+GET http://localhost:8000/mobile/course/join?id=1
+
+###
+
+GET http://localhost:8000/mobile/course/belong?id=1
+
+###
+
+PUT http://localhost:8000/mobile/course/update HTTP/1.1
+content-type: application/json
+
+{
+  "id": "5",
+  "className": "19级专硕士",
+  "courseName": "19级专硕士",
+  "semester": "2019-2020-1",
+  "college": {"id": 7},
+  "enabled": false,
+  "joinPermission": false
+}
+###
+
+POST http://localhost:8000/mobile/password/change HTTP/1.1
+content-type: application/json
+
+{
+  "count": "15980266329",
+  "oldPassword": "wei123",
+  "newPassword": "123456",
+  "role": "teacher"
+}
+
+
+###
+
+POST http://localhost:8000/mobile/student/update
+content-type: application/json
+
+{
+  "id": "10",
+  "college": { "id": 8 },
+  "email": "91045546@qq.com",
+  "name": "郭星宇",
+  "phone": "15666165559",
+  "sex": "男",
+  "studentNumber": "190d327022"
+}
+
+###
+
+POST http://localhost:8000/api/code/validated
+content-type: application/json
+
+{
+  "code": "405169",
+  "type": "email",
+  "scenes": "重置密码",
+  "value": "460678244@qq.com"
+}
+
+###
+
+Get http://localhost:8000/api/userSysVal?userId=1
+Authorization:{{token}}
+
+###
+
+
+POST http://localhost:8000/api/userSysVal
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "sysVal": { "id": 2 },
+  "userId": 1,
+  "value": 102
+}
+
+
+###
+
+POST http://localhost:8000/mobile/register
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "college": { "id": 8 },
+  "email": "91045546@qq.com",
+  "password": "123456",
+  "name": "郭星宇d",
+  "phone": "156661fdsf65559",
+  "sex": "男",
+  "studentNumber": "190d327022"
+}
+
+###
+
+Get http://localhost:8000/api/course
+Authorization:{{token}}
+
+###
+
+Get http://47.112.226.54:8010/mobile/course/info?courseCode=2076883
+
+###
+
+Get http://localhost:8000/api/studentCourseSign/sign?id=1
+
+
+###
+
+Get http://localhost:8000/api/signHistory
+Authorization:{{token}}
+
+###
+
+Get http://localhost:8000/api/users?size=10&page=0&sort=id
+Authorization:{{token}}
+
+###
+
+PUT  http://localhost:8000/api/studentCourseSign/sign
+content-type: application/json
+Authorization:{{token}}
+
+[2]
+
+###
+
+PUT  http://localhost:8000/api/course
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "id": 4,
+  "courseName":"wdcd",
+  "courseCode":"1234521",
+  "college": {"id": 7}
+}
+
+###
+
+DELETE   http://localhost:8000/api/course
+content-type: application/json
+Authorization:{{token}}
+
+{
+  "id"
+}
+
+###
+
+POST http://47.112.226.54:8010/mobile/teacher/register
+content-type: application/json
+
+{
+  "dept": { "id": 8 },
+  "email": "91045522@qq.com",
+  "password": "123456",
+  "username": "guoxinyun",
+  "nickName": "学生2",
+  "phone": "15666165522"
+}
