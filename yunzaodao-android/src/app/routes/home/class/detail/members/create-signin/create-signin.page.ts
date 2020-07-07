@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService, GLOBAL_VARIABLE_KEY } from 'src/app/shared/services/local-storage.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 
@@ -13,8 +13,10 @@ export class CreateSigninPage implements OnInit {
 
   historyList=[]
 
-  constructor(private localStorageService:LocalStorageService, private httpService:CommonService) { }
+  attendences = []
+  absences = []
 
+  constructor(private localStorageService:LocalStorageService, private httpService:CommonService) { }
   ngOnInit() {
     this.courseCode = this.localStorageService.get(GLOBAL_VARIABLE_KEY,'').courseCode
     // 获取班课信息
@@ -24,12 +26,11 @@ export class CreateSigninPage implements OnInit {
       this.historyList.sort(function(a:any, b:any){
         return b.createTime - a.createTime
       })
-      console.log(this.historyList)
-      this.convert2DateTime()
+      this.historyListConvert2DateTime()
     })
   }
 
-  async convert2DateTime(){
+  async historyListConvert2DateTime(){
     for(let index in this.historyList){
       const now = new Date(this.historyList[index].createTime);
       const year = now.getFullYear();

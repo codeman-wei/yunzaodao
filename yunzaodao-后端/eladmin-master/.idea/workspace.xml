@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="354c0b40-b889-46f3-8f70-9b7b466366ee" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/home/class/detail/members/create-signin/signin/signin.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/home/class/detail/members/create-signin/signin/signin.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/home/class/detail/members/join-signin/signin/signin.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/home/class/detail/members/join-signin/signin/signin.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/welcome/welcome.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../yunzaodao-android/src/app/routes/welcome/welcome.page.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1c41hFUijy8YT2RvEbM0XkgWFqV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.AppRun">
+    <configuration name="eladmin [compile]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="AppRun" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eladmin-system" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.yzd.AppRun" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MonitorRun" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eladmin-monitor" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.yzd.MonitorRun" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Maven.eladmin [compile]" />
+      <item itemvalue="Spring Boot.AppRun" />
+      <item itemvalue="Spring Boot.MonitorRun" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="354c0b40-b889-46f3-8f70-9b7b466366ee" name="Default Changelist" comment="" />
+      <created>1589773168722</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589773168722</updated>
+      <workItem from="1589773176879" duration="1274000" />
+      <workItem from="1589780323684" duration="6254000" />
+      <workItem from="1589952132731" duration="313000" />
+      <workItem from="1590806226782" duration="955000" />
+      <workItem from="1590816355008" duration="10095000" />
+      <workItem from="1590891294060" duration="2813000" />
+      <workItem from="1590993576156" duration="26000" />
+      <workItem from="1593410890734" duration="947000" />
+      <workItem from="1593414825778" duration="4070000" />
+      <workItem from="1593438557178" duration="466000" />
+      <workItem from="1593484368114" duration="608000" />
+      <workItem from="1593501808496" duration="1224000" />
+      <workItem from="1593570663332" duration="1673000" />
+      <workItem from="1593607379195" duration="634000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590845242532">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590845242532" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590993607274">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590993607274" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1593609475579">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475579" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1593609475578">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475578" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1593609475578">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475578" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1593609475578">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475578" />
+    <state width="1877" height="282" key="GridCell.Tab.1.bottom" timestamp="1593609475579">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475579" />
+    <state width="1877" height="282" key="GridCell.Tab.1.center" timestamp="1593609475579">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475579" />
+    <state width="1877" height="282" key="GridCell.Tab.1.left" timestamp="1593609475579">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475579" />
+    <state width="1877" height="282" key="GridCell.Tab.1.right" timestamp="1593609475579">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593609475579" />
+  </component>
+</project>

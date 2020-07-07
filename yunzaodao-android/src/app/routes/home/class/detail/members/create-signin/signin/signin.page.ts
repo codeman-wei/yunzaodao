@@ -137,11 +137,6 @@ export class SigninPage implements OnInit {
   async convert2DateTime(){
     for(let index in this.attendances){
       const now = new Date(this.attendances[index].signTime);
-      // const year = now.getFullYear();
-      // const month = now.getMonth() + 1;
-      // let mon = this.padding(month)
-      // const date = now.getDate();
-      // let d = this.padding(date)
       const hour = now.getHours();
       let h = this.padding(hour)
       const minute = now.getMinutes();
