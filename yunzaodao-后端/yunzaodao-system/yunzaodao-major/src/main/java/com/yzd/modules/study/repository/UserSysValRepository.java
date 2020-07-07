@@ -17,4 +17,7 @@ public interface UserSysValRepository extends JpaRepository<UserSysVal, Long>, J
 
     @Query(value = "select val_id from user_sys_val where user_id = ?1", nativeQuery = true)
     List<Long> findValIds(Long userId);
+
+    @Query(value = "select value from user_sys_val where user_id = ?1 and val_id=1", nativeQuery = true)
+    Integer findValueByUserId(Long userId);
 }

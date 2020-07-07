@@ -116,6 +116,12 @@ public class UserSysValServiceImpl implements UserSysValService {
     }
 
     @Override
+    public int getAddValue(Long userId) {
+        Integer value = userSysValRepository.findValueByUserId(userId);
+        return value == null ? 10:value;
+    }
+
+    @Override
     public void download(List<UserSysValDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (UserSysValDto userSysVal : all) {

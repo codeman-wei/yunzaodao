@@ -58,6 +58,8 @@ public interface UserSysValService {
     */
     void deleteAll(Long[] ids);
 
+    int getAddValue(Long userId);
+
     /**
     * 导出数据
     * @param all 待导出的数据

@@ -68,7 +68,12 @@ public interface StudentCourseSignService {
     */
     void deleteAll(Long[] ids);
 
-    Set<Long> findSignedStudentsById(Long id);
+    /**
+     * 查找某个课程某次签到的详细情况
+     * @param id
+     * @return
+     */
+    Map<String, Object> getSignDetail(Long id);
 
     /**
     * 导出数据

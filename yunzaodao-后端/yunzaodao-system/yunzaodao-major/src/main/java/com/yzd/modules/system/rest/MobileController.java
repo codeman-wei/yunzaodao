@@ -8,10 +8,8 @@ import com.yzd.modules.study.domain.*;
 import com.yzd.modules.study.repository.CourseStudentRepository;
 import com.yzd.modules.study.repository.SignHistoryRepository;
 import com.yzd.modules.study.repository.StudentCourseSignRepository;
-import com.yzd.modules.study.service.CourseService;
-import com.yzd.modules.study.service.SignHistoryService;
-import com.yzd.modules.study.service.StudentCourseSignService;
-import com.yzd.modules.study.service.StudentService;
+import com.yzd.modules.study.repository.UserSysValRepository;
+import com.yzd.modules.study.service.*;
 import com.yzd.modules.study.service.dto.CourseDto;
 import com.yzd.modules.study.service.dto.SignHistoryDto;
 import com.yzd.modules.study.service.dto.StudentDto;
@@ -49,8 +47,9 @@ public class MobileController {
     private final SignHistoryRepository signHistoryRepository;
     private final StudentCourseSignService studentCourseSignService;
     private final StudentCourseSignRepository studentCourseSignRepository;
+    private final UserSysValService userSysValService;
 
-    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder, CourseStudentRepository courseStudentRepository, StudentMapper studentMapper, DeptService deptService, SignHistoryService signHistoryService, SignHistoryRepository signHistoryRepository, StudentCourseSignService studentCourseSignService, StudentCourseSignRepository studentCourseSignRepository, CourseStudentRepository courseStudentRepository1) {
+    public MobileController(StudentService studentService, UserService userService, CourseService courseService, PasswordEncoder passwordEncoder, CourseStudentRepository courseStudentRepository, StudentMapper studentMapper, DeptService deptService, SignHistoryService signHistoryService, SignHistoryRepository signHistoryRepository, StudentCourseSignService studentCourseSignService, StudentCourseSignRepository studentCourseSignRepository, UserSysValService userSysValService) {
         this.studentService = studentService;
         this.userService = userService;
         this.courseService = courseService;
@@ -62,6 +61,7 @@ public class MobileController {
         this.signHistoryRepository = signHistoryRepository;
         this.studentCourseSignService = studentCourseSignService;
         this.studentCourseSignRepository = studentCourseSignRepository;
+        this.userSysValService = userSysValService;
     }
 
     @GetMapping(value = "/check")
@@ -330,7 +330,9 @@ public class MobileController {
                 if (courseStudent.getId() == null) {
                     throw new BadRequestException("该生未加入该课程");
                 }
-                courseStudent.setExperience(courseStudent.getExperience() + 10);
+                Long userId = courseService.findCourseById(courseId).getUserId();
+                Integer value = userSysValService.getAddValue(userId);
+                courseStudent.setExperience(courseStudent.getExperience() + value);
                 courseStudentRepository.save(courseStudent);
                 studentCourseSignService.update(studentSign);
                 // 签到成功 更新成功签到数和缺勤数
@@ -346,6 +348,12 @@ public class MobileController {
             map.put("msg", "该课程签到已结束");
             return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = "/test")
+    @AnonymousAccess
+    public ResponseEntity<Object> test(Long userId) {
+        return new ResponseEntity<>(userSysValService.getAddValue(userId), HttpStatus.OK);
     }
 
     @GetMapping(value = "/sign/check")
@@ -369,7 +377,7 @@ public class MobileController {
             signHistoryService.update(sign);
             return new ResponseEntity<>(signHistoryService.findSignHistoryStudentsById(sign.getId()),HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -390,5 +398,11 @@ public class MobileController {
             results.add(item);
         }
         return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sign")
+    @AnonymousAccess
+    public ResponseEntity<Object> getSignDetail(Long signId) {
+        return new ResponseEntity<>(studentCourseSignService.getSignDetail(signId), HttpStatus.OK);
     }
 }

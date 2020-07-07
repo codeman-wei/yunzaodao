@@ -86,4 +86,6 @@ public class StudentCourseSignController {
         studentCourseSignService.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }

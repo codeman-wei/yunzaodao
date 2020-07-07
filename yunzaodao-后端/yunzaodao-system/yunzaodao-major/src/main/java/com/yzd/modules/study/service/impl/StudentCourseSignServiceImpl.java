@@ -1,10 +1,12 @@
 package com.yzd.modules.study.service.impl;
 
+import com.yzd.modules.study.domain.Student;
 import com.yzd.modules.study.domain.StudentCourseSign;
 import com.yzd.modules.study.domain.SignHistory;
 import com.yzd.modules.study.repository.SignHistoryRepository;
 import com.yzd.modules.study.service.SignHistoryService;
 import com.yzd.modules.study.service.dto.SignHistoryDto;
+import com.yzd.modules.study.service.mapper.StudentSmallMapper;
 import com.yzd.utils.FileUtil;
 import com.yzd.utils.PageUtil;
 import com.yzd.utils.QueryHelp;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -43,11 +46,14 @@ public class StudentCourseSignServiceImpl implements StudentCourseSignService {
 
     private final SignHistoryService signHistoryService;
 
-    public StudentCourseSignServiceImpl(StudentCourseSignRepository studentCourseSignRepository, StudentCourseSignMapper studentCourseSignMapper, SignHistoryRepository signHistoryRepository, SignHistoryService signHistoryService) {
+    private final StudentSmallMapper studentSmallMapper;
+
+    public StudentCourseSignServiceImpl(StudentCourseSignRepository studentCourseSignRepository, StudentCourseSignMapper studentCourseSignMapper, SignHistoryRepository signHistoryRepository, SignHistoryService signHistoryService, StudentSmallMapper studentSmallMapper) {
         this.studentCourseSignRepository = studentCourseSignRepository;
         this.studentCourseSignMapper = studentCourseSignMapper;
         this.signHistoryRepository = signHistoryRepository;
         this.signHistoryService = signHistoryService;
+        this.studentSmallMapper = studentSmallMapper;
     }
 
     @Override
@@ -139,16 +145,29 @@ public class StudentCourseSignServiceImpl implements StudentCourseSignService {
     }
 
     @Override
-    public Set<Long> findSignedStudentsById(Long id) {
-        return studentCourseSignRepository.findAllStudentIdById(id);
-    }
-
-    @Override
 //    @CacheEvict(allEntries = true)
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
             studentCourseSignRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Map<String, Object> getSignDetail(Long id) {
+        List<StudentCourseSign> signs = studentCourseSignRepository.findBySignHistory_Id(id);
+        List<Student> attendances = new ArrayList<>();
+        List<Student> absences = new ArrayList<>();
+        for (StudentCourseSign sign: signs) {
+            if (sign.getAttendance() || sign.getReplenish()) {
+                attendances.add(sign.getStudent());
+            } else {
+                absences.add(sign.getStudent());
+            }
+        }
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("attendences", studentSmallMapper.toDto(attendances));
+        map.put("absences", studentSmallMapper.toDto(absences));
+        return map;
     }
 
     @Override
